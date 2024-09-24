@@ -1,0 +1,15 @@
+/* Define the twinkle effect with keyframes */
+@keyframes twinkleEffect {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.3;
+    }
+  }
+  
+  .twinkle {
+    animation: twinkleEffect ease-in-out infinite;
+    border-radius: 50%;
+  }
+  

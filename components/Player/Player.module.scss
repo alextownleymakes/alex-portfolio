@@ -1,0 +1,29 @@
+.ship {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform-origin: center;
+    transition: transform 0.1s;
+    z-index: 1000;
+  }
+  
+  .outer-triangle {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 40px solid white; /* Adjust the size and color as needed */
+  }
+  
+  .inner-triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 6px solid transparent;
+    border-bottom: 6px solid transparent;
+    border-left: 20px solid #6699ff; /* Adjust the size and color as needed */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
+  
