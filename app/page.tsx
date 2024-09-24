@@ -9,7 +9,6 @@ import store from './state/store';
 const HomePage = () => {
   return (
     <Provider store={store}>
-
       {/* <SpaceScene /> */}
       <SpaceGame />
     </Provider>

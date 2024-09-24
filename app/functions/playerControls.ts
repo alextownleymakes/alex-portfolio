@@ -19,20 +19,20 @@ export const playerController = {
 
     // Update rotation (no impact on velocity yet)
     if (isTurningLeft) {
-      newState.rotation = (newState.rotation - 1) % 360; // Turn left
+      newState.rotation = (newState.rotation - 5) % 360; // Turn left
     }
     if (isTurningRight) {
-      newState.rotation = (newState.rotation + 1) % 360; // Turn right
+      newState.rotation = (newState.rotation + 5) % 360; // Turn right
     }
 
     // Thrust should add to the current velocity, rather than overwrite it
     if (isThrusting) {
-      newState.speed = Math.min(newState.speed + 0.1, 10); // Accelerate
+      newState.speed = Math.min(newState.speed + .1, 10); // Accelerate
 
       // Convert rotation to movement direction and apply a small change to velocity
       const angle = (newState.rotation - 90) * (Math.PI / 180); // Convert rotation to radians
-      const thrustVelocityX = Math.cos(angle) * 0.05; // Small thrust in the new direction
-      const thrustVelocityY = Math.sin(angle) * 0.05;
+      const thrustVelocityX = Math.cos(angle) * 0.2; // Small thrust in the new direction
+      const thrustVelocityY = Math.sin(angle) * 0.2;
 
       // Adjust velocity by incrementally adding the thrust direction to the current velocity
       newVelocityX = newVelocityX * 0.98 + thrustVelocityX; // Blend old and new velocities
@@ -41,14 +41,14 @@ export const playerController = {
 
     // Apply braking by reducing speed and velocity gradually
     if (isBraking) {
-      newState.speed = Math.max(newState.speed - 0.1, 0); // Decelerate the ship
+      newState.speed = Math.max(newState.speed - 1, 0); // Decelerate the ship
 
       // Apply friction to slow down velocity gradually
-      newVelocityX *= 0.98;
-      newVelocityY *= 0.98;
+      newVelocityX *= 0.85;
+      newVelocityY *= 0.85;
 
       // If speed is close to 0, stop completely
-      if (Math.abs(newVelocityX) < 0.01 && Math.abs(newVelocityY) < 0.01) {
+      if (Math.abs(newVelocityX) < 0.1 && Math.abs(newVelocityY) < 0.1) {
         newVelocityX = 0;
         newVelocityY = 0;
         newState.speed = 0;
@@ -56,8 +56,8 @@ export const playerController = {
     }
 
     // Move the universe (background) around the player
-    const newPositionX = newState.position.x - newVelocityX;
-    const newPositionY = newState.position.y - newVelocityY;
+    const newPositionX = newState.position.x + newVelocityX;
+    const newPositionY = newState.position.y + newVelocityY;
 
     // Return the updated state with the blended velocity
     return {

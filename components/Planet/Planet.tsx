@@ -1,26 +1,37 @@
-import React from "react";
-import "./Planet.scss";
+import { relative } from 'path';
+import React from 'react';
 
-type PlanetProps = {
-  location: { x: number; y: number };
-  size: number;
-  color: string;
-  label: string;
+interface PlanetProps {
+  location: { x: number; y: number }; // Planet location in the universe
+  size: number; // Size of the planet
+  color: string; // Planet color
+  label: string; // Label for the planet (e.g., "Home", "Projects", etc.)
+}
+
+const Planet: React.FC<PlanetProps> = ({ location, size, color, label }) => {
+  console.log('Rendering Planet:', label);
+  console.log('Planet ' + label + ' is at location:', location);
+  return (
+    <div
+      style={{
+        position: 'absolute',
+        left: `${location.x - (size*.5)}px`, // Use pixel-based position for accuracy
+        top: `${location.y}px`,
+        width: `${size}px`, // Set the planet's size
+        height: `${size}px`,
+        backgroundColor: color, // Set the planet's color
+        borderRadius: '50%',
+        display: 'flex',
+        alignItems: 'center',
+        // justifyContent: 'center',
+        color: '#999',
+        fontSize: '0.7rem',
+        textTransform: 'uppercase',
+      }}
+    >
+      <div style={{position: 'relative', left: size+5}}>{label}</div>
+    </div>
+  );
 };
-
-const Planet: React.FC<PlanetProps> = ({ location, size, color, label }) => (
-  <div
-    className="planet"
-    style={{
-      left: `${location.x}%`,
-      top: `${location.y}%`,
-      width: `${size}px`,
-      height: `${size}px`,
-      backgroundColor: color,
-    }}
-  >
-    <span className="label">{label}</span>
-  </div>
-);
 
 export default Planet;

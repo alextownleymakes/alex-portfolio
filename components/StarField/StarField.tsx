@@ -56,7 +56,7 @@ const generateStar = (width: number, height: number): Star => {
     y: Math.random() * height,
     size,
     speedFactor,
-    twinkle, // Randomly assign whether the star twinkles
+    twinkle,
     twinkleDuration,
     twinkleDelay,
   };
@@ -67,7 +67,6 @@ const StarField: React.FC<StarFieldProps> = ({ playerVelocity, width, height }) 
     Array.from({ length: 350 }, () => generateStar(width, height))
   );
 
-  // Update stars whenever the player velocity changes
   useEffect(() => {
     setStars((prevStars) =>
       prevStars.map((star) => {
@@ -92,11 +91,11 @@ const StarField: React.FC<StarFieldProps> = ({ playerVelocity, width, height }) 
           cy={star.y}
           r={star.size}
           fill="white"
-          className={styles.twinkle} // Use the SCSS module for twinkling stars
+          className={styles.twinkle} 
           style={{
             animationDuration: `${star.twinkleDuration}s`,
             animationDelay: `${star.twinkleDelay}s`,
-          }} // Apply random duration and delay
+          }}
         />
       ))}
     </svg>
