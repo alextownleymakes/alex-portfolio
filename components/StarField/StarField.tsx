@@ -3,7 +3,7 @@ import styles from './StarField.module.scss'; // Import the module SCSS
 import { useSelector } from 'react-redux';
 import { RootState } from '../../state/store';
 
-interface Star {
+export interface StarFieldStar {
   id: number;
   x: number;
   y: number;
@@ -20,7 +20,7 @@ interface StarFieldProps {
 }
 
 // Function to generate a star with a weighted random size and twinkle effect
-const generateStar = (width: number, height: number): Star => {
+const generateStar = (width: number, height: number): StarFieldStar => {
   const randomValue = Math.random();
   let size, speedFactor;
 
@@ -66,7 +66,7 @@ const generateStar = (width: number, height: number): Star => {
 const StarField: React.FC<StarFieldProps> = ({ width, height }) => {
 
   const playerVelocity = useSelector((state: RootState) => state.gameState.velocity);
-  const [stars, setStars] = useState<Star[]>(() =>
+  const [stars, setStars] = useState<StarFieldStar[]>(() =>
     Array.from({ length: 350 }, () => generateStar(width, height))
   );
 

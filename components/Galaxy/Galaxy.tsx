@@ -1,10 +1,11 @@
 import React from 'react';
-import { StarSystem } from '../../utils/types/stellarBodies';
+import { StarSystem as StarSystemType } from '../../utils/types/stellarBodies';
 import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
+import StarSystem from '../StarSystem/StarSystem';
 
 interface GalaxyProps {
-    systems: StarSystem[]
+    systems: StarSystemType[]
 }
 
 const Galaxy: React.FC<GalaxyProps> = ({
@@ -19,17 +20,10 @@ const Galaxy: React.FC<GalaxyProps> = ({
     });
 
     return visibleSystems.map((system) => (
-        <div
-            style={{
-                position: "absolute",
-                left: worldOffsetPosition.x, 
-                top: worldOffsetPosition.y, 
-                width: "20000px", 
-                height: "20000px",
-            }}
-        >
-            <div key={system.name}>{system.name}</div>
-        </div>
+        <StarSystem
+            key={system.name}
+            system={system}
+        />
     ));
 }
 

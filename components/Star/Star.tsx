@@ -1,6 +1,9 @@
 // Star.tsx
-import React from 'react';
+import React, { useState, useEffect } from 'react';
+import { useSelector } from 'react-redux';
 import { Star as StarType } from '../../utils/types/stellarBodies'; // Import the Star type and StarPhase enum
+import { ratios } from '../../utils/functions/zoom';
+import { RootState } from '../../state/store';
 
 interface StarProps {
     star: StarType;
@@ -9,17 +12,23 @@ interface StarProps {
 
 const Star: React.FC<StarProps> = ({ star, onFlyNear }) => {
 
-    const fract = 1;
-    const width = star.radius * fract;
-    
+    const scale = useSelector((state: RootState) => state.gameState.zoom);
+    const ratio = ratios[scale];
+    const starSize = (star.radius) * ratio + 'px';
+
+    const playerVelocity = useSelector((state: RootState) => state.gameState.velocity);
+
+    const starLeft = `calc(${star.position.x}px + 50% - ${star.radius/2}px)`;
+    const starTop = `calc(${star.position.y}px + 50% - ${star.radius/2}px)`;
+
     return (
         <div
             style={{
-                position: 'relative',
-                left: `calc(${star.position.x} + 50%) px`, // Use pixel-based position for accuracy
-                top: `calc(${star.position.y} + 50%) px`, // Use pixel-based position for accuracy
-                width: `${50}px`,
-                height: `${50}px`,
+                position: 'absolute',
+                left: starLeft, // Use pixel-based position for accuracy
+                top: starTop, // Use pixel-based position for accuracy
+                width: starSize,
+                height: starSize,
                 backgroundColor: star.color,
                 borderRadius: '50%',
                 display: 'flex',
@@ -27,7 +36,6 @@ const Star: React.FC<StarProps> = ({ star, onFlyNear }) => {
                 color: '#999',
                 fontSize: '0.7rem',
                 textTransform: 'uppercase',
-                transform: `translate(-50%, -25px) scale(${fract})`, // Scale the star based on the fract value
             }}
         >
             <div style={{ position: 'relative', left: star.radius + 5 }}>{star.name}</div>

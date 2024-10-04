@@ -17,7 +17,7 @@ export const solStar: Star = {
   color: 'Yellow',
   temperature: 5778, // Kelvin
   age: 4.6e9, // 4.6 billion years
-  radius: 696340, // km
+  radius: 50, // km
   position: { x: 0, y: 0 }, // Center of the solar system
 };
 
@@ -218,5 +218,5 @@ export const solSystem: StarSystem = {
   name: 'Sol',
   asteroidBelts: [],
   comets: [],
-  position: { x: 10500, y: 10500 },
+  position: { x: 500, y: 500 }, 
 };
