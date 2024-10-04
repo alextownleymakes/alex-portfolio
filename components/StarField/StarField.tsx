@@ -1,5 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styles from './StarField.module.scss'; // Import the module SCSS
+import { useSelector } from 'react-redux';
+import { RootState } from '../../state/store';
 
 interface Star {
   id: number;
@@ -13,7 +15,6 @@ interface Star {
 }
 
 interface StarFieldProps {
-  playerVelocity: { x: number; y: number };
   width: number; // Width of the field of view
   height: number; // Height of the field of view
 }
@@ -62,7 +63,9 @@ const generateStar = (width: number, height: number): Star => {
   };
 };
 
-const StarField: React.FC<StarFieldProps> = ({ playerVelocity, width, height }) => {
+const StarField: React.FC<StarFieldProps> = ({ width, height }) => {
+
+  const playerVelocity = useSelector((state: RootState) => state.gameState.velocity);
   const [stars, setStars] = useState<Star[]>(() =>
     Array.from({ length: 350 }, () => generateStar(width, height))
   );

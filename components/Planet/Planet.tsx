@@ -9,8 +9,6 @@ interface PlanetProps {
 }
 
 const Planet: React.FC<PlanetProps> = ({ location, size, color, label }) => {
-  console.log('Rendering Planet:', label);
-  console.log('Planet ' + label + ' is at location:', location);
   return (
     <div
       style={{

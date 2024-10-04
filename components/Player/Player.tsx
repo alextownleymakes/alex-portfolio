@@ -1,9 +1,11 @@
 import React, { FC } from 'react';
 import styles from './Player.module.scss'; // Import SCSS module
+import { useSelector } from 'react-redux';
+import { RootState } from '../../state/store';
 
-interface PlayerProps { rotation: number; }
+const Player: FC = () => {
 
-const Player: FC<PlayerProps> = ({ rotation }) => {
+  const rotation = useSelector((state: RootState) => state.gameState.rotation);
 
   return (
     <div
