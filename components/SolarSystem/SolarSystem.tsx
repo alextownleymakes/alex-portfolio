@@ -1,20 +1,8 @@
 import React from 'react';
 import Star from '../Star/Star';
 import { StarSystem } from '../../utils/types/stellarBodies';
-import { ViewMode } from '../SpaceGame/SpaceGame';
 
-const SolarSystem: React.FC<{ system: StarSystem, scale: ViewMode }> = ({ system, scale }) => {
-
-    let solarSystemStyles = {
-        top: system.position.y,
-        left: system.position.x,
-        width: '500px',
-        height: '500px',
-        border: '1px solid white',
-        position: 'relative',
-        overflow: 'hidden',
-    };
-
+const SolarSystem: React.FC<{ system: StarSystem }> = ({ system }) => {
 
     return (
         <div

@@ -1,4 +1,3 @@
-import { relative } from 'path';
 import React from 'react';
 
 interface PlanetProps {

@@ -48,13 +48,15 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
         return () => cancelAnimationFrame(animationFrameId);
     }, [keyState, playerState]);
 
+
+
     const movePlayer = (state: PlayerState, keyState: KeyState): PlayerState => {
         const { isThrusting, isTurningLeft, isTurningRight, isBraking } = keyState;
 
         let newVelocityX = state.velocity.x;
         let newVelocityY = state.velocity.y;
 
-        let newState = { ...state };
+        const newState = { ...state };
 
         if (isTurningLeft) {
             newState.rotation = (newState.rotation - 3 + 360) % 360;

@@ -44,9 +44,7 @@ const SpaceGame = () => {
 
   return (
     <PlayerController>
-      <Universe
-        systems={systems}
-      >
+      <Universe>
         <StarField
           width={window.innerWidth}
           height={window.innerHeight}

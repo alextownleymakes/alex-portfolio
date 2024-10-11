@@ -15,113 +15,101 @@ interface StarSystemProps {
 }
 
 const StarSystem: React.FC<StarSystemProps> = ({ system, onFlyNearStar }) => {
+
   const playerVelocity = useSelector((state: RootState) => state.gameState.velocity);
   const playerPosition = useSelector((state: RootState) => state.gameState.position);
-  const position = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
-  
-  const baseSize = 100;
-
   const scale = useSelector((state: RootState) => state.gameState.zoom);
 
-  // system position is set relative to player position
-
-  // playerPosition at 0,0
-  // window.innerwidth being 2000, /2 = 1000
-  // window.innerHeight being 1500, /2 = 750
-  // player renders at 1000,750
-  // system.position being 500,500
-  // system should render at 1500,1250
-  // formula should be:
-  // system.position.x - playerPosition.x + window.innerWidth / 2
-  // system.position.y - playerPosition.y + window.innerHeight / 2
-  // however, console logs { x: 1418.5, y: 909.5 }
-  // and system renders at 1418.5,909.5
-  // so the formula needs to be changed to:
-  // system.position.x - playerPosition.x + window.innerWidth / 2
-  // just kidding that's the same thing
-  // here's the fix:
-  // system.position.x - playerPosition.x + window.innerWidth / 2 - baseSize / 2
-
-
-  const sysPos = {
-    x: system.position.x - playerPosition.x + window.innerWidth / 2,
-    y: system.position.y - playerPosition.y + window.innerHeight / 2
-  }
-  console.log('system.position.x (', system.position.x, ') - playerPosition.x (', playerPosition.x, ') + window.innerWidth / 2 (', window.innerWidth / 2, ') - baseSize / 2 (', baseSize / 2, ') = ', sysPos.x);
-  console.log('system.position.y (', system.position.y, ') - playerPosition.y (', playerPosition.y, ') + window.innerHeight / 2 (', window.innerHeight / 2, ') - baseSize / 2 (', baseSize / 2, ') = ', sysPos.y);
-  console.log('sysPos', sysPos);
-  const [systemPosition, setSystemPosition] = useState(sysPos);
-  const [ratio, setRatio] = useState(ratios[scale]);
-  const [containerSize, setContainerSize] = useState(baseSize * ratio + 'px');
-
-
+  const dispatch = useDispatch();
   const systemRef = useRef<HTMLDivElement>(null);
   const systemContainer = systemRef.current;
-  const dispatch = useDispatch();
+
+  const position = { x: window.innerWidth / 2, y: window.innerHeight / 2 };
+  const baseSize = 500;
+  const baseDistance = 600;
+
+  const [containerSize, setContainerSize] = useState(0);
+  const [useableContainerSize, setUseableContainerSize] = useState(0);
+  const [systemPosition, setSystemPosition] = useState<{ x: number, y: number } | undefined>(undefined);
+  const [activeSystem, setActiveSystem] = useState(false);
 
   useEffect(() => {
-    console.log('scale', scale);
-    setRatio(ratios[scale]);
+    const containerSize = baseSize * ratios[scale];
+    if (!activeSystem && scale === 0) setContainerSize(containerSize);
+    if (activeSystem) setContainerSize(containerSize);
   }, [scale]);
 
   useEffect(() => {
-    console.log('ratio', ratio);
-    setContainerSize(baseSize * ratio + 'px');
-  }, [ratio]);
+    if (containerSize) {
+      const newX = (
+        ((system.position.x - ((containerSize) / 2))
+          -
+          (playerPosition.x))
+        +
+        (window.innerWidth / 2)
+      );
+      const newY = (
+        (system.position.y - ((containerSize) / 2))
+        -
+        (playerPosition.y)
+        +
+        (window.innerHeight / 2)
+      );
 
-  useEffect(() => {
-    setSystemPosition((sysPos) => {
-        const newX = (system.position.x - playerPosition.x + window.innerWidth / 2);
-        const newY = (system.position.y - playerPosition.y + window.innerHeight / 2);
+      const smoothingFactor = 0.1;
+      if (systemPosition) {
+        const systemVelocity = {
+          x: (newX - systemPosition.x) * smoothingFactor,
+          y: (newY - systemPosition.y) * smoothingFactor,
+        };
 
         const posWithVelocity = {
-          x: newX - (playerVelocity.x * 2 * ratio),
-          y: newY - (playerVelocity.y * 2 * ratio)
+          x: systemPosition.x + (systemVelocity.x - (playerVelocity.x * (.1))),
+          y: systemPosition.y + (systemVelocity.y - (playerVelocity.y * (.1)))
         };
-        
-        console.log('newX', newX, 'vX', posWithVelocity.x, 'newY', newY, 'vY', posWithVelocity.y);
 
-
-        return posWithVelocity;
-    });
-}, [playerVelocity]);
-
-
-useEffect(() => {
-  const distance = systemContainer ? Math.sqrt(Math.pow(position.x - (systemContainer.offsetLeft + (systemContainer.offsetWidth/2)), 2) + Math.pow(position.y - (systemContainer.offsetTop + (systemContainer.offsetHeight/2)), 2)) : 10000;
-  if (distance < 250) {
-      dispatch(zoomIn());
-      //systemPosition updates to be: relative to the player's position, twice as far from the player position at the angle it currently is at
-      if (systemContainer) {
-        const systemCenter = { x: systemContainer.offsetLeft + (systemContainer.offsetWidth/2), y: systemContainer.offsetTop + (systemContainer.offsetHeight/2) };
-        const angle = Math.atan2(systemCenter.y - position.y, systemCenter.x - position.x);
-        const newX = position.x - (Math.cos(angle) * distance * 2);
-        const newY = position.y - (Math.sin(angle) * distance * 2);
-        setSystemPosition({ x: newX, y: newY });
+        const smoothedContainerSize = useableContainerSize + ((containerSize - (useableContainerSize)) * smoothingFactor);
+        setUseableContainerSize(smoothedContainerSize);
+        setSystemPosition(posWithVelocity);
+        return;
       }
+      setUseableContainerSize(containerSize);
+      setSystemPosition({ x: newX, y: newY });
+    };
 
-      setSystemPosition({ x: system.position.x, y: system.position.y });
-  } else if (distance > 500) {
+  }, [playerVelocity]);
+
+
+  useEffect(() => {
+    const distance = systemContainer ? Math.sqrt(Math.pow(position.x - (systemContainer.offsetLeft + (systemContainer.offsetWidth / 2)), 2) + Math.pow(position.y - (systemContainer.offsetTop + (systemContainer.offsetHeight / 2)), 2)) : 10000;
+    if (distance < baseDistance && scale < 1) {
+      setActiveSystem(true);
+      dispatch(zoomIn());
+    } else if (activeSystem && distance > baseDistance && scale > 0) {
       dispatch(zoomOut());
-  }
-}, [position]);
+      setActiveSystem(false);
+    }
+    //eslint disable-next-line
+  }, [position]);
 
   return (
-    <div 
+    <div
       ref={systemRef}
       style={{
-      top: systemPosition.y,
-      left: systemPosition.x,
-      width: containerSize,
-      height: containerSize,
-      border: '1px solid white',
-      position: 'relative',
-      overflow: 'hidden',
-    }}>
+        top: systemPosition?.y ?? 0,
+        left: systemPosition?.x ?? 0,
+        width: useableContainerSize + 'px',
+        height: useableContainerSize + 'px',
+        // border: '1px solid white',
+        position: 'absolute',
+        overflow: 'hidden',
+        visibility: systemPosition ? 'visible' : 'hidden'
+      }}>
       {system.stars.map((star) => (
         <Star
           key={star.name} // Using name as the key since ID isn't in the interface
           star={star} // Pass the entire Star object
+          active={activeSystem} // Pass active state to the star
           onFlyNear={() => onFlyNearStar?.(star.id)} // Trigger view change when flying near a star
         />
       ))}
