@@ -24,6 +24,7 @@ export enum StarPhase {
     age: number;
     radius: number;
     position: { x: number; y: number }; // StarSystem coordinates
+    planets: Planet[]; // Array of planets orbiting the star
   }
   
   // Planet interface

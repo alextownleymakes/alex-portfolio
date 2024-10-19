@@ -24,6 +24,27 @@ export const ratios: { [key: string]: number } = {
     9: 562/1,
 }
 
+export const scales: { [key: string]: number } = {
+    Galaxy: 0,
+    StarSystem: 1,
+    Star: 2,
+    Planet: 3,
+    Moon: 4,
+    Asteroid: 5,
+}
+
+export const scaleDistances: { [key: string]: number } = {
+    0: 802,
+    1: 401,
+    2: 200,
+    3: 50,
+    4: 25,
+    5: 10,
+}
+
+export type ScalesType = typeof scales;
+
+
 
 export const zoom = (scale: number, x: number, y: number) => {
     const ratio = bodyRatios[scale];

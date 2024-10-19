@@ -35,15 +35,14 @@ const SpaceGame = () => {
     { position: { x: 10450, y: 9900 }, size: 90, color: "yellow", label: "Contact" },
   ];
 
-  const planetElements = planets.map((planet, index) => (
-    <Planet
-      key={index}
-      location={planet.position}
-      size={planet.size}
-      color={planet.color}
-      label={planet.label}
-    />
-  ));
+  // const planetElements = planets.map((planet, index) => (
+  //   <Planet
+  //     key={index}
+  //     size={planet.size}
+  //     color={planet.color}
+  //     label={planet.label}
+  //   />
+  // ));
 
   return (
     <PlayerController>
@@ -57,7 +56,7 @@ const SpaceGame = () => {
           systems={systems}
         />
         <Player/>
-        {planetElements}
+        {/* {planetElements} */}
       </Universe>
       </Automation>
     </PlayerController>

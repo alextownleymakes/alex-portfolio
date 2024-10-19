@@ -5,27 +5,36 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/store";
 import { Coords, zoomIn, zoomOut } from "@/state/gameStateSlice";
 import { baseSize } from "@/components/Galaxy/Galaxy";
-import { ratios } from "@/utils/functions/zoom";
+import { ratios, scaleDistances } from "@/utils/functions/zoom";
 
-const useApproach = (ref: React.RefObject<HTMLElement>, coords: Coords): { approachDistance: number, distanceToPlayer: () => number, systemCenter: { x: number, y: number }, zoomed: boolean } => {
+const useApproach = (ref: React.RefObject<HTMLElement>, coords: Coords, scale: number): { approachDistance: number, distanceToPlayer: () => number, systemCenter: { x: number, y: number }, activeSystem: boolean } => {
 
     const dispatch = useDispatch();
     const playerPosition = useSelector((state: RootState) => state.gameState.zoomedPosition);
-    const universeSize = useSelector((state: RootState) => state.gameState.universeSize);
     const zoom = useSelector((state: RootState) => state.gameState.zoom);
-    const approachDistance = useSelector((state: RootState) => state.gameState.approachDistance);
+    const approachDistance = scaleDistances[scale];
+
     
     const [systemCenter, setSystemCenter] = useState({
-        x: ref.current ? (ref.current.offsetLeft + (ref.current.offsetWidth / 2)) - ((universeSize * ratios[zoom] )/2) : 0,
-        y: ref.current ? (ref.current.offsetTop + (ref.current.offsetHeight / 2)) - ((universeSize * ratios[zoom] )/2) : 0,
+        x: ref.current ? coords.x : 0,
+        y: ref.current ? coords.y : 0,
     });
+
 
     useEffect(() => {
         setSystemCenter({
-            x: ref.current ? (ref.current.offsetLeft + (ref.current.offsetWidth / 2)) - ((universeSize * ratios[zoom] )/2) : 0,
-            y: ref.current ? (ref.current.offsetTop + (ref.current.offsetHeight / 2)) - ((universeSize * ratios[zoom] )/2) : 0,
+            x: ref.current ? coords.x : 0,
+            y: ref.current ? coords.y : 0,
         });
-    }, [ref.current?.offsetLeft]);
+
+        console.log(ref.current?.id, 'System center', systemCenter, coords, 'approach distance', approachDistance * ratios[zoom], 'zoom', zoom);
+    }, [ref.current]);
+
+    useEffect(() => {
+        console.log(ref.current?.id, 'System center', systemCenter, coords, 'approach distance', approachDistance * ratios[zoom], 'zoom', zoom, 'scale', scale);
+    }, [zoom]);
+
+    
 
     const [zoomed, setZoomed] = useState(false);
 
@@ -34,15 +43,15 @@ const useApproach = (ref: React.RefObject<HTMLElement>, coords: Coords): { appro
     }
 
     useEffect(() => {
-        if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distanceToPlayer() < (approachDistance * ratios[zoom]) && !zoomed) {
+        if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distanceToPlayer() < (approachDistance * ratios[zoom] ) && !zoomed && zoom === scale - 1) {
             setZoomed(true);
-            dispatch(zoomIn());
-        } else if ( (systemCenter.x !== 0 && systemCenter.y !== 0) && distanceToPlayer() > (approachDistance * ratios[zoom]) && zoomed) {
+            dispatch(zoomIn({scale}));
+        } else if ( (systemCenter.x !== 0 && systemCenter.y !== 0) && distanceToPlayer() > (approachDistance * ratios[zoom] ) && zoomed && zoom === scale) {
             setZoomed(false);
-            dispatch(zoomOut());
+            dispatch(zoomOut({scale: scale - 1}));
         }
     }, [distanceToPlayer()]);
-    return { approachDistance, distanceToPlayer, systemCenter, zoomed };
+    return { approachDistance, distanceToPlayer, systemCenter, activeSystem: zoomed };
 
 };
 

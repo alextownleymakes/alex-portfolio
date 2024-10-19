@@ -1,5 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ratios } from '../utils/functions/zoom';
+import { ratios, ScalesType } from '../utils/functions/zoom';
 
 export interface Coords {
     x: number;
@@ -23,7 +23,7 @@ const initialState: GameState = {
     position: { x: 0, y: 0 },
     universeSize: 100000,
     galaxySize: 500,
-    approachDistance: 300,
+    approachDistance: 200,
     zoomedPosition: { x: 0, y: 0 },
     velocity: { x: 0, y: 0 },
     speed: 0,
@@ -34,15 +34,15 @@ const gameStateSlice = createSlice({
     name: 'gameState',
     initialState,
     reducers: {
-        zoomIn: (state) => {
-            state.zoom += 1;
+        zoomIn: (state, action: PayloadAction<{ scale: number}>) => {
+            state.zoom = action.payload.scale;
             state.zoomedPosition = {
                 x: state.position.x * ratios[state.zoom],
                 y: state.position.y * ratios[state.zoom],
             };
         },
-        zoomOut: (state) => {
-            state.zoom = Math.max(state.zoom - 1, 0);
+        zoomOut: (state, action: PayloadAction<{ scale: number}>) => {
+            state.zoom = action.payload.scale;
             state.zoomedPosition = {
                 x: state.position.x * ratios[state.zoom],
                 y: state.position.y * ratios[state.zoom],

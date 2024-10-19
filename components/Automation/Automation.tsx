@@ -36,7 +36,18 @@ const Automation: React.FC<AutomationProps> = ({
                 height: "100vh",
             }}
         >
-            <div>
+            <div style={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                padding: 10,
+                margin: 10,
+                backgroundColor: "rgba(255, 255, 255, 0.1)",
+                color: "white",
+                borderRadius: 5,
+                zIndex: 1000,
+                width: 300,
+            }}>
                 <ol>
                     <li>
                         Player Position: {position.x.toFixed(0)}, {position.y.toFixed(0)}

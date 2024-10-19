@@ -19,9 +19,6 @@ const Universe: React.FC<UniverseProps> = ({
                     height: "100vh",
                 }}
             >
-                <div>
-                    Player Position: {playerState.position.x}, {playerState.position.y}
-                </div>
                 {children}
             </div>
         );
