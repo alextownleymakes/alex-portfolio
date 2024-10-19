@@ -10,7 +10,7 @@ interface PlayerState {
 
 export const playerController = {
   movePlayer: (state: PlayerState, keyState: KeyState): PlayerState => {
-    const { isThrusting, isTurningLeft, isTurningRight, isBraking } = keyState;
+    const { isThrusting, isTurningLeft, isTurningRight, isRefacing, isBraking } = keyState;
 
     let newVelocityX = state.velocity.x;
     let newVelocityY = state.velocity.y;
@@ -26,6 +26,12 @@ export const playerController = {
       newState.rotation = (newState.rotation + 3) % 360; // Turn right
     }
 
+    if (isBraking) {
+      newState.speed = Math.max(newState.speed - 1, 0); // Decelerate
+      newVelocityX = newVelocityX < 0.1 ? 0 : newVelocityX * 0.99; // Smooth deceleration
+      newVelocityY = newVelocityY < 0.1 ? 0 : newVelocityY * 0.99;
+    }
+
     // Thrust increases velocity in the direction the ship is facing
     if (isThrusting) {
       newState.speed = Math.min(newState.speed + 1, 100); // Accelerate
@@ -37,7 +43,7 @@ export const playerController = {
     }
 
     // Handle 'S' key for rotating the ship 180 degrees smoothly (no braking)
-    if (isBraking) {
+    if (isRefacing) {
       // Calculate the current angle of travel based on velocity
       const angleOfTravel = Math.atan2(newVelocityY, newVelocityX) * (180 / Math.PI);
 

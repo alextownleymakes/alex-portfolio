@@ -1,3 +1,5 @@
+"use client";
+
 import React from 'react';
 import StarField from "../StarField/StarField";
 import Universe from '../Universe/Universe';
@@ -6,6 +8,7 @@ import Player from "../Player/Player";
 import Planet from "../Planet/Planet";
 import { systems } from '../../utils/systems/systems';
 import PlayerController from '../PlayerController/PlayerController';
+import Automation from '../Automation/Automation';
 
 export enum ViewMode {
   Galaxy = 'Galaxy',
@@ -44,6 +47,7 @@ const SpaceGame = () => {
 
   return (
     <PlayerController>
+      <Automation>
       <Universe>
         <StarField
           width={window.innerWidth}
@@ -55,6 +59,7 @@ const SpaceGame = () => {
         <Player/>
         {planetElements}
       </Universe>
+      </Automation>
     </PlayerController>
   );
 };

@@ -1,12 +1,19 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
+import { ratios } from '../utils/functions/zoom';
+
+export interface Coords {
+    x: number;
+    y: number;
+}
 
 export interface GameState {
     zoom: number;
-    position: {
-        x: number;
-        y: number;
-    };
-    velocity: { x: number; y: number };
+    universeSize: number;
+    galaxySize: number;
+    approachDistance: number;
+    position: Coords;
+    zoomedPosition: Coords;
+    velocity: Coords;
     speed: number;
     rotation: number;
 }
@@ -14,6 +21,10 @@ export interface GameState {
 const initialState: GameState = {
     zoom: 0,
     position: { x: 0, y: 0 },
+    universeSize: 100000,
+    galaxySize: 500,
+    approachDistance: 300,
+    zoomedPosition: { x: 0, y: 0 },
     velocity: { x: 0, y: 0 },
     speed: 0,
     rotation: 0,
@@ -24,18 +35,29 @@ const gameStateSlice = createSlice({
     initialState,
     reducers: {
         zoomIn: (state) => {
-            state.zoom = Math.min(state.zoom + 1, 10);
+            state.zoom += 1;
+            state.zoomedPosition = {
+                x: state.position.x * ratios[state.zoom],
+                y: state.position.y * ratios[state.zoom],
+            };
         },
         zoomOut: (state) => {
             state.zoom = Math.max(state.zoom - 1, 0);
+            state.zoomedPosition = {
+                x: state.position.x * ratios[state.zoom],
+                y: state.position.y * ratios[state.zoom],
+            };
         },
         updatePosition: (state, action: PayloadAction<{ x: number; y: number }>) => {
-            state.position.x = action.payload.x;
-            state.position.y = action.payload.y;
+            const zoomedPos = {
+                x: action.payload.x * ratios[state.zoom],
+                y: action.payload.y * ratios[state.zoom],
+            }
+            state.position = action.payload;
+            state.zoomedPosition = zoomedPos;
         },
         updateVelocity: (state, action: PayloadAction<{ x: number; y: number }>) => {
-            state.velocity.x = action.payload.x;
-            state.velocity.y = action.payload.y;
+            state.velocity = action.payload;
         },
         updateSpeed: (state, action: PayloadAction<number>) => {
             state.speed = action.payload;
@@ -43,8 +65,8 @@ const gameStateSlice = createSlice({
         updateRotation: (state, action: PayloadAction<number>) => {
             state.rotation = action.payload;
         },
-        updateAll: (state, action: PayloadAction<GameState>) => {
-            return action.payload;
+        updateAll: (state, action: PayloadAction<Partial<GameState>>) => {
+            Object.assign(state, action.payload); // This is fine if you are updating multiple fields.
         }
     },
 });

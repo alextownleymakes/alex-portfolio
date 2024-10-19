@@ -2,9 +2,10 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../state/store';
 import { pressKey, releaseKey } from "@/state/keyStateSlice";
 import { GameState as PlayerState } from '../../state/gameStateSlice';
-import { KeyState } from '../../state/keyStateSlice';
+import { KeyState, KeyMapType } from '../../state/keyStateSlice';
 import { updateAll } from '../../state/gameStateSlice';
 import { useEffect } from 'react';
+import { ratios } from '../../utils/functions/zoom';
 
 interface PlayerControllerType {
     children: React.ReactNode;
@@ -18,9 +19,9 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) =>
-            dispatch(pressKey({ key: e.key }));
+            dispatch(pressKey({ key: e.key as KeyMapType }));
         const handleKeyUp = (e: KeyboardEvent) =>
-            dispatch(releaseKey({ key: e.key }));
+            dispatch(releaseKey({ key: e.key as KeyMapType }));
 
         window.addEventListener("keydown", handleKeyDown);
         window.addEventListener("keyup", handleKeyUp);
@@ -51,7 +52,7 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
 
 
     const movePlayer = (state: PlayerState, keyState: KeyState): PlayerState => {
-        const { isThrusting, isTurningLeft, isTurningRight, isBraking } = keyState;
+        const { isThrusting, isTurningLeft, isTurningRight, isRefacing, isBraking } = keyState;
 
         let newVelocityX = state.velocity.x;
         let newVelocityY = state.velocity.y;
@@ -75,6 +76,12 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
         }
 
         if (isBraking) {
+            newState.speed = Math.max(newState.speed - 1, 0); 
+            newVelocityX = newVelocityX * 0.90;
+            newVelocityY = newVelocityY * 0.90;
+        }
+
+        if (isRefacing) {
             const angleOfTravel = Math.atan2(newVelocityY, newVelocityX) * (180 / Math.PI);
 
             const targetRotation = (angleOfTravel + 270) % 360;
@@ -94,13 +101,19 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
         }
 
         const newPosition = {
-            x: state.position.x + newVelocityX, 
-            y: state.position.y + newVelocityY,
+            x: state.position.x + newVelocityX / (ratios[state.zoom]*ratios[state.zoom]), 
+            y: state.position.y + newVelocityY / (ratios[state.zoom]*ratios[state.zoom]),
+        };
+
+        const newZoomedPosition = {
+            x: newPosition.x * ratios[state.zoom],
+            y: newPosition.y * ratios[state.zoom],
         };
 
         return {
             ...newState,
             position: newPosition,
+            zoomedPosition: newZoomedPosition,
             velocity: { x: newVelocityX, y: newVelocityY }
         };
     };

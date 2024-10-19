@@ -1,13 +1,13 @@
-// store.ts
 import { configureStore } from '@reduxjs/toolkit';
 import keyStateReducer from './keyStateSlice';
 import gameStateReducer from './gameStateSlice';
 
 const store = configureStore({
   reducer: {
-    keyState: keyStateReducer, // Add your slice here
-    gameState: gameStateReducer, // Add your slice here
+    keyState: keyStateReducer,
+    gameState: gameStateReducer,
   },
+  middleware: (getDefaultMiddleware) => getDefaultMiddleware(), // Typing is automatically inferred here
 });
 
 export type RootState = ReturnType<typeof store.getState>;

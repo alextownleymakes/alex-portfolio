@@ -13,8 +13,8 @@ export const bodyRatios: { [key: string]: number } = {
 
 export const ratios: { [key: string]: number } = {
     0: 1/1,
-    1: 4/1,
-    2: 8/1,
+    1: 2/1,
+    2: 4/1,
     3: 8/1,
     4: 16/1,
     5: 32/1,
