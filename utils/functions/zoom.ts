@@ -38,8 +38,8 @@ export const scaleDistances: { [key: string]: number } = {
     1: 401,
     2: 200,
     3: 50,
-    4: 25,
-    5: 10,
+    4: 20,
+    5: 5,
 }
 
 export type ScalesType = typeof scales;

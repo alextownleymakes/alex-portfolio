@@ -38,22 +38,6 @@ export const venus: Planet = {
   position: { x: 60, y: -50 },
 };
 
-export const earth: Planet = {
-  id: 4,
-  name: 'Earth',
-  mass: 5.97237e24, // kg
-  radius: 10, // km
-  distanceFromStar: 1, // AU
-  orbitalPeriod: 365.25, // Earth days
-  chemicalComposition: {
-    O: 0.46,
-    silicon: 0.28,
-    Al: 0.08,
-    Fe: 0.06,
-  },
-  color: 'Blue',
-  position: { x: -60, y: -80 },
-};
 
 // Major moons of Earth
 export const moon: Moon = {
@@ -69,8 +53,27 @@ export const moon: Moon = {
     Mg: 0.19,
     Fe: 0.1,
   },
-  position: { x: -10, y: -15 }, // Relative to Earth
+  position: { x: -30, y: -25 }, // Relative to Earth
 };
+
+export const earth: Planet = {
+  id: 4,
+  name: 'Earth',
+  mass: 5.97237e24, // kg
+  radius: 10, // km
+  distanceFromStar: 1, // AU
+  orbitalPeriod: 365.25, // Earth days
+  chemicalComposition: {
+    O: 0.46,
+    silicon: 0.28,
+    Al: 0.08,
+    Fe: 0.06,
+  },
+  color: 'Blue',
+  position: { x: -60, y: -80 },
+  moons: [moon],
+};
+
 
 export const mars: Planet = {
   id: 6,

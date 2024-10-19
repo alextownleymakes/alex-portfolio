@@ -4,6 +4,7 @@ import { StarSystem as StarSystemType, Star as StarType, Planet as PlanetType } 
 import { ratios, scales } from '../../utils/functions/zoom';
 import { RootState } from '../../state/store';
 import useApproach from '@/hooks/useApproach';
+import Moon from '../Moon/Moon';
 
 
 interface PlanetProps {
@@ -30,7 +31,7 @@ const Planet: React.FC<PlanetProps> = ({ system, star, planet, radius, color }) 
   React.useEffect(() => {
     planetRef.current && planetRef.current.parentElement && setPlanetPosition({
       x: ((star.position.x + planet.position.x) * ratios[zoom]) + (planetRef.current?.parentElement?.offsetWidth / 2),
-      y: ((star.position.y + planet.position.y) * ratios[zoom])+ (planetRef.current?.parentElement?.offsetWidth / 2),
+      y: ((star.position.y + planet.position.y) * ratios[zoom]) + (planetRef.current?.parentElement?.offsetWidth / 2),
     });
   }, [planetRef.current]);
 
@@ -39,27 +40,32 @@ const Planet: React.FC<PlanetProps> = ({ system, star, planet, radius, color }) 
   console.log(planet.name, 'planetLeft', planetLeft, 'planetTop', planetTop)
   const planetSize = (radius * ratios[zoom]);
   return (
-    <div
-    id={planet.name}
-    ref={planetRef}
-      style={{
-        position: 'absolute',
-        left: `${planetLeft}`, // Use pixel-based position for accuracy
-        top: `${planetTop}`,
-        width: `${planetSize}px`, // Set the planet's size
-        height: `${planetSize}px`,
-        backgroundColor: color, // Set the planet's color
-        borderRadius: '50%',
-        display: 'flex',
-        alignItems: 'center',
-        // justifyContent: 'center',
-        color: '#999',
-        fontSize: '0.7rem',
-        textTransform: 'uppercase',
-      }}
-    >
-      <div style={{position: 'relative', left: radius+5}}>{planet.name}, DTP: {distanceToPlayer()} </div>
-    </div>
+    <>
+      <div
+        id={planet.name}
+        ref={planetRef}
+        style={{
+          position: 'absolute',
+          left: `${planetLeft}`, // Use pixel-based position for accuracy
+          top: `${planetTop}`,
+          width: `${planetSize}px`, // Set the planet's size
+          height: `${planetSize}px`,
+          backgroundColor: color, // Set the planet's color
+          borderRadius: '50%',
+          display: 'flex',
+          alignItems: 'center',
+          // justifyContent: 'center',
+          color: '#999',
+          fontSize: '0.7rem',
+          textTransform: 'uppercase',
+        }}
+      >
+        <div style={{ position: 'relative', left: radius + 5 }}>{planet.name}, DTP: {distanceToPlayer()} </div>
+      </div>
+      {zoom > scales.Star && planet.moons && planet.moons.map((moon) => (
+        <Moon key={moon.name} system={system} star={star} planet={planet} moon={moon} radius={moon.radius} color={moon.color || 'gray'} label={moon.name} />
+      ))}
+    </>
   );
 };
 
