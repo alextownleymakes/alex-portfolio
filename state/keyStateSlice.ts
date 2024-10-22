@@ -7,6 +7,7 @@ export interface KeyState {
   isTurningLeft: boolean;
   isTurningRight: boolean;
   isBraking: boolean;
+  devToggle: boolean;
 }
 
 const initialState: KeyState = {
@@ -15,6 +16,7 @@ const initialState: KeyState = {
   isTurningLeft: false,
   isTurningRight: false,
   isBraking: false,
+  devToggle: false,
 };
 
 const keyMap = {
@@ -23,6 +25,7 @@ const keyMap = {
   a: 'isTurningLeft',
   d: 'isTurningRight',
   x: 'isBraking',
+  z: 'devToggle',
 } as const;
 
 export type KeyMapType = keyof typeof keyMap;

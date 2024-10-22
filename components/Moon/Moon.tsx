@@ -17,11 +17,12 @@ interface MoonProps {
   miniMap?: boolean; // Whether the star is in the mini map
 }
 
-const Moon: React.FC<MoonProps> = ({ system, star, planet, moon, radius, color, miniMap = false  }) => {
+const Moon: React.FC<MoonProps> = ({ system, star, planet, moon, radius, color, miniMap = false }) => {
 
   const moonRef = React.useRef<HTMLDivElement>(null);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
-  const ratio = !miniMap ? ratios[zoom] : ratios[zoom] / 4;
+  const dev = useSelector((state: RootState) => state.gameState.dev);
+  const ratio = !miniMap ? ratios[zoom] : ratios[zoom] / 10;
 
   const useApproachProps = {
     ref: moonRef,
@@ -35,12 +36,12 @@ const Moon: React.FC<MoonProps> = ({ system, star, planet, moon, radius, color, 
   const moonLeft = `calc(${(star.position.x + planet.position.x + moon.position.x) * ratio}px + 50% - ${(moon.radius * ratio) / 2}px)`;
   const moonTop = `calc(${(star.position.y + planet.position.y + moon.position.y) * ratio}px + 50% - ${(moon.radius * ratio) / 2}px)`;
 
-  const moonCenterX = ((star.position.x + planet.position.x + moon.position.x) * ratio)
-  const moonCenterY = ((star.position.y + planet.position.y + moon.position.y) * ratio);
+  const moonPosX = ((star.position.x + planet.position.x + moon.position.x) * ratio)
+  const moonPosY = ((star.position.y + planet.position.y + moon.position.y) * ratio);
   const moonSize = (radius * ratio);
   return (
     <div
-    key={moon.name + miniMap ? '-mm' : ''}
+      key={moon.name + miniMap ? '-mm' : ''}
       id={moon.name}
       ref={moonRef}
       style={{
@@ -49,7 +50,8 @@ const Moon: React.FC<MoonProps> = ({ system, star, planet, moon, radius, color, 
         top: `${moonTop}`,
         width: `${moonSize}px`, // Set the planet's size
         height: `${moonSize}px`,
-        backgroundColor: color, // Set the planet's color
+        backgroundColor: miniMap ? 'transparent' : color,
+        border: miniMap ? `2px solid ${color}` : 'none',
         borderRadius: '50%',
         display: 'flex',
         alignItems: 'center',
@@ -59,7 +61,7 @@ const Moon: React.FC<MoonProps> = ({ system, star, planet, moon, radius, color, 
       }}
     >
       {!miniMap && (
-        <div style={{ position: 'relative', left: radius + 5 }}>{moon.name}, DTP: {distanceToPlayer().toFixed(0)}; x: {moonCenterX}, y: {moonCenterY} </div>
+        <div style={{ position: 'relative', left: radius + 5 }}>{moon.name}, {dev && (`- DTP: ${distanceToPlayer().toFixed(0)}; x: ${moonPosX}; y: ${moonPosY}`)}</div>
       )}
     </div>
   );

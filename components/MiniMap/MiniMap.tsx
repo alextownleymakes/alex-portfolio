@@ -18,7 +18,7 @@ const MiniMap: React.FC<MiniMapProps> = ({
 }) => {
 
     const playerState = useSelector((state: RootState) => state.gameState);
-    const { position, zoomedPosition, universeSize, velocity, speed, rotation, zoom } = playerState;
+    const { position, zoomedPosition, universeSize, zoom, dev } = playerState;
 
     const ratio = ratios[zoom] / 10;
     const galaxyRef = React.useRef<HTMLDivElement>(null);
@@ -35,11 +35,10 @@ const MiniMap: React.FC<MiniMapProps> = ({
         console.log('zoomedPosition - x: ', zoomedPosition.x, ', y:  ', zoomedPosition.y);
     }, [cursorCoords]);
 
-    const galaxyPosX = -((universeSize * ratio) / 2) + (window.innerWidth / 2) - ((zoomedPosition.x !== 0 ? zoomedPosition.x : position.x) / 10);
-    const galaxyPosX2 = `calc(-${(universeSize * ratio) / 2}px + 50% - ${((zoomedPosition.x !== 0 ? zoomedPosition.x : position.x) / 10)}px)`;
-    const galaxyPosY = -((universeSize * ratio) / 2) + (window.innerHeight / 2) - ((zoomedPosition.y !== 0 ? zoomedPosition.y : position.y) / 10);
-    const galaxyPosY2 = `calc(-${(universeSize * ratio) / 2}px + 50% - ${((zoomedPosition.y !== 0 ? zoomedPosition.y : position.y) / 10)}px)`;
+    const galaxyPosX = `calc(-${(universeSize * ratio) / 2}px + 50% - ${((zoomedPosition.x !== 0 ? zoomedPosition.x : position.x) / 10)}px)`;
+    const galaxyPosY = `calc(-${(universeSize * ratio) / 2}px + 50% - ${((zoomedPosition.y !== 0 ? zoomedPosition.y : position.y) / 10)}px)`;
     const galaxySize = universeSize * ratio;
+
     return (
         <>
             <div
@@ -49,9 +48,8 @@ const MiniMap: React.FC<MiniMapProps> = ({
                     width: galaxySize,
                     height: galaxySize,
                     position: 'absolute',
-                    left: galaxyPosX2,
-                    top: galaxyPosY2,
-                    transform: "scale(0.5)", // 90% of the original size
+                    left: galaxyPosX,
+                    top: galaxyPosY,
                     // transition: 'all .1s ease-in-out',
                 }}>
                 {visibleSystems.map((system) => (
@@ -61,13 +59,15 @@ const MiniMap: React.FC<MiniMapProps> = ({
                     />
                 ))}
             </div>
-            <DisplayContainer
-                top={310}
+            {dev && <DisplayContainer
+                top={0}
                 left={0}
                 height={45}
+                width={280}
+                id={'cursor-coords'}
             >
                 x: {cursorCoords?.x}, y: {cursorCoords?.y}
-            </DisplayContainer>
+            </DisplayContainer>}
         </>
     );
 }

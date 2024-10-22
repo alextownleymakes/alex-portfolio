@@ -20,7 +20,8 @@ interface PlanetProps {
 const Planet: React.FC<PlanetProps> = ({ system, star, planet, radius, color, miniMap = false }) => {
 
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
-  const ratio = !miniMap ? ratios[zoom] : ratios[zoom] / 4;
+  const dev = useSelector((state: RootState) => state.gameState.dev);
+  const ratio = !miniMap ? ratios[zoom] : ratios[zoom] / 10;
 
   const planetRef = React.useRef<HTMLDivElement>(null);
 
@@ -51,7 +52,8 @@ const Planet: React.FC<PlanetProps> = ({ system, star, planet, radius, color, mi
           top: `${planetTop}`,
           width: `${planetSize}px`, // Set the planet's size
           height: `${planetSize}px`,
-          backgroundColor: color, // Set the planet's color
+          backgroundColor: miniMap ? 'transparent' : color,
+          border: miniMap ? `2px solid ${color}` : 'none',
           borderRadius: '50%',
           display: 'flex',
           alignItems: 'center',
@@ -61,7 +63,7 @@ const Planet: React.FC<PlanetProps> = ({ system, star, planet, radius, color, mi
         }}
       >
         {!miniMap && (
-          <div style={{ position: 'relative', left: radius + 5 }}>{planet.name}, DTP: {distanceToPlayer().toFixed(0)}; x: {planetPosX}, y: {planetPosY} </div>
+          <div style={{ position: 'relative', left: radius + 5 }}>{planet.name} {dev && (`- DTP: ${distanceToPlayer().toFixed(0)}; x: ${planetPosX}, y: ${planetPosY}`)} </div>
         )}
       </div>
     </>

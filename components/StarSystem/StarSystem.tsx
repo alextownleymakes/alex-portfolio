@@ -1,6 +1,6 @@
 // StarSystem.tsx
-import React, { useState, useEffect, useRef } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import Star from '../Star/Star';
 import Planet from '../Planet/Planet';
 import { StarSystem as StarSystemType } from '../../utils/types/stellarBodies';
@@ -14,18 +14,20 @@ interface StarSystemProps {
   system: StarSystemType;
   key: string;
   onFlyNearStar?: (starId: number) => void; // Callback when flying near a star
+  miniMap?: boolean; // Whether the star system is in the mini map
 }
 
-const StarSystem: React.FC<StarSystemProps> = ({ system, onFlyNearStar }) => {
-  const systemSize = 500;
+const StarSystem: React.FC<StarSystemProps> = ({ system, onFlyNearStar, miniMap = false }) => {
+  const systemSize = useSelector((state: RootState) => state.gameState.galaxySize);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
+  const dev = useSelector((state: RootState) => state.gameState.dev);
   const ratio = ratios[zoom];
   const starSysRef = React.useRef<HTMLDivElement>(null);
 
   const useApproachProps = {
     ref: starSysRef,
     coords: { x: system.position.x * ratio, y: system.position.y * ratio },
-    scale: scales.Star
+    scale: scales.Star,
   };
   const { distanceToPlayer, activeSystem } = useApproach(useApproachProps);
 
@@ -47,7 +49,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, onFlyNearStar }) => {
       }}
     >
       <div style={{ position: 'relative', left: starSysSize + 5, color: 'white', top: '50%' }}>
-        {system.name} System - DTP: {distanceToPlayer().toFixed(0)}; x: {system.position.x * ratio}; y: {system.position.y * ratio}
+        {system.name} System {dev && (`- DTP: ${distanceToPlayer().toFixed(0)}; x: ${system.position.x * ratio}; y: ${system.position.y * ratio}`)}
       </div>
       {system.stars.map((star) => (
         <React.Fragment key={`${star.name}-star`}> {/* Ensure each star has a unique key */}
@@ -57,6 +59,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, onFlyNearStar }) => {
             active={activeSystem}
             onFlyNear={() => onFlyNearStar?.(star.id)}
             system={system}
+            miniMap={miniMap}
           />
           {zoom > scales.StarSystem && activeSystem && star.planets?.map((planet) => (
             <React.Fragment key={`${planet.name}-planet`}> {/* Ensure each planet has a unique key */}
@@ -68,6 +71,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, onFlyNearStar }) => {
                 radius={planet.radius}
                 color={planet.color || 'brown'}
                 label={planet.name}
+                miniMap={miniMap}
               />
               {zoom > scales.Star && planet.moons?.map((moon) => (
                 <Moon
@@ -79,6 +83,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, onFlyNearStar }) => {
                   radius={moon.radius}
                   color={moon.color || 'gray'}
                   label={moon.name}
+                  miniMap={miniMap}
                 />
               ))}
             </React.Fragment>

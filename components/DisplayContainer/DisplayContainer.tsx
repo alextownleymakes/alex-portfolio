@@ -7,7 +7,11 @@ interface DisplayContainerProps {
     width?: number,
     padding?: number,
     margin?: number,
+    id?: string,
+    backgroundColor?: string,
     children: React.ReactNode,
+    border?: string,
+    borderRadius?: number | string,
 }
 const DisplayContainer: React.FC<DisplayContainerProps> = ({
     top: top = 'auto',
@@ -18,25 +22,32 @@ const DisplayContainer: React.FC<DisplayContainerProps> = ({
     width: width = 300,
     padding: padding = 10,
     margin: margin = 10,
+    backgroundColor: backgroundColor = "rgba(255, 255, 255, 0.1)",
+    id: id = 'display-container',
+    border: border = 'none',
+    borderRadius: borderRadius = 5,
     children
 }) => {
     return (
-        <div style={{
-            position: "absolute",
-            top,
-            left,
-            bottom,
-            right,
-            padding,
-            margin,
-            backgroundColor: "rgba(255, 255, 255, 0.1)",
-            color: "white",
-            borderRadius: 5,
-            zIndex: 1000,
-            width,
-            height,
-            overflow: 'hidden',
-        }}>
+        <div
+            id={id}
+            style={{
+                position: "absolute",
+                top,
+                left,
+                bottom,
+                right,
+                padding,
+                margin,
+                backgroundColor,
+                color: "white",
+                zIndex: 1000,
+                width,
+                height,
+                border,
+                borderRadius,
+                overflow: 'hidden',
+            }}>
             {children}
         </div>
     );

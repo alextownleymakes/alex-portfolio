@@ -18,7 +18,7 @@ const Galaxy: React.FC<GalaxyProps> = ({
 }) => {
     const playerState = useSelector((state: RootState) => state.gameState);
 
-    const { position, universeSize, zoomedPosition, velocity, speed, rotation, zoom } = playerState;
+    const { position, universeSize, zoomedPosition, zoom, dev} = playerState;
 
     const ratio = ratios[zoom];
     const galaxyRef = React.useRef<HTMLDivElement>(null);
@@ -56,13 +56,13 @@ const Galaxy: React.FC<GalaxyProps> = ({
                     />
                 ))}
             </div>
-            <DisplayContainer
+            {dev && <DisplayContainer
                 top={310}
                 left={0}
                 height={45}
             >
                 x: {cursorCoords?.x}, y: {cursorCoords?.y}
-            </DisplayContainer>
+            </DisplayContainer>}
         </>
     );
 }

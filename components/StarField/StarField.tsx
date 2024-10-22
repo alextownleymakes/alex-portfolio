@@ -85,6 +85,7 @@ const StarField: React.FC<StarFieldProps> = ({ width, height }) => {
         };
       })
     );
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [playerVelocity, width, height]);
 
   return (

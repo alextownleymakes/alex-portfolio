@@ -16,6 +16,7 @@ export interface GameState {
     velocity: Coords;
     speed: number;
     rotation: number;
+    dev: boolean;
 }
 
 const initialState: GameState = {
@@ -28,6 +29,7 @@ const initialState: GameState = {
     velocity: { x: 0, y: 0 },
     speed: 0,
     rotation: 0,
+    dev: true,
 };
 
 const gameStateSlice = createSlice({

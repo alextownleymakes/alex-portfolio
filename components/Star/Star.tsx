@@ -15,10 +15,11 @@ interface StarProps {
     miniMap?: boolean; // Whether the star is in the mini map
 }
 
-const Star: React.FC<StarProps> = ({ star, active = false, system, miniMap = false }) => {
+const Star: React.FC<StarProps> = ({ star, system, miniMap = false }) => {
 
     const zoom = useSelector((state: RootState) => state.gameState.zoom);
-    const ratio = !miniMap ? ratios[zoom] : ratios[zoom] / 4;
+    const dev = useSelector((state: RootState) => state.gameState.dev);
+    const ratio = !miniMap ? ratios[zoom] : ratios[zoom] / 10;
 
     const starRef = React.useRef<HTMLDivElement>(null);
 
@@ -47,7 +48,8 @@ const Star: React.FC<StarProps> = ({ star, active = false, system, miniMap = fal
                 top: starTop, // Use pixel-based position for accuracy
                 width: starSize + 'px',
                 height: starSize + 'px',
-                backgroundColor: star.color,
+                backgroundColor: miniMap ? 'transparent' : star.color,
+                border: miniMap ? `2px solid ${star.color}` : 'none',
                 borderRadius: '50%',
                 display: 'flex',
                 alignItems: 'center',
@@ -58,7 +60,7 @@ const Star: React.FC<StarProps> = ({ star, active = false, system, miniMap = fal
             }}
         >
             {!miniMap && (
-                <div style={{ position: 'relative', left: star.radius + 5 }}>{star.name} - DTP: {distanceToPlayer().toFixed(0)}; x: {starPosX}; y: {starPosY}</div>
+                <div style={{ position: 'relative', left: star.radius + 5 }}>{star.name} {dev && (`- DTP: ${distanceToPlayer().toFixed(0)}; x: ${starPosX}; y: ${starPosY}`)}</div>
             )}
         </div>
     );

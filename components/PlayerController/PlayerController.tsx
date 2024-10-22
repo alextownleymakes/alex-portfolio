@@ -47,12 +47,13 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
         animationFrameId = requestAnimationFrame(gameLoop);
 
         return () => cancelAnimationFrame(animationFrameId);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [keyState, playerState]);
 
 
 
     const movePlayer = (state: PlayerState, keyState: KeyState): PlayerState => {
-        const { isThrusting, isTurningLeft, isTurningRight, isRefacing, isBraking } = keyState;
+        const { isThrusting, isTurningLeft, isTurningRight, isRefacing, isBraking, devToggle } = keyState;
 
         let newVelocityX = state.velocity.x;
         let newVelocityY = state.velocity.y;
@@ -98,6 +99,10 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
             } else {
                 newState.rotation = (newState.rotation + shortestRotationDirection * rotationStep + 360) % 360;
             }
+        }
+
+        if (devToggle) {
+            newState.dev = !state.dev;
         }
 
         const newPosition = {

@@ -16,7 +16,7 @@ interface MiniMapStarSystemProps {
 }
 
 const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system, onFlyNearStar }) => {
-  const systemSize = 125;
+  const systemSize = useSelector((state: RootState) => state.gameState.galaxySize);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
   const ratio = ratios[zoom] / 10;
 

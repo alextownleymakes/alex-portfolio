@@ -7,9 +7,6 @@ interface UniverseProps {
 const Universe: React.FC<UniverseProps> = ({
     children
 }) => {
-
-        const playerState = useSelector((state: RootState) => state.gameState);
-
         return (
             <div
                 style={{
