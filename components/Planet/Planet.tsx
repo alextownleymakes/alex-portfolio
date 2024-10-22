@@ -18,27 +18,18 @@ interface PlanetProps {
 
 const Planet: React.FC<PlanetProps> = ({ system, star, planet, radius, color }) => {
 
-  const planetRef = React.useRef<HTMLDivElement>(null);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
+  const ratio = ratios[zoom];
 
-  const [planetPosition, setPlanetPosition] = React.useState({
-    x: star.position.x + planet.position.x,
-    y: star.position.y + planet.position.y,
-  });
+  const planetRef = React.useRef<HTMLDivElement>(null);
+  const { distanceToPlayer } = useApproach(planetRef, { x: (star.position.x + system.position.x + planet.position.x) * ratio, y: (star.position.y + system.position.y + planet.position.y) * ratio }, scales.Planet);
 
-  const { distanceToPlayer } = useApproach(planetRef, { x: (star.position.x + system.position.x + planet.position.x) * ratios[zoom], y: (star.position.y + system.position.y + planet.position.y) * ratios[zoom] }, scales.Planet);
+  const planetPosX = ((system.position.x + star.position.x + planet.position.x) * ratio);
+  const planetPosY = ((system.position.y + star.position.y + planet.position.y) * ratio);
+  const planetLeft = `calc(${(star.position.x + planet.position.x) * ratio}px + 50% - ${(planet.radius * ratio) / 2}px)`;
+  const planetTop = `calc(${(star.position.y + planet.position.y) * ratio}px + 50% - ${(planet.radius * ratio) / 2}px)`;
 
-  React.useEffect(() => {
-    planetRef.current && planetRef.current.parentElement && setPlanetPosition({
-      x: ((star.position.x + planet.position.x) * ratios[zoom]) + (planetRef.current?.parentElement?.offsetWidth / 2),
-      y: ((star.position.y + planet.position.y) * ratios[zoom]) + (planetRef.current?.parentElement?.offsetWidth / 2),
-    });
-  }, [planetRef.current]);
-
-  const planetLeft = `calc(${(star.position.x + planet.position.x) * ratios[zoom]}px + 50% - ${(star.radius * ratios[zoom]) / 2}px)`;
-  const planetTop = `calc(${(star.position.y + planet.position.y) * ratios[zoom]}px + 50% - ${(star.radius * ratios[zoom]) / 2}px)`;
-  console.log(planet.name, 'planetLeft', planetLeft, 'planetTop', planetTop)
-  const planetSize = (radius * ratios[zoom]);
+  const planetSize = (radius * ratio);
   return (
     <>
       <div
@@ -54,17 +45,13 @@ const Planet: React.FC<PlanetProps> = ({ system, star, planet, radius, color }) 
           borderRadius: '50%',
           display: 'flex',
           alignItems: 'center',
-          // justifyContent: 'center',
           color: '#999',
           fontSize: '0.7rem',
           textTransform: 'uppercase',
         }}
       >
-        <div style={{ position: 'relative', left: radius + 5 }}>{planet.name}, DTP: {distanceToPlayer()} </div>
+        <div style={{ position: 'relative', left: radius + 5 }}>{planet.name}, DTP: {distanceToPlayer().toFixed(0)}; x: {planetPosX}, y: {planetPosY} </div>
       </div>
-      {zoom > scales.Star && planet.moons && planet.moons.map((moon) => (
-        <Moon key={moon.name} system={system} star={star} planet={planet} moon={moon} radius={moon.radius} color={moon.color || 'gray'} label={moon.name} />
-      ))}
     </>
   );
 };

@@ -16,32 +16,24 @@ interface MoonProps {
   label: string; // Label for the planet (e.g., "Home", "Projects", etc.)
 }
 
-const Planet: React.FC<MoonProps> = ({ system, star, planet, moon, radius, color }) => {
+const Moon: React.FC<MoonProps> = ({ system, star, planet, moon, radius, color }) => {
 
   const moonRef = React.useRef<HTMLDivElement>(null);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
+  const ratio = ratios[zoom];
 
-  const [moonPosition, setMoonPosition] = React.useState({
-    x: star.position.x + planet.position.x,
-    y: star.position.y + planet.position.y,
-  });
+  const { distanceToPlayer } = useApproach(moonRef, { x: (star.position.x + system.position.x + planet.position.x + moon.position.x) * ratio, y: (star.position.y + system.position.y + planet.position.y + moon.position.y) * ratio }, scales.Moon);
 
-  const { distanceToPlayer } = useApproach(moonRef, { x: (star.position.x + system.position.x + planet.position.x + moon.position.x) * ratios[zoom], y: (star.position.y + system.position.y + planet.position.y + moon.position.y) * ratios[zoom] }, scales.Moon);
+  const moonLeft = `calc(${(star.position.x + planet.position.x + moon.position.x) * ratio}px + 50% - ${(moon.radius * ratio) / 2}px)`;
+  const moonTop = `calc(${(star.position.y + planet.position.y + moon.position.y) * ratio}px + 50% - ${(moon.radius * ratio) / 2}px)`;
 
-  React.useEffect(() => {
-    moonRef.current && moonRef.current.parentElement && setMoonPosition({
-      x: ((star.position.x + planet.position.x) * ratios[zoom]) + (moonRef.current?.parentElement?.offsetWidth / 2),
-      y: ((star.position.y + planet.position.y) * ratios[zoom])+ (moonRef.current?.parentElement?.offsetWidth / 2),
-    });
-  }, [moonRef.current]);
-
-  const moonLeft = `calc(${(star.position.x + planet.position.x + moon.position.x) * ratios[zoom]}px + 50% - ${(star.radius * ratios[zoom]) / 2}px)`;
-  const moonTop = `calc(${(star.position.y + planet.position.y) * ratios[zoom]}px + 50% - ${(star.radius * ratios[zoom]) / 2}px)`;
-  const moonSize = (radius * ratios[zoom]);
+  const moonCenterX = ((star.position.x + planet.position.x + moon.position.x) * ratio)
+  const moonCenterY = ((star.position.y + planet.position.y + moon.position.y) * ratio);
+  const moonSize = (radius * ratio);
   return (
     <div
-    id={moon.name}
-    ref={moonRef}
+      id={moon.name}
+      ref={moonRef}
       style={{
         position: 'absolute',
         left: `${moonLeft}`, // Use pixel-based position for accuracy
@@ -52,15 +44,14 @@ const Planet: React.FC<MoonProps> = ({ system, star, planet, moon, radius, color
         borderRadius: '50%',
         display: 'flex',
         alignItems: 'center',
-        // justifyContent: 'center',
         color: '#999',
         fontSize: '0.7rem',
         textTransform: 'uppercase',
       }}
     >
-      <div style={{position: 'relative', left: radius+5}}>{moon.name}, DTP: {distanceToPlayer()} </div>
+      <div style={{ position: 'relative', left: radius + 5 }}>{moon.name}, DTP: {distanceToPlayer().toFixed(0)}; x: {moonCenterX}, y: {moonCenterY} </div>
     </div>
   );
 };
 
-export default Planet;
+export default Moon;

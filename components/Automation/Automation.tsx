@@ -5,6 +5,12 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { ratios } from "../../utils/functions/zoom";
 import { GameState, updatePosition } from "@/state/gameStateSlice";
+import DevDisplay from "../DevDisplay/DevDisplay";
+import DisplayContainer from "../DisplayContainer/DisplayContainer";
+import KeyboardHUD from "../KeyboardHUD/KeyboardHUD";
+import MiniMap from "../MiniMap/MiniMap";
+import { systems } from '../../utils/systems/systems';
+
 
 interface AutomationProps {
     children: React.ReactNode,
@@ -14,9 +20,6 @@ const Automation: React.FC<AutomationProps> = ({
 }) => {
 
     const dispatch = useDispatch();
-    const state = useSelector((state: RootState) => state.gameState);
-
-    const { position, zoomedPosition, velocity, speed, rotation, zoom } = state;
 
     // useEffect(() => {
     //     const newPosition = {
@@ -36,41 +39,24 @@ const Automation: React.FC<AutomationProps> = ({
                 height: "100vh",
             }}
         >
-            <div style={{
-                position: "absolute",
-                top: 0,
-                left: 0,
-                padding: 10,
-                margin: 10,
-                backgroundColor: "rgba(255, 255, 255, 0.1)",
-                color: "white",
-                borderRadius: 5,
-                zIndex: 1000,
-                width: 300,
-            }}>
-                <ol>
-                    <li>
-                        Player Position: {position.x.toFixed(0)}, {position.y.toFixed(0)}
-                    </li>
-                    <li>
-                        Zoomed Position: {zoomedPosition.x.toFixed(0)}, {zoomedPosition.y.toFixed(0)}
-                    </li>
-                    <li>
-                        Player Velocity: {velocity.x.toFixed(0)}, {velocity.y.toFixed(0)}
-                    </li>
-                    <li>
-                        Player Speed: {speed.toFixed(0)}
-                    </li>
-                    <li>
-                        Player Rotation: {rotation.toFixed(0)}
-                    </li>
-                    <li>
-                        Player Zoom: {zoom.toFixed(0)}
-                    </li>
-                </ol>
-            </div>
+            <DisplayContainer>
+                <DevDisplay />
+            </DisplayContainer>
+            <DisplayContainer
+                right={0}
+            >
+                <KeyboardHUD />
+            </DisplayContainer>
+            <DisplayContainer
+                right={0}
+                bottom={0}
+            >
+                <MiniMap 
+                    systems={systems}
+                />
+            </DisplayContainer>
             {children}
-        </div>
+        </div >
     );
 }
 

@@ -1,12 +1,11 @@
 // Star.tsx
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import { Star as StarType } from '../../utils/types/stellarBodies'; // Import the Star type and StarPhase enum
 import { StarSystem as StarSystemType } from '../../utils/types/stellarBodies';
 import { ratios, scales } from '../../utils/functions/zoom';
 import { RootState } from '../../state/store';
 import useApproach from '@/hooks/useApproach';
-import Planet from '../Planet/Planet';
 
 interface StarProps {
     star: StarType;
@@ -19,13 +18,15 @@ const Star: React.FC<StarProps> = ({ star, active = false, system }) => {
 
     const zoom = useSelector((state: RootState) => state.gameState.zoom);
     const ratio = ratios[zoom];
-    const starSize = (star.radius * ratio) + 'px';
 
     const starRef = React.useRef<HTMLDivElement>(null);
-    const { distanceToPlayer } = useApproach(starRef, { x: (star.position.x + system.position.x) * ratios[zoom], y: (star.position.y + system.position.y) * ratios[zoom] }, scales.Star);
+    const { distanceToPlayer } = useApproach(starRef, { x: (star.position.x + system.position.x) * ratio, y: (star.position.y + system.position.y) * ratio }, scales.StarSystem);
 
+    const starPosX = ((star.position.x + system.position.x) * ratio);
+    const starPosY = ((star.position.y + system.position.y) * ratio);
     const starLeft = `calc(${star.position.x * ratio}px + 50% - ${(star.radius * ratio) / 2}px)`;
     const starTop = `calc(${star.position.y * ratio}px + 50% - ${(star.radius * ratio) / 2}px)`;
+    const starSize = (star.radius * ratio);
 
     return (
         <div
@@ -35,8 +36,8 @@ const Star: React.FC<StarProps> = ({ star, active = false, system }) => {
                 position: 'absolute',
                 left: starLeft, // Use pixel-based position for accuracy
                 top: starTop, // Use pixel-based position for accuracy
-                width: starSize,
-                height: starSize,
+                width: starSize + 'px',
+                height: starSize + 'px',
                 backgroundColor: star.color,
                 borderRadius: '50%',
                 display: 'flex',
@@ -47,10 +48,8 @@ const Star: React.FC<StarProps> = ({ star, active = false, system }) => {
                 transition: 'all .2s ease-in-out',
             }}
         >
-            {/* <div>DTP: {distanceToPlayer().toFixed(0)}</div> */}
-            <div style={{ position: 'relative', left: star.radius + 5 }}>{star.name}</div>
+            <div style={{ position: 'relative', left: star.radius + 5 }}>{star.name} - DTP: {distanceToPlayer().toFixed(0)}; x: {starPosX}; y: {starPosY}</div>
         </div>
-
     );
 };
 

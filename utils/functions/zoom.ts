@@ -34,12 +34,12 @@ export const scales: { [key: string]: number } = {
 }
 
 export const scaleDistances: { [key: string]: number } = {
-    0: 802,
-    1: 401,
-    2: 200,
-    3: 50,
-    4: 20,
-    5: 5,
+    0: 600,
+    1: 200,
+    2: 100,
+    3: 20,
+    4: 10,
+    5: 3,
 }
 
 export type ScalesType = typeof scales;

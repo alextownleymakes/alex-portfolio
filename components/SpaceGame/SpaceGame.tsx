@@ -5,7 +5,6 @@ import StarField from "../StarField/StarField";
 import Universe from '../Universe/Universe';
 import Galaxy from '../Galaxy/Galaxy';
 import Player from "../Player/Player";
-import Planet from "../Planet/Planet";
 import { systems } from '../../utils/systems/systems';
 import PlayerController from '../PlayerController/PlayerController';
 import Automation from '../Automation/Automation';

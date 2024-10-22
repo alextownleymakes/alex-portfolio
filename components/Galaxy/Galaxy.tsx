@@ -6,12 +6,11 @@ import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
 import StarSystem from '../StarSystem/StarSystem';
 import { ratios } from '../../utils/functions/zoom';
+import { useCursor } from '@/hooks/useCursor';
 
 interface GalaxyProps {
     systems: StarSystemType[]
 }
-
-export const baseSize = 100000;
 
 const Galaxy: React.FC<GalaxyProps> = ({
     systems,
@@ -21,6 +20,12 @@ const Galaxy: React.FC<GalaxyProps> = ({
     const { position, universeSize, zoomedPosition, velocity, speed, rotation, zoom } = playerState;
 
     const galaxyRef = React.useRef<HTMLDivElement>(null);
+
+    const cursorCoords = useCursor(galaxyRef);
+
+    React.useEffect(() => {
+        console.log('cursorCoords - x: ', cursorCoords?.x, ', y:  ', cursorCoords?.y);
+    }, [cursorCoords]);
 
     // React.useEffect(() => {
     //     const galaxyPos = {
@@ -43,6 +48,7 @@ const Galaxy: React.FC<GalaxyProps> = ({
         return (
             <div
                 ref={galaxyRef}
+                id="galaxy"
                 style={{
                     width: universeSize * ratios[zoom],
                     height: universeSize * ratios[zoom],
