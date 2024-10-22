@@ -26,4 +26,24 @@
     top: 50%;
     transform: translate(-50%, -50%);
   }
+
+  .mm-outer-triangle {
+    width: 0;
+    height: 0;
+    border-top: 10px solid transparent;
+    border-bottom: 10px solid transparent;
+    border-left: 40px solid transparent; /* Adjust the size and color as needed */
+  }
+
+  .mm-inner-triangle {
+    position: absolute;
+    width: 0;
+    height: 0;
+    border-top: 3px solid transparent;
+    border-bottom: 3px solid transparent;
+    border-left: 10px solid #44ab10; /* Adjust the size and color as needed */
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%);
+  }
   

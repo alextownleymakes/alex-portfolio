@@ -14,15 +14,24 @@ interface PlanetProps {
   radius: number; // Size of the planet
   color: string; // Planet color
   label: string; // Label for the planet (e.g., "Home", "Projects", etc.)
+  miniMap?: boolean;
 }
 
-const Planet: React.FC<PlanetProps> = ({ system, star, planet, radius, color }) => {
+const Planet: React.FC<PlanetProps> = ({ system, star, planet, radius, color, miniMap = false }) => {
 
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
-  const ratio = ratios[zoom];
+  const ratio = !miniMap ? ratios[zoom] : ratios[zoom] / 4;
 
   const planetRef = React.useRef<HTMLDivElement>(null);
-  const { distanceToPlayer } = useApproach(planetRef, { x: (star.position.x + system.position.x + planet.position.x) * ratio, y: (star.position.y + system.position.y + planet.position.y) * ratio }, scales.Planet);
+
+  const useApproachProps = {
+    ref: planetRef,
+    coords: { x: (star.position.x + system.position.x + planet.position.x) * ratio, y: (star.position.y + system.position.y + planet.position.y) * ratio },
+    scale: scales.Planet,
+    miniMap
+  };
+
+  const { distanceToPlayer } = useApproach(useApproachProps);
 
   const planetPosX = ((system.position.x + star.position.x + planet.position.x) * ratio);
   const planetPosY = ((system.position.y + star.position.y + planet.position.y) * ratio);
@@ -33,6 +42,7 @@ const Planet: React.FC<PlanetProps> = ({ system, star, planet, radius, color }) 
   return (
     <>
       <div
+        key={planet.name + miniMap ? '-mm' : ''}
         id={planet.name}
         ref={planetRef}
         style={{
@@ -50,7 +60,9 @@ const Planet: React.FC<PlanetProps> = ({ system, star, planet, radius, color }) 
           textTransform: 'uppercase',
         }}
       >
-        <div style={{ position: 'relative', left: radius + 5 }}>{planet.name}, DTP: {distanceToPlayer().toFixed(0)}; x: {planetPosX}, y: {planetPosY} </div>
+        {!miniMap && (
+          <div style={{ position: 'relative', left: radius + 5 }}>{planet.name}, DTP: {distanceToPlayer().toFixed(0)}; x: {planetPosX}, y: {planetPosY} </div>
+        )}
       </div>
     </>
   );

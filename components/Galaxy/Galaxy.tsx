@@ -7,6 +7,7 @@ import { useSelector } from 'react-redux';
 import StarSystem from '../StarSystem/StarSystem';
 import { ratios } from '../../utils/functions/zoom';
 import { useCursor } from '@/hooks/useCursor';
+import DisplayContainer from '../DisplayContainer/DisplayContainer';
 
 interface GalaxyProps {
     systems: StarSystemType[]
@@ -19,42 +20,33 @@ const Galaxy: React.FC<GalaxyProps> = ({
 
     const { position, universeSize, zoomedPosition, velocity, speed, rotation, zoom } = playerState;
 
+    const ratio = ratios[zoom];
     const galaxyRef = React.useRef<HTMLDivElement>(null);
-
     const cursorCoords = useCursor(galaxyRef);
 
     React.useEffect(() => {
         console.log('cursorCoords - x: ', cursorCoords?.x, ', y:  ', cursorCoords?.y);
+        console.log('position - x: ', position.x, ', y:  ', position.y);
+        console.log('zoomedPosition - x: ', zoomedPosition.x, ', y:  ', zoomedPosition.y);
     }, [cursorCoords]);
 
-    // React.useEffect(() => {
-    //     const galaxyPos = {
-    //         x: -((universeSize * ratios[zoom]) / 2) + (window.innerWidth/2) - (zoomedPosition.x !== 0 ? zoomedPosition.x : position.x),
-    //         y: -((universeSize * ratios[zoom]) / 2) + (window.innerHeight/2) - (zoomedPosition.y !== 0 ? zoomedPosition.y : position.y),
-    //     }
 
-    //     if (galaxyRef.current) {
-    //         galaxyRef.current.style.left = `${galaxyPos.x}px`;
-    //         galaxyRef.current.style.top = `${galaxyPos.y}px`;
-    //     }
-    // }, [position]);
+    const visibleSystems = systems.filter(system => {
+        const distance = Math.sqrt(Math.pow(playerState.position.x - system.position.x, 2) + Math.pow(playerState.position.y - system.position.y, 2));
+        return distance < 3000;
+    });
 
-
-        const visibleSystems = systems.filter(system => {
-            const distance = Math.sqrt(Math.pow(playerState.position.x - system.position.x, 2) + Math.pow(playerState.position.y - system.position.y, 2));
-            return distance < 3000;
-        });
-
-        return (
+    return (
+        <>
             <div
                 ref={galaxyRef}
                 id="galaxy"
                 style={{
-                    width: universeSize * ratios[zoom],
-                    height: universeSize * ratios[zoom],
+                    width: universeSize * ratio,
+                    height: universeSize * ratio,
                     position: 'absolute',
-                    left: -((universeSize * ratios[zoom]) / 2) + (window.innerWidth/2) - (zoomedPosition.x !== 0 ? zoomedPosition.x : position.x),
-                    top: -((universeSize * ratios[zoom]) / 2) + (window.innerHeight/2) - (zoomedPosition.y !== 0 ? zoomedPosition.y : position.y),
+                    left: -((universeSize * ratio) / 2) + (window.innerWidth / 2) - (zoomedPosition.x !== 0 ? zoomedPosition.x : position.x),
+                    top: -((universeSize * ratio) / 2) + (window.innerHeight / 2) - (zoomedPosition.y !== 0 ? zoomedPosition.y : position.y),
                     // transition: 'all .1s ease-in-out',
                 }}>
                 {visibleSystems.map((system) => (
@@ -64,7 +56,15 @@ const Galaxy: React.FC<GalaxyProps> = ({
                     />
                 ))}
             </div>
-        );
-    }
+            <DisplayContainer
+                top={310}
+                left={0}
+                height={45}
+            >
+                x: {cursorCoords?.x}, y: {cursorCoords?.y}
+            </DisplayContainer>
+        </>
+    );
+}
 
 export default Galaxy;

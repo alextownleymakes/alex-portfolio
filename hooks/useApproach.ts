@@ -6,14 +6,23 @@ import { RootState } from "../state/store";
 import { Coords, zoomIn, zoomOut } from "@/state/gameStateSlice";
 import { ratios, scaleDistances } from "@/utils/functions/zoom";
 
-const useApproach = (ref: React.RefObject<HTMLElement>, coords: Coords, scale: number): { approachDistance: number, distanceToPlayer: () => number, systemCenter: { x: number, y: number }, activeSystem: boolean } => {
+interface useApproachProps {
+    ref: React.RefObject<HTMLElement>;
+    coords: Coords;
+    scale: number;
+    miniMap?: boolean;
+}
+
+const useApproach = (
+    { ref, coords, scale, miniMap = false }: useApproachProps
+): { approachDistance: number, distanceToPlayer: () => number, systemCenter: { x: number, y: number }, activeSystem: boolean } => {
 
     const dispatch = useDispatch();
     const playerPosition = useSelector((state: RootState) => state.gameState.zoomedPosition);
     const zoom = useSelector((state: RootState) => state.gameState.zoom);
     const approachDistance = scaleDistances[scale];
 
-    
+
     const [systemCenter, setSystemCenter] = useState({
         x: ref.current ? coords.x : 0,
         y: ref.current ? coords.y : 0,
@@ -26,7 +35,7 @@ const useApproach = (ref: React.RefObject<HTMLElement>, coords: Coords, scale: n
             y: ref.current ? coords.y : 0,
         });
 
-    }, [ref.current]);    
+    }, [ref.current]);
 
     const [zoomed, setZoomed] = useState(false);
 
@@ -35,14 +44,14 @@ const useApproach = (ref: React.RefObject<HTMLElement>, coords: Coords, scale: n
     }
 
     useEffect(() => {
-        console.log('systemCenter.x', systemCenter.x, 'systemCenter.y', systemCenter.y, 'distance to player', distanceToPlayer(), 'approach distance', approachDistance * ratios[zoom], 'zoom', zoom, 'scale', scale);
-        if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distanceToPlayer() < (approachDistance * ratios[zoom] ) && !zoomed && zoom === scale - 1) {
-            console.log(ref.current?.id, 'System center', systemCenter, coords, 'approach distance', approachDistance * ratios[zoom], 'zoom', zoom, 'scale', scale, 'distance to player', distanceToPlayer());
-            setZoomed(true);
-            dispatch(zoomIn({scale}));
-        } else if ( (systemCenter.x !== 0 && systemCenter.y !== 0) && distanceToPlayer() > ((approachDistance * ratios[zoom]) * 2 ) && zoomed && zoom === scale) {
-            setZoomed(false);
-            dispatch(zoomOut({scale: scale - 1}));
+        if (!miniMap) {
+            if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distanceToPlayer() < (approachDistance * ratios[zoom]) && !zoomed && zoom === scale - 1) {
+                setZoomed(true);
+                dispatch(zoomIn({ scale }));
+            } else if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distanceToPlayer() > ((approachDistance * ratios[zoom]) * 2) && zoomed && zoom === scale) {
+                setZoomed(false);
+                dispatch(zoomOut({ scale: scale - 1 }));
+            }
         }
     }, [distanceToPlayer()]);
     return { approachDistance, distanceToPlayer, systemCenter, activeSystem: zoomed };

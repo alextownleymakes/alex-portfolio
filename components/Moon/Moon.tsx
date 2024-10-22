@@ -14,15 +14,23 @@ interface MoonProps {
   radius: number; // Size of the planet
   color: string; // Planet color
   label: string; // Label for the planet (e.g., "Home", "Projects", etc.)
+  miniMap?: boolean; // Whether the star is in the mini map
 }
 
-const Moon: React.FC<MoonProps> = ({ system, star, planet, moon, radius, color }) => {
+const Moon: React.FC<MoonProps> = ({ system, star, planet, moon, radius, color, miniMap = false  }) => {
 
   const moonRef = React.useRef<HTMLDivElement>(null);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
-  const ratio = ratios[zoom];
+  const ratio = !miniMap ? ratios[zoom] : ratios[zoom] / 4;
 
-  const { distanceToPlayer } = useApproach(moonRef, { x: (star.position.x + system.position.x + planet.position.x + moon.position.x) * ratio, y: (star.position.y + system.position.y + planet.position.y + moon.position.y) * ratio }, scales.Moon);
+  const useApproachProps = {
+    ref: moonRef,
+    coords: { x: (star.position.x + system.position.x + planet.position.x + moon.position.x) * ratio, y: (star.position.y + system.position.y + planet.position.y + moon.position.y) * ratio },
+    scale: scales.Moon,
+    miniMap
+  }
+
+  const { distanceToPlayer } = useApproach(useApproachProps);
 
   const moonLeft = `calc(${(star.position.x + planet.position.x + moon.position.x) * ratio}px + 50% - ${(moon.radius * ratio) / 2}px)`;
   const moonTop = `calc(${(star.position.y + planet.position.y + moon.position.y) * ratio}px + 50% - ${(moon.radius * ratio) / 2}px)`;
@@ -32,6 +40,7 @@ const Moon: React.FC<MoonProps> = ({ system, star, planet, moon, radius, color }
   const moonSize = (radius * ratio);
   return (
     <div
+    key={moon.name + miniMap ? '-mm' : ''}
       id={moon.name}
       ref={moonRef}
       style={{
@@ -49,7 +58,9 @@ const Moon: React.FC<MoonProps> = ({ system, star, planet, moon, radius, color }
         textTransform: 'uppercase',
       }}
     >
-      <div style={{ position: 'relative', left: radius + 5 }}>{moon.name}, DTP: {distanceToPlayer().toFixed(0)}; x: {moonCenterX}, y: {moonCenterY} </div>
+      {!miniMap && (
+        <div style={{ position: 'relative', left: radius + 5 }}>{moon.name}, DTP: {distanceToPlayer().toFixed(0)}; x: {moonCenterX}, y: {moonCenterY} </div>
+      )}
     </div>
   );
 };

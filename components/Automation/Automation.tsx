@@ -10,6 +10,7 @@ import DisplayContainer from "../DisplayContainer/DisplayContainer";
 import KeyboardHUD from "../KeyboardHUD/KeyboardHUD";
 import MiniMap from "../MiniMap/MiniMap";
 import { systems } from '../../utils/systems/systems';
+import Player from "../Player/Player";
 
 
 interface AutomationProps {
@@ -51,9 +52,10 @@ const Automation: React.FC<AutomationProps> = ({
                 right={0}
                 bottom={0}
             >
-                <MiniMap 
+                <MiniMap
                     systems={systems}
                 />
+                <Player miniMap={true} />
             </DisplayContainer>
             {children}
         </div >

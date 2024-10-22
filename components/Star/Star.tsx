@@ -12,15 +12,23 @@ interface StarProps {
     active?: boolean; // Whether the star is the active star
     onFlyNear?: () => void; // Callback when the user flies near the star
     system: StarSystemType;
+    miniMap?: boolean; // Whether the star is in the mini map
 }
 
-const Star: React.FC<StarProps> = ({ star, active = false, system }) => {
+const Star: React.FC<StarProps> = ({ star, active = false, system, miniMap = false }) => {
 
     const zoom = useSelector((state: RootState) => state.gameState.zoom);
-    const ratio = ratios[zoom];
+    const ratio = !miniMap ? ratios[zoom] : ratios[zoom] / 4;
 
     const starRef = React.useRef<HTMLDivElement>(null);
-    const { distanceToPlayer } = useApproach(starRef, { x: (star.position.x + system.position.x) * ratio, y: (star.position.y + system.position.y) * ratio }, scales.StarSystem);
+
+    const useApproachProps = {
+        ref: starRef,
+        coords: { x: (star.position.x + system.position.x) * ratio, y: (star.position.y + system.position.y) * ratio },
+        scale: scales.StarSystem,
+        miniMap
+    };
+    const { distanceToPlayer } = useApproach(useApproachProps);
 
     const starPosX = ((star.position.x + system.position.x) * ratio);
     const starPosY = ((star.position.y + system.position.y) * ratio);
@@ -30,6 +38,7 @@ const Star: React.FC<StarProps> = ({ star, active = false, system }) => {
 
     return (
         <div
+        key={star.name + miniMap ? '-mm' : ''}
             ref={starRef}
             id={star.name}
             style={{
@@ -48,7 +57,9 @@ const Star: React.FC<StarProps> = ({ star, active = false, system }) => {
                 transition: 'all .2s ease-in-out',
             }}
         >
-            <div style={{ position: 'relative', left: star.radius + 5 }}>{star.name} - DTP: {distanceToPlayer().toFixed(0)}; x: {starPosX}; y: {starPosY}</div>
+            {!miniMap && (
+                <div style={{ position: 'relative', left: star.radius + 5 }}>{star.name} - DTP: {distanceToPlayer().toFixed(0)}; x: {starPosX}; y: {starPosY}</div>
+            )}
         </div>
     );
 };
