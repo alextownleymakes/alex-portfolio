@@ -106,8 +106,8 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
         }
 
         const newPosition = {
-            x: state.position.x + newVelocityX / (ratios[state.zoom]*ratios[state.zoom]), 
-            y: state.position.y + newVelocityY / (ratios[state.zoom]*ratios[state.zoom]),
+            x: state.position.x + newVelocityX / ((ratios[state.zoom]*ratios[state.zoom]) / (.5 * ratios[state.zoom])), 
+            y: state.position.y + newVelocityY / ((ratios[state.zoom]*ratios[state.zoom]) / (.5 * ratios[state.zoom])),
         };
 
         const newZoomedPosition = {
