@@ -1,4 +1,7 @@
-interface DisplayContainerProps {
+import { StylesType } from "@/utils/types/components";
+
+interface DisplayContainerProps extends React.HTMLAttributes<HTMLDivElement> {
+    position?: "absolute" | "relative" | "fixed",
     top?: number,
     left?: number,
     right?: number,
@@ -12,8 +15,13 @@ interface DisplayContainerProps {
     children: React.ReactNode,
     border?: string,
     borderRadius?: number | string,
+    zIndex?: number,
+    transform?: string,
+    transition?: string,
+    styles?: StylesType,
 }
 const DisplayContainer: React.FC<DisplayContainerProps> = ({
+    position: position = 'absolute',
     top: top = 'auto',
     left: left = 'auto',
     right: right = 'auto',
@@ -26,28 +34,39 @@ const DisplayContainer: React.FC<DisplayContainerProps> = ({
     id: id = 'display-container',
     border: border = 'none',
     borderRadius: borderRadius = 5,
-    children
+    children,
+    styles
 }) => {
+
+    const styleProps = {
+        position,
+        top,
+        left,
+        right,
+        bottom,
+        height,
+        width,
+        padding,
+        margin,
+        backgroundColor,
+        id,
+        border,
+        borderRadius,
+        zIndex: 1000,
+        overflow: 'hidden',
+    }
+
+    const stylesObj = {...styles };
+
+    const finalStyles = {
+        ...styleProps,
+        ...stylesObj
+    };
+
     return (
         <div
             id={id}
-            style={{
-                position: "absolute",
-                top,
-                left,
-                bottom,
-                right,
-                padding,
-                margin,
-                backgroundColor,
-                color: "white",
-                zIndex: 1000,
-                width,
-                height,
-                border,
-                borderRadius,
-                overflow: 'hidden',
-            }}>
+            style={finalStyles}>
             {children}
         </div>
     );

@@ -12,6 +12,7 @@ export const starA: Star = {
     O: 0.015,
     Fe: 0.001,
   },
+  planets: [],
   phase: StarPhase.MainSequence,
   density: 1.45, // g/cm³
   luminosity: 3.95e26, // Watts
@@ -32,6 +33,7 @@ export const starB: Star = {
     O: 0.012,
     Fe: 0.001,
   },
+  planets: [],
   phase: StarPhase.MainSequence,
   density: 1.38, // g/cm³
   luminosity: 2.85e26, // Watts
