@@ -60,14 +60,14 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
 
         const newState = { ...state };
 
-        if (isTurningLeft) {
+        if (isTurningLeft.pressed) {
             newState.rotation = (newState.rotation - 3 + 360) % 360;
         }
-        if (isTurningRight) {
+        if (isTurningRight.pressed) {
             newState.rotation = (newState.rotation + 3) % 360; 
         }
 
-        if (isThrusting) {
+        if (isThrusting.pressed) {
             newState.speed = Math.min(newState.speed + 1, 100); 
             const angle = (newState.rotation - 90) * (Math.PI / 180);
             const thrustVelocityX = Math.cos(angle) * 0.1;
@@ -76,13 +76,13 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
             newVelocityY = newVelocityY * 0.98 + thrustVelocityY;
         }
 
-        if (isBraking) {
+        if (isBraking.pressed) {
             newState.speed = Math.max(newState.speed - 1, 0); 
             newVelocityX = newVelocityX * 0.90;
             newVelocityY = newVelocityY * 0.90;
         }
 
-        if (isRefacing) {
+        if (isRefacing.pressed) {
             const angleOfTravel = Math.atan2(newVelocityY, newVelocityX) * (180 / Math.PI);
 
             const targetRotation = (angleOfTravel + 270) % 360;
@@ -101,7 +101,7 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
             }
         }
 
-        if (devToggle) {
+        if (devToggle.pressed) {
             newState.dev = !state.dev;
         }
 

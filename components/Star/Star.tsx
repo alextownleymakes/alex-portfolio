@@ -9,7 +9,6 @@ import useApproach from '@/hooks/useApproach';
 
 interface StarProps {
     star: StarType;
-    active?: boolean; // Whether the star is the active star
     onFlyNear?: () => void; // Callback when the user flies near the star
     system: StarSystemType;
     miniMap?: boolean; // Whether the star is in the mini map

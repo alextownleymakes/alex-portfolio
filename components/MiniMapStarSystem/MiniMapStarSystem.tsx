@@ -6,7 +6,7 @@ import Planet from '../Planet/Planet';
 import { StarSystem as StarSystemType } from '../../utils/types/stellarBodies';
 import { ratios, scales } from '../../utils/functions/zoom';
 import { RootState } from '../../state/store';
-import Moon from '../Moon/Moon';
+import Moon from '../StellarBody/StellarBody';
 
 
 interface MiniMapStarSystemProps {
@@ -25,10 +25,6 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system, onFlyNear
   const starSysLeft = `calc(${system.position.x * ratio}px + 50% - ${(systemSize * ratio) / 2}px)`;
   const starSysTop = `calc(${system.position.y * ratio}px + 50% - ${(systemSize * ratio) / 2}px)`;
   const starSysSize = systemSize * ratio;
-
-  useEffect(() => {
-    console.log('ratio: ', ratio);
-  }, [ratio]);
 
   return (
     <div

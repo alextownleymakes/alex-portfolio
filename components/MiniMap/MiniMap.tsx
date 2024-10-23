@@ -29,12 +29,6 @@ const MiniMap: React.FC<MiniMapProps> = ({
 
     const cursorCoords = useCursor(galaxyRef);
 
-    React.useEffect(() => {
-        console.log('cursorCoords - x: ', cursorCoords?.x, ', y:  ', cursorCoords?.y);
-        console.log('position - x: ', position.x, ', y:  ', position.y);
-        console.log('zoomedPosition - x: ', zoomedPosition.x, ', y:  ', zoomedPosition.y);
-    }, [cursorCoords]);
-
     const galaxyPosX = `calc(-${(universeSize * ratio) / 2}px + 50% - ${((zoomedPosition.x !== 0 ? zoomedPosition.x : position.x) / 10)}px)`;
     const galaxyPosY = `calc(-${(universeSize * ratio) / 2}px + 50% - ${((zoomedPosition.y !== 0 ? zoomedPosition.y : position.y) / 10)}px)`;
     const galaxySize = universeSize * ratio;

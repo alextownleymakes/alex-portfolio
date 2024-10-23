@@ -24,13 +24,6 @@ const Galaxy: React.FC<GalaxyProps> = ({
     const galaxyRef = React.useRef<HTMLDivElement>(null);
     const cursorCoords = useCursor(galaxyRef);
 
-    React.useEffect(() => {
-        console.log('cursorCoords - x: ', cursorCoords?.x, ', y:  ', cursorCoords?.y);
-        console.log('position - x: ', position.x, ', y:  ', position.y);
-        console.log('zoomedPosition - x: ', zoomedPosition.x, ', y:  ', zoomedPosition.y);
-    }, [cursorCoords]);
-
-
     const visibleSystems = systems.filter(system => {
         const distance = Math.sqrt(Math.pow(playerState.position.x - system.position.x, 2) + Math.pow(playerState.position.y - system.position.y, 2));
         return distance < 3000;

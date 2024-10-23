@@ -1,22 +1,52 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 // Define the interface for the state
+
+export interface Key {
+  key: string;
+  pressed: boolean;
+  action: string;
+}
 export interface KeyState {
-  isThrusting: boolean;
-  isRefacing: boolean;
-  isTurningLeft: boolean;
-  isTurningRight: boolean;
-  isBraking: boolean;
-  devToggle: boolean;
+  isThrusting: Key;
+  isRefacing: Key;
+  isTurningLeft: Key;
+  isTurningRight: Key;
+  isBraking: Key;
+  devToggle: Key;
 }
 
 const initialState: KeyState = {
-  isThrusting: false,
-  isRefacing: false,
-  isTurningLeft: false,
-  isTurningRight: false,
-  isBraking: false,
-  devToggle: false,
+  isThrusting: {
+    key: 'w',
+    pressed: false,
+    action: 'thrust',
+  },
+  isRefacing: {
+    key: 's',
+    pressed: false,
+    action: 'reverse orientation',
+  },
+  isTurningLeft: {
+    key: 'a',
+    pressed: false,
+    action: 'rotate left',
+  },
+  isTurningRight: {
+    key: 'd',
+    pressed: false,
+    action: 'rotate right',
+  },
+  isBraking: {
+    key: 'x',
+    pressed: false,
+    action: 'stop',
+  },
+  devToggle: {
+    key: 'z',
+    pressed: false,
+    action: 'dev toggle',
+  }
 };
 
 const keyMap = {
@@ -36,12 +66,14 @@ const keyStateSlice = createSlice({
   initialState,
   reducers: {
     pressKey: (state, action: PayloadAction<{ key: KeyMapType }>) => {
+      if (!keyMap[action.payload.key]) return;
       const stateKey = keyMap[action.payload.key] as KeyStateKeys;
-      state[stateKey] = true;
+      state[stateKey].pressed = true;
     },
     releaseKey: (state, action: PayloadAction<{ key: KeyMapType }>) => {
+      if (!keyMap[action.payload.key]) return;
       const stateKey = keyMap[action.payload.key] as KeyStateKeys;
-      state[stateKey] = false;
+      state[stateKey].pressed = false;
     },
   },
 });

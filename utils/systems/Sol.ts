@@ -47,6 +47,7 @@ export const moon: Moon = {
   radius: 6, // km
   distanceFromPlanet: 0.00257, // AU
   orbitalPeriod: 27.3, // Earth days
+  color: 'Gray',
   chemicalComposition: {
     O: 0.42,
     Si: 0.21,

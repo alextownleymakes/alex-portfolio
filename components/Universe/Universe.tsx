@@ -1,5 +1,4 @@
-import { RootState } from "@/state/store";
-import { useSelector } from "react-redux";
+import React from "react";
 
 interface UniverseProps {
     children: React.ReactNode,

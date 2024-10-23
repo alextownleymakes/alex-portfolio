@@ -4,7 +4,6 @@ import { StarSystem as StarSystemType, Star as StarType, Planet as PlanetType } 
 import { ratios, scales } from '../../utils/functions/zoom';
 import { RootState } from '../../state/store';
 import useApproach from '@/hooks/useApproach';
-import Moon from '../Moon/Moon';
 
 
 interface PlanetProps {

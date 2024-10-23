@@ -25,12 +25,12 @@ export const ratios: { [key: string]: number } = {
 }
 
 export const scales: { [key: string]: number } = {
-    Galaxy: 0,
-    StarSystem: 1,
-    Star: 2,
-    Planet: 3,
-    Moon: 4,
-    Asteroid: 5,
+    galaxy: 0,
+    starSystem: 1,
+    star: 2,
+    planet: 3,
+    moon: 4,
+    asteroid: 5,
 }
 
 export const scaleDistances: { [key: string]: number } = {

@@ -1,0 +1,14 @@
+.key {
+    border-radius: 4px;
+    color: white;
+    background-color: #101d02;
+    border: 1px solid #44ab10;
+    padding: 3px 6px;
+    text-align: center;
+}
+
+.pressed {
+    background-color: #44ab10;
+    color: white;
+    border: 1px solid #101d02;
+}
