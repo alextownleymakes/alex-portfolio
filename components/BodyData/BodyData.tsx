@@ -35,9 +35,10 @@ const BodyData: React.FC<BodyDataProps> = ({
         <span style={{ fontWeight: 600 }}>
             {name}
         </span>
-        : {type}<br />
-        {(`x: ${x}; y: ${y}`)}
-        <br />
+        : {type}
+        {dev && <br />}
+        {dev && `x: ${x}; y: ${y}`}
+        {dev && <br />}
         {dev && (` DTP: ${distanceToPlayer().toFixed(0)};`)}
     </div>)
 

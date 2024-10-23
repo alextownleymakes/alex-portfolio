@@ -29,7 +29,7 @@ const initialState: GameState = {
     velocity: { x: 0, y: 0 },
     speed: 0,
     rotation: 0,
-    dev: true,
+    dev: false,
 };
 
 const gameStateSlice = createSlice({

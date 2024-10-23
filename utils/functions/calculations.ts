@@ -39,12 +39,13 @@ export interface BodyValuesType {
 export interface BodyValuesProps {
     stellarData: StellarDataType;
     ratio: number;
+    dev?: boolean;
     miniMap?: boolean;
 }
 
 export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
 
-    const { stellarData, ratio, miniMap } = data;
+    const { stellarData, ratio, miniMap, dev } = data;
 
     const calc = (f: number): string => `calc(50% + ${f}px)`;
 
@@ -115,16 +116,16 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
 
     const formulateDLeft = (stellarData: StellarDataType): string => {
         const { star, planet, moon } = stellarData;
-        const size = 250 * ratio + 5;
+        const size = 250 * ratio + 10;
         console.log('star, planet, moon: ', star, planet, moon);
-        const formula = (!star && !planet && !moon ) ? size + 'px': `calc(5px + 100%)`;
+        const formula = (!star && !planet && !moon ) ? size + 'px': `calc(10px + 100%)`;
         console.log('formulateDLeft - formula: ', formula);
 
         return formula;
     }
 
     const formulateDTop = () => {
-        return `calc(50% - 1.5rem)`;
+        return `calc(50% - ${dev ? '1.55' : '.5'}rem)`;
     }
 
     const formulateColor = (stellarData: StellarDataType): string => {

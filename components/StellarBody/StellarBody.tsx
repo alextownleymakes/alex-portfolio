@@ -31,6 +31,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
     stellarData,
     miniMap,
     ratio,
+    dev
   }
   
   const bv = bodyValues(bodyValueProps);
