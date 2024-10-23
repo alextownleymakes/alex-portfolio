@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { StarSystem as StarSystemType, Star as StarType, Planet as PlanetType, Moon as MoonType } from '../../utils/types/stellarBodies';
-import { ratios, scales } from '../../utils/functions/zoom';
+import { ratios } from '../../utils/functions/zoom';
 import { RootState } from '../../state/store';
 import useApproach from '@/hooks/useApproach';
 import { StellarDataType, BodyValuesProps, bodyValues, BodyTypes } from '@/utils/functions/calculations';
@@ -35,8 +35,6 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
   
   const bv = bodyValues(bodyValueProps);
   const { x, y, left, top, width, height, backgroundColor, border, dLeft, dTop, name, key } = bv;
-
-  name === 'Sol' && console.log('bv ', bv);
 
   const useApproachProps = {
     ref,

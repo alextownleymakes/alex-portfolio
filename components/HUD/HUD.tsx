@@ -1,10 +1,7 @@
 "use client";
 
 import { RootState } from "@/state/store";
-import { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-import { ratios } from "../../utils/functions/zoom";
-import { GameState, updatePosition } from "@/state/gameStateSlice";
+import { useSelector } from "react-redux";
 import DevDisplay from "../DevDisplay/DevDisplay";
 import DisplayContainer from "../DisplayContainer/DisplayContainer";
 import KeyboardHUD from "../KeyboardHUD/KeyboardHUD";

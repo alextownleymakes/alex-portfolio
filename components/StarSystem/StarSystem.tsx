@@ -17,8 +17,7 @@ interface StarSystemProps {
   miniMap?: boolean; // Whether the star system is in the mini map
 }
 
-const StarSystem: React.FC<StarSystemProps> = ({ system, onFlyNearStar, miniMap = false }) => {
-  const systemSize = useSelector((state: RootState) => state.gameState.galaxySize);
+const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
   const dev = useSelector((state: RootState) => state.gameState.dev);
   const ratio = ratios[zoom];

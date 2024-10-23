@@ -1,5 +1,5 @@
 // StarSystem.tsx
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import Star from '../Star/Star';
 import Planet from '../Planet/Planet';
@@ -44,7 +44,7 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system, onFlyNear
           <Star
             key={`${star.name}-star`} // Using star's name with a suffix as a unique key
             star={star}
-            active={true}
+            // active={true}
             onFlyNear={() => onFlyNearStar?.(star.id)}
             system={system}
             miniMap={true}
@@ -71,10 +71,9 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system, onFlyNear
                       system={system}
                       star={star}
                       planet={planet}
+                      scale={scales.moon}
+                      type={'moon'}
                       moon={moon}
-                      radius={moon.radius}
-                      color={moon.color || 'gray'}
-                      label={moon.name}
                       miniMap={true}
                     />
                   ))}
