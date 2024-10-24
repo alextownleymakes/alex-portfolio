@@ -8,6 +8,7 @@ import useApproach from '@/hooks/useApproach';
 import StellarBody from '../StellarBody/StellarBody';
 import { bodies, BodyTypes, bodyValues } from '@/utils/functions/calculations';
 import BodyData from '../BodyData/BodyData';
+import { Star, Planet, Moon, Asteroid, AsteroidBelt, PlanetVariants, StarVariants, StellarBodies, StarVariantType, PlanetVariantType } from '@/utils/types/stellarBodies';
 
 
 interface StarSystemProps {
@@ -63,17 +64,18 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
         miniMap={miniMap}
         distanceToPlayer={distanceToPlayer}
       />
-      {system.stars.map((star) => (
+      {system.stars.map((star: Star) => (
         <React.Fragment key={`${star.name}-star`}> {/* Ensure each star has a unique key */}
           <StellarBody
             key={`${star.name}-star`}
             star={star}
             system={system}
             miniMap={miniMap}
-            type={bodies.star as BodyTypes}
+            type={star.type}
             scale={scales.star}
+            variant={star.variant as StarVariantType}
           />
-          {zoom > scales.starSystem && activeSystem && star.planets?.map((planet) => (
+          {zoom > scales.starSystem && activeSystem && star.planets?.map((planet: Planet) => (
             <React.Fragment key={`${planet.name}-planet`}> {/* Ensure each planet has a unique key */}
               <StellarBody
                 key={`${planet.name}-planet`}
@@ -81,10 +83,11 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
                 star={star}
                 planet={planet}
                 miniMap={miniMap}
-                type={bodies.planet as BodyTypes}
+                type={planet.type}
                 scale={scales.planet}
+                variant={planet.variant}
               />
-              {zoom > scales.star && planet.moons?.map((moon) => (
+              {zoom > scales.star && planet.moons?.map((moon: Moon) => (
                 <StellarBody
                   key={`${moon.name}-moon`} // Ensure each moon has a unique key
                   system={system}
@@ -92,8 +95,9 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
                   planet={planet}
                   moon={moon}
                   miniMap={miniMap}
-                  type={bodies.moon as BodyTypes}
+                  type={moon.type}
                   scale={scales.moon}
+                  variant='moon'
                 />
               ))}
             </React.Fragment>

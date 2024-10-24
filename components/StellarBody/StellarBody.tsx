@@ -1,11 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { StarSystem as StarSystemType, Star as StarType, Planet as PlanetType, Moon as MoonType } from '../../utils/types/stellarBodies';
+import { StarSystem as StarSystemType, Star as StarType, Planet as PlanetType, Moon as MoonType, StellarBodyType, StarVariantType, PlanetVariantType } from '../../utils/types/stellarBodies';
 import { ratios } from '../../utils/functions/zoom';
 import { RootState } from '../../state/store';
 import useApproach from '@/hooks/useApproach';
-import { StellarDataType, BodyValuesProps, bodyValues, BodyTypes } from '@/utils/functions/calculations';
+import { StellarDataType, BodyValuesProps, bodyValues } from '@/utils/functions/calculations';
 import BodyData from '../BodyData/BodyData';
+import styles from './StellarBody.module.scss';  // Importing the CSS Module
+
 
 
 interface StellarBodyProps {
@@ -15,10 +17,11 @@ interface StellarBodyProps {
   moon?: MoonType;
   miniMap?: boolean; // Whether the star is in the mini map
   scale: number;
-  type: BodyTypes;
+  type: StellarBodyType;
+  variant?: PlanetVariantType | StarVariantType | 'moon';
 }
 
-const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, type, scale, miniMap = false }) => {
+const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, type, scale, variant, miniMap = false }) => {
 
   const ref = React.useRef<HTMLDivElement>(null);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
@@ -46,6 +49,10 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
 
   const { distanceToPlayer } = useApproach(useApproachProps);
 
+  const variantClass = variant ? variant === 'moon' ? styles['craters'] : styles[variant] : '';
+  const bodyClass = styles['body'];
+  const waterClass = variant === 'earthLike' ? styles['earthLikeWater'] : '';
+
   return (
     <>
       <div
@@ -67,7 +74,9 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
           fontSize: '0.7rem',
           textTransform: 'uppercase',
           transform: `translate(-50%, -50%)`, 
+          overflow: 'hidden',
         }}
+        className={`${variantClass} ${bodyClass} ${waterClass}`}
       >
         
       <BodyData

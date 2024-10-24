@@ -1,12 +1,10 @@
 // StarSystem.tsx
 import React from 'react';
 import { useSelector } from 'react-redux';
-import Star from '../Star/Star';
-import Planet from '../Planet/Planet';
-import { StarSystem as StarSystemType } from '../../utils/types/stellarBodies';
+import { Moon, Planet, Star, StarSystem as StarSystemType } from '../../utils/types/stellarBodies';
 import { ratios, scales } from '../../utils/functions/zoom';
 import { RootState } from '../../state/store';
-import Moon from '../StellarBody/StellarBody';
+import StellarBody from '../StellarBody/StellarBody';
 
 
 interface MiniMapStarSystemProps {
@@ -39,44 +37,43 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system, onFlyNear
         position: 'absolute',
       }}
     >
-      {system.stars.map((star) => (
+      {system.stars.map((star: Star) => (
         <React.Fragment key={`${star.name}-star-mm`}> {/* Ensure each star has a unique key */}
-          <Star
-            key={`${star.name}-star`} // Using star's name with a suffix as a unique key
+          <StellarBody
+            key={`${star.name}-star`}
             star={star}
-            // active={true}
-            onFlyNear={() => onFlyNearStar?.(star.id)}
             system={system}
+            type={star.type}
+            scale={scales.star}
+            variant={star.variant}
             miniMap={true}
           />
-          {zoom > scales.starSystem &&
-            star.planets &&
-            star.planets.map((planet) => (
+          {zoom > scales.starSystem && star.planets?.map((planet: Planet) => (
               <React.Fragment key={`${planet.name}-planet-mm`}> {/* Ensure each planet has a unique key */}
-                <Planet
-                  key={`${planet.name}-planet`} // Using planet's name with a suffix as a unique key
+                <StellarBody
+                  key={`${planet.name}-planet`}
                   system={system}
                   star={star}
                   planet={planet}
-                  radius={planet.radius}
-                  color={planet.color || 'brown'}
-                  label={planet.name}
+                  type={planet.type}
+                  scale={scales.planet}
+                  variant={planet.variant}
                   miniMap={true}
                 />
-                {zoom > scales.star &&
+              {zoom > scales.star && planet.moons?.map((moon: Moon) => (
                   planet.moons &&
                   planet.moons.map((moon) => (
-                    <Moon
-                      key={`${moon.name}-moon`} // Using moon's name with a suffix as a unique key
+                    <StellarBody
+                      key={`${moon.name}-moon`} // Ensure each moon has a unique key
                       system={system}
                       star={star}
                       planet={planet}
-                      scale={scales.moon}
-                      type={'moon'}
                       moon={moon}
+                      type={moon.type}
+                      scale={scales.moon}
                       miniMap={true}
                     />
-                  ))}
+                  ))))}
               </React.Fragment>
             ))}
         </React.Fragment>

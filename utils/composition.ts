@@ -59,6 +59,7 @@ export interface PlanetComposition extends ElementComposition {
     nitrogen?: number;      // Nitrogen percentage
     CO2?: number;           // Carbon dioxide percentage
     S02?: number;           // Sulfur dioxide percentage
+    N2?: number;            // Nitrogen gas
     pressure?: number;      // Atmospheric pressure (for terraforming viability)
     temperature?: number;   // Planet's surface temperature
     clouds?: number;        // Amount of clouds, for weather dynamics
