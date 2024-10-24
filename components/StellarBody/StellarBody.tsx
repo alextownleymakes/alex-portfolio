@@ -69,6 +69,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
           transform: `translate(-50%, -50%)`, 
         }}
       >
+        
       <BodyData
         name={name}
         type={type}

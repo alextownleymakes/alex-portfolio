@@ -1,24 +1,20 @@
 "use client";
 
 import React from 'react';
-import { StarSystem as StarSystemType } from '../../utils/types/stellarBodies';
 import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
 import MiniMapStarSystem from '../MiniMapStarSystem/MiniMapStarSystem';
 import { ratios } from '../../utils/functions/zoom';
 import { useCursor } from '@/hooks/useCursor';
 import DisplayContainer from '../DisplayContainer/DisplayContainer';
+import Drawer from '../Drawer/Drawer';
+import Player from '../Player/Player';
+import { systems } from '../../utils/systems/systems';
 
-interface MiniMapProps {
-    systems: StarSystemType[]
-}
-
-const MiniMap: React.FC<MiniMapProps> = ({
-    systems,
-}) => {
+const MiniMap: React.FC = () => {
 
     const playerState = useSelector((state: RootState) => state.gameState);
-    const { position, zoomedPosition, universeSize, zoom, dev } = playerState;
+    const { position, zoomedPosition, universeSize, zoom } = playerState;
 
     const ratio = ratios[zoom] / 10;
     const galaxyRef = React.useRef<HTMLDivElement>(null);
@@ -34,7 +30,11 @@ const MiniMap: React.FC<MiniMapProps> = ({
     const galaxySize = universeSize * ratio;
 
     return (
-        <>
+        <Drawer 
+            name="miniMap" 
+            position="bottom" 
+            className={'minimap-display-container'}
+        >
             <div
                 ref={galaxyRef}
                 id="minimap"
@@ -53,7 +53,7 @@ const MiniMap: React.FC<MiniMapProps> = ({
                     />
                 ))}
             </div>
-            {dev && <DisplayContainer
+            <DisplayContainer
                 top={0}
                 left={0}
                 height={45}
@@ -61,8 +61,9 @@ const MiniMap: React.FC<MiniMapProps> = ({
                 id={'cursor-coords'}
             >
                 x: {cursorCoords?.x}, y: {cursorCoords?.y}
-            </DisplayContainer>}
-        </>
+            </DisplayContainer>
+            <Player miniMap={true} />
+        </Drawer>
     );
 }
 

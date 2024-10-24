@@ -49,7 +49,7 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system, onFlyNear
             system={system}
             miniMap={true}
           />
-          {zoom > scales.Galaxy &&
+          {zoom > scales.starSystem &&
             star.planets &&
             star.planets.map((planet) => (
               <React.Fragment key={`${planet.name}-planet-mm`}> {/* Ensure each planet has a unique key */}
@@ -63,7 +63,7 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system, onFlyNear
                   label={planet.name}
                   miniMap={true}
                 />
-                {zoom > scales.StarSystem &&
+                {zoom > scales.star &&
                   planet.moons &&
                   planet.moons.map((moon) => (
                     <Moon

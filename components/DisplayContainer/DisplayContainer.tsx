@@ -1,72 +1,32 @@
-import { StylesType } from "@/utils/types/components";
+import React from "react";
+import styles from "./DisplayContainer.module.scss";
 
-interface DisplayContainerProps extends React.HTMLAttributes<HTMLDivElement> {
-    position?: "absolute" | "relative" | "fixed",
-    top?: number,
-    left?: number,
-    right?: number,
-    bottom?: number,
-    height?: number,
-    width?: number,
-    padding?: number,
-    margin?: number,
-    id?: string,
-    backgroundColor?: string,
-    children: React.ReactNode,
-    border?: string,
-    borderRadius?: number | string,
-    zIndex?: number,
-    transform?: string,
-    transition?: string,
-    styles?: StylesType,
+interface DisplayContainerProps extends React.CSSProperties {
+    id?: string;
+    children: React.ReactNode;
+    styles?: React.CSSProperties;
+    className?: string;
 }
+
 const DisplayContainer: React.FC<DisplayContainerProps> = ({
-    position: position = 'absolute',
-    top: top = 'auto',
-    left: left = 'auto',
-    right: right = 'auto',
-    bottom: bottom = 'auto',
-    height: height = 300,
-    width: width = 300,
-    padding: padding = 10,
-    margin: margin = 10,
-    backgroundColor: backgroundColor = "rgba(255, 255, 255, 0.1)",
-    id: id = 'display-container',
-    border: border = 'none',
-    borderRadius: borderRadius = 5,
+    id = 'display-container',
     children,
-    styles
+    styles: extraStyles = {},
+    className = '',
+    ...rest
 }) => {
-
-    const styleProps = {
-        position,
-        top,
-        left,
-        right,
-        bottom,
-        height,
-        width,
-        padding,
-        margin,
-        backgroundColor,
-        id,
-        border,
-        borderRadius,
-        zIndex: 1000,
-        overflow: 'hidden',
-    }
-
-    const stylesObj = {...styles };
-
-    const finalStyles = {
-        ...styleProps,
-        ...stylesObj
+    // Only apply dynamic or absolutely necessary styles inline
+    const inlineStyles: React.CSSProperties = {
+        ...extraStyles, // Apply only dynamic styles
+        ...rest,       // Spread any other props passed
     };
 
     return (
         <div
             id={id}
-            style={finalStyles}>
+            style={inlineStyles}  // Use inline styles only for dynamic properties
+            className={`${styles[className]} ${className}`}  // Merge SCSS module class with any passed className
+        >
             {children}
         </div>
     );

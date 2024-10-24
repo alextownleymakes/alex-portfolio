@@ -103,7 +103,6 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
     const formulateLeft = (stellarData: StellarDataType): string => {
         const { system, star, planet, moon } = stellarData;
         const formula = (!star && !planet && !moon )? formulateX({system}) : formulateX(stellarData) - (system ? formulateX({system}) : 0);
-        console.log('formulateLeft - formula: ', formula);
         return calc(formula);
     }
 
@@ -117,9 +116,7 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
     const formulateDLeft = (stellarData: StellarDataType): string => {
         const { star, planet, moon } = stellarData;
         const size = 250 * ratio + 10;
-        console.log('star, planet, moon: ', star, planet, moon);
         const formula = (!star && !planet && !moon ) ? size + 'px': `calc(10px + 100%)`;
-        console.log('formulateDLeft - formula: ', formula);
 
         return formula;
     }

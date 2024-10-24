@@ -6,6 +6,8 @@ export interface Key {
   key: string;
   pressed: boolean;
   action: string;
+  drawerName?: string;
+  toggle?: boolean;
 }
 export interface KeyState {
   isThrusting: Key;
@@ -13,7 +15,11 @@ export interface KeyState {
   isTurningLeft: Key;
   isTurningRight: Key;
   isBraking: Key;
-  devToggle: Key;
+  devDisplay: Key;
+  flightData: Key;
+  controls: Key;
+  minimap: Key;
+  bodySelector: Key;
 }
 
 const initialState: KeyState = {
@@ -42,20 +48,52 @@ const initialState: KeyState = {
     pressed: false,
     action: 'stop',
   },
-  devToggle: {
+  devDisplay: {
     key: 'z',
     pressed: false,
-    action: 'dev toggle',
-  }
+    action: 'DEV  MODE',
+    drawerName: 'devDisplay',
+    toggle: true,
+  },
+  flightData: {
+    key: 'f',
+    pressed: false,
+    action: 'HUD: flight data',
+    drawerName: 'flightData',
+    toggle: true,
+  },
+  controls: {
+    key: 'k',
+    pressed: false,
+    action: 'HUD: controls',
+    drawerName: 'controls',
+    toggle: true,
+  },
+  minimap: {
+    key: 'm',
+    pressed: true,
+    action: 'HUD: minimap',
+    drawerName: 'miniMap',
+    toggle: true,
+  },
+  bodySelector: {
+    key: 'tab',
+    pressed: false,
+    action: 'HUD: body selector',
+    drawerName: 'bodySelector',
+  },
 };
 
-const keyMap = {
+export const keyMap = {
   w: 'isThrusting',
   s: 'isRefacing',
   a: 'isTurningLeft',
   d: 'isTurningRight',
   x: 'isBraking',
-  z: 'devToggle',
+  z: 'devDisplay',
+  f: 'flightData',
+  k: 'controls',
+  m: 'minimap',
 } as const;
 
 export type KeyMapType = keyof typeof keyMap;
@@ -79,6 +117,7 @@ const keyStateSlice = createSlice({
 });
 
 export type KeyStateType = ReturnType<typeof keyStateSlice['reducer']>;
+export type KeyofKeyStateType = keyof KeyStateType;
 
 export const { pressKey, releaseKey } = keyStateSlice.actions;
 export default keyStateSlice.reducer;

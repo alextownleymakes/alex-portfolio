@@ -2,8 +2,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../state/store';
 import { pressKey, releaseKey } from "@/state/keyStateSlice";
 import { GameState as PlayerState } from '../../state/gameStateSlice';
-import { KeyState, KeyMapType } from '../../state/keyStateSlice';
-import { updateAll } from '../../state/gameStateSlice';
+import { DrawerList, DrawerState } from '../../state/drawersStateSlice';
+import { KeyState, KeyMapType, KeyStateType, KeyofKeyStateType, keyMap } from '../../state/keyStateSlice';
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+import { updateAll, updateRotation, updatePosition, updateSpeed, updateVelocity } from '../../state/gameStateSlice';
+import { open, close } from '../../state/drawersStateSlice';
 import { useEffect } from 'react';
 import { ratios } from '../../utils/functions/zoom';
 
@@ -13,24 +16,52 @@ interface PlayerControllerType {
 
 const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
 
-    const keyState = useSelector((state: RootState) => state.keyState);
+    const keyState = useSelector((state: RootState) => state.keyState) as KeyStateType;
     const playerState = useSelector((state: RootState) => state.gameState);
+    const drawerState = useSelector((state: RootState) => state.drawers);
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const handleKeyDown = (e: KeyboardEvent) =>
-            dispatch(pressKey({ key: e.key as KeyMapType }));
-        const handleKeyUp = (e: KeyboardEvent) =>
-            dispatch(releaseKey({ key: e.key as KeyMapType }));
-
+        const handleKeyDown = (e: KeyboardEvent) => {
+            const keyName = keyMap[e.key as KeyMapType];
+            const thisKey = keyState[keyName] || undefined;
+    
+            if (thisKey) {
+                if (thisKey.toggle) {
+                    // Handle toggle keys
+                    if (!thisKey.pressed) {
+                        dispatch(pressKey({ key: e.key as KeyMapType }));
+                    } else {
+                        dispatch(releaseKey({ key: e.key as KeyMapType }));
+                    }
+                } else {
+                    // Handle non-toggle keys (press)
+                    if (!thisKey.pressed) {
+                        dispatch(pressKey({ key: e.key as KeyMapType }));
+                    }
+                }
+            }
+        };
+    
+        const handleKeyUp = (e: KeyboardEvent) => {
+            const keyName = keyMap[e.key as KeyMapType];
+            const thisKey = keyState[keyName];
+    
+            if (thisKey && !thisKey.toggle) {
+                // Release only non-toggle keys
+                dispatch(releaseKey({ key: e.key as KeyMapType }));
+            }
+        };
+    
         window.addEventListener("keydown", handleKeyDown);
         window.addEventListener("keyup", handleKeyUp);
-
+    
         return () => {
             window.removeEventListener("keydown", handleKeyDown);
             window.removeEventListener("keyup", handleKeyUp);
         };
-    }, [dispatch]);
+    }, [dispatch, keyState]);
+    
 
     useEffect(() => {
         let animationFrameId: number;
@@ -38,6 +69,8 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
         const gameLoop = () => {
             const state = { ...playerState };
             const newState = movePlayer(state, keyState);
+            const drawers = { ...drawerState }
+            drawerToggles(drawers, keyState);
 
             dispatch(updateAll(newState));
 
@@ -53,7 +86,7 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
 
 
     const movePlayer = (state: PlayerState, keyState: KeyState): PlayerState => {
-        const { isThrusting, isTurningLeft, isTurningRight, isRefacing, isBraking, devToggle } = keyState;
+        const { isThrusting, isTurningLeft, isTurningRight, isRefacing, isBraking } = keyState;
 
         let newVelocityX = state.velocity.x;
         let newVelocityY = state.velocity.y;
@@ -101,10 +134,6 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
             }
         }
 
-        if (devToggle.pressed) {
-            newState.dev = !state.dev;
-        }
-
         const newPosition = {
             x: state.position.x + newVelocityX / ((ratios[state.zoom]*ratios[state.zoom]) / (.5 * ratios[state.zoom])), 
             y: state.position.y + newVelocityY / ((ratios[state.zoom]*ratios[state.zoom]) / (.5 * ratios[state.zoom])),
@@ -122,6 +151,37 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
             velocity: { x: newVelocityX, y: newVelocityY }
         };
     };
+
+    const drawerToggles = (state: DrawerState, keyState: KeyStateType) => {
+
+        const keys: { [K in KeyofKeyStateType]: KeyStateType[K] } = { ...keyState };
+
+        //drawerkeys is a new object containing only the keys that have drawerName defined
+        const drawerKeys = Object.keys(keys).reduce((acc: Partial<KeyStateType>, key) => {
+            if (keys[key as KeyofKeyStateType].drawerName) {
+                acc[key as KeyofKeyStateType] = keys[key as KeyofKeyStateType];
+            }
+            return acc;
+        }, {});
+
+
+        const handleOpen = (drawer: DrawerList) => {
+            dispatch(open({ drawer }));
+        }
+        const handleClose = (drawer: DrawerList) => {
+            dispatch(close({ drawer }));
+        }
+
+        for (const key in drawerKeys as {[key: string]: KeyStateType}) {
+            const drawerName = drawerKeys[key as KeyofKeyStateType]?.drawerName as DrawerList;
+            if (keys[key as KeyofKeyStateType].pressed) {
+                if (state[drawerName as DrawerList] === false) handleOpen(drawerName);
+            } else {
+                if (state[drawerName as DrawerList] === true) handleClose(drawerName);
+            }
+        }
+    }
+
 
 
 
