@@ -1,6 +1,6 @@
 import React from "react";
 
-import { Coords, setWindowSize } from '@/state/gameStateSlice';
+import { setWindowSize } from '@/state/gameStateSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/state/store';
 import { useEffect } from 'react';
@@ -23,7 +23,8 @@ const Universe: React.FC<UniverseProps> = ({
             const jeans = setWindowSize(windowSize);
             dispatch(jeans);
         }
-    }, [universeRef.current]);
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, [universeRef]);
 
     return (
         <div

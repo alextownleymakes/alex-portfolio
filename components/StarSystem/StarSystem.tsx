@@ -37,7 +37,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
     miniMap,
   });
 
-  const { name, type, x, y, left, top, dLeft, dTop } = bv;
+  const { name, type, x, y, dLeft, dTop } = bv;
 
   return (
     <div

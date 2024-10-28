@@ -1,0 +1,302 @@
+.body {
+
+    box-shadow: 
+        inset -1px -1px 0px -6px rgba(123, 213, 255, 2.431), 
+        inset 5px 6px 9px 1px rgba(0, 17, 55, .6), 
+        1px 1px 100px -1px rgba(127, 127, 127, 0.5), 
+        .5px .5px 2px 1px rgba(142, 227, 246, 0.22)
+}
+
+.gassy {
+    background: radial-gradient(circle, rgba(255, 255, 0, 1), rgba(255, 140, 0, 0.7), rgba(255, 69, 0, 0.5));
+    animation: gasMove 6s infinite ease-in-out;
+    box-shadow: 0 0 60px 30px rgba(255, 215, 0, 0.5), 0 0 90px 45px rgba(255, 69, 0, 0.3);
+}
+
+@keyframes gasMove {
+    0% {
+        transform: scale(.1);
+        filter: blur(1px);
+    }
+
+    50% {
+        transform: scale(.4);
+        filter: blur(5px);
+    }
+
+    100% {
+        transform: scale(.1);
+        filter: blur(1px);
+    }
+}
+
+/* Continents as complex shapes */
+.earthLike::before {
+    content: '';
+    position: absolute;
+    top: 10%;
+    left: 15%;
+    width: 90%;
+    height: 90%;
+    background: radial-gradient(circle at 30% 30%, #a9d08e, #208232 50%, transparent 70%);
+    clip-path: polygon(50% 0%, 58% 12%, 70% 10%, 72% 22%, 80% 30%, 85% 40%, 95% 50%, 90% 65%, 75% 70%, 60% 90%, 45% 75%, 30% 80%, 15% 65%, 25% 55%, 35% 45%, 40% 35%, 50% 25%);
+}
+
+/* More landmasses */
+.earthLike::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 45%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle at 30% 30%, #a9d08e, #208232 50%, transparent 80%);
+    clip-path: polygon(20% 0%, 30% 15%, 40% 20%, 60% 40%, 50% 50%, 70% 50%, 60% 70%, 30% 60%, 20% 70%, 10% 50%, 0% 30%);
+}
+
+.earthLike {
+    background: radial-gradient(circle, #2489e1, #0f2b5b);
+    /* Base water gradient */
+    width: 150px;
+    height: 150px;
+    position: relative;
+    border-radius: 50%;
+}
+
+/* Adjusted Continents */
+.earthLike::before {
+    content: '';
+    position: absolute;
+    top: 5%;
+    left: 5%;
+    width: 90%;
+    height: 90%;
+    background: radial-gradient(circle at 30% 30%, #a9d08e, #208232 50%, transparent 70%);
+    clip-path: polygon(50% 0%, 58% 12%, 70% 10%, 72% 22%, 80% 30%, 85% 40%, 95% 50%, 90% 65%, 75% 70%, 60% 90%, 45% 75%, 30% 80%, 15% 65%, 25% 55%, 35% 45%, 40% 35%, 50% 25%);
+}
+
+/* Second continent positioned differently */
+.earthLike::after {
+    content: '';
+    position: absolute;
+    top: 55%;
+    left: 50%;
+    width: 60%;
+    height: 60%;
+    background: radial-gradient(circle at 30% 30%, #a9d08e, #208232 50%, transparent 80%);
+    clip-path: polygon(20% 0%, 30% 15%, 40% 20%, 60% 40%, 50% 50%, 70% 50%, 60% 70%, 30% 60%, 20% 70%, 10% 50%, 0% 30%);
+}
+
+
+.rocky {
+    background: radial-gradient(circle, #8b4513, #5a2d0c);
+    box-shadow: inset 0 0 10px #2e1505, inset 0 0 25px #5a2d0c;
+}
+
+.craters {
+    background: radial-gradient(circle at 20% 30%, rgba(0, 0, 0, 0.2) 10%, transparent 10%),
+        radial-gradient(circle at 50% 60%, rgba(0, 0, 0, 0.3) 20%, transparent 20%);
+}
+
+
+///
+/// 
+/// 
+/// 
+/// 
+///
+.terrestrial {
+    background: radial-gradient(circle, #8b4513, #5a2d0c);
+    box-shadow: inset 0 0 10px #2e1505, inset 0 0 25px #5a2d0c;
+}
+
+.terrestrial.craters {
+    background: radial-gradient(circle at 20% 30%, rgba(0, 0, 0, 0.2) 10%, transparent 10%),
+        radial-gradient(circle at 50% 60%, rgba(0, 0, 0, 0.3) 20%, transparent 20%);
+}
+
+.gasGiant {
+    background: radial-gradient(circle, #f5deb3, #d2b48c, #a0522d);
+    animation: gasMove 8s infinite ease-in-out;
+    box-shadow: 0 0 50px 25px rgba(255, 140, 0, 0.4), 0 0 80px 35px rgba(255, 69, 0, 0.2);
+}
+
+.iceGiant {
+    background: radial-gradient(circle, #7ec0ee, #4682b4);
+    animation: iceGlow 8s infinite ease-in-out;
+    box-shadow: 0 0 50px 25px rgba(0, 191, 255, 0.4), 0 0 80px 35px rgba(70, 130, 180, 0.2);
+}
+
+@keyframes iceGlow {
+
+    0%,
+    100% {
+        filter: blur(2px);
+        opacity: 0.9;
+    }
+
+    50% {
+        filter: blur(5px);
+        opacity: 1;
+    }
+}
+
+.dwarf {
+    background: radial-gradient(circle, #d3d3d3, #a9a9a9);
+    box-shadow: inset 0 0 10px #696969, inset 0 0 20px #a9a9a9;
+}
+
+.exoplanet {
+    background: radial-gradient(circle, #ff7f50, #ff4500, #b22222);
+    animation: exoPulse 10s infinite ease-in-out;
+    box-shadow: 0 0 40px 20px rgba(255, 69, 0, 0.3), 0 0 70px 30px rgba(255, 140, 0, 0.2);
+}
+
+@keyframes exoPulse {
+
+    0%,
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.05);
+        opacity: 1;
+    }
+}
+
+// star variants
+
+.mainSequence {
+    background: radial-gradient(circle, rgba(255, 255, 0, 1), rgba(255, 140, 0, 0.7), rgba(255, 69, 0, 0.5));
+    animation: mainPulse 6s infinite ease-in-out;
+}
+
+@keyframes mainPulse {
+
+    0%,
+    100% {
+        opacity: 0.8;
+        box-shadow: 0 0 60px 30px rgba(255, 255, 0, 0.7);
+    }
+
+    50% {
+        opacity: 1;
+        box-shadow: 0 0 80px 40px rgba(255, 215, 0, 0.9);
+    }
+}
+
+
+.redGiant {
+    background: radial-gradient(circle, rgba(255, 99, 71, 1), rgba(255, 69, 0, 0.8), rgba(255, 0, 0, 0.5));
+    animation: redGlow 8s infinite ease-in-out;
+    box-shadow: 0 0 60px 30px rgba(255, 69, 0, 0.4), 0 0 90px 45px rgba(255, 0, 0, 0.3);
+}
+
+@keyframes redGlow {
+
+    0%,
+    100% {
+        transform: scale(1);
+        filter: blur(3px);
+    }
+
+    50% {
+        transform: scale(1.1);
+        filter: blur(6px);
+    }
+}
+
+.whiteDwarf {
+    background: radial-gradient(circle, #ffffff, #dcdcdc, #f8f8ff);
+    box-shadow: 0 0 40px 20px rgba(255, 255, 255, 0.6), 0 0 60px 30px rgba(240, 240, 240, 0.3);
+}
+
+.neutronStar {
+    background: radial-gradient(circle, #a9a9a9, #696969);
+    animation: neutronSpin 5s infinite linear;
+}
+
+@keyframes neutronSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.supernova {
+    background: radial-gradient(circle, rgba(255, 255, 255, 1), rgba(255, 0, 0, 0.7), rgba(255, 69, 0, 0.5));
+    animation: explode 3s infinite ease-in-out;
+}
+
+@keyframes explode {
+    0% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+
+    50% {
+        transform: scale(1.3);
+        opacity: 1;
+    }
+
+    100% {
+        transform: scale(1);
+        opacity: 0.8;
+    }
+}
+
+.blackHole {
+    background: radial-gradient(circle, #000000, #2f2f2f);
+    animation: blackHoleSpin 15s infinite linear;
+}
+
+@keyframes blackHoleSpin {
+    0% {
+        transform: rotate(0deg);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.pulsar {
+    background: radial-gradient(circle, #87cefa, #4682b4, #1e90ff);
+    animation: pulsarPulse 1s infinite linear;
+    box-shadow: 0 0 30px 15px rgba(70, 130, 180, 0.6), 0 0 50px 25px rgba(0, 191, 255, 0.3);
+}
+
+@keyframes pulsarPulse {
+
+    0%,
+    100% {
+        opacity: 0.8;
+    }
+
+    50% {
+        opacity: 1;
+    }
+}
+
+
+.quarkStar {
+    background: radial-gradient(circle, #ff69b4, #ff1493, #ff4500);
+    animation: quarkPulse 5s infinite ease-in-out;
+}
+
+@keyframes quarkPulse {
+
+    0%,
+    100% {
+        filter: blur(2px);
+    }
+
+    50% {
+        filter: blur(4px);
+    }
+}

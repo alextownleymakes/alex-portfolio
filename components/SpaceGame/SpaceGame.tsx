@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useEffect } from 'react';
+import React from 'react';
 import StarField from "../StarField/StarField";
 import Universe from '../Universe/Universe';
 import Galaxy from '../Galaxy/Galaxy';
