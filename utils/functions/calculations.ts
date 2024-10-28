@@ -191,3 +191,8 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
 export const calculateDistance = (pos1: { x: number; y: number }, pos2: { x: number; y: number }): number => {
     return Math.sqrt((pos1.x - pos2.x) ** 2 + (pos1.y - pos2.y) ** 2);
 };
+
+export const distanceTo = (props : { px: number, py: number, cx: number, cy: number }) => {
+    const { px, py, cx, cy } = props;
+    return Math.sqrt(Math.pow(px - cx, 2) + Math.pow(py - cy, 2));
+}

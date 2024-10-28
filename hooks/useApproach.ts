@@ -6,6 +6,7 @@ import { RootState } from "../state/store";
 import { Coords, setOrbit, zoomIn, zoomOut } from "@/state/gameStateSlice";
 import { ratios, scaleDistances } from "@/utils/functions/zoom";
 import { StellarBodyType } from "@/utils/types/stellarBodies";
+import { distanceTo } from "@/utils/functions/calculations";
 
 export interface UseApproachProps {
     ref: React.RefObject<HTMLElement>;
@@ -38,6 +39,19 @@ const useApproach = ({
     const zoom = useSelector((state: RootState) => state.gameState.zoom);
     const approachDistance = scaleDistances[scale];
 
+    const [distance, setDistance] = useState(0);
+
+    useEffect(() => {
+
+        const values = {
+            px: playerPosition.x,
+            py: playerPosition.y,
+            cx: coords.x,
+            cy: coords.y,
+        }
+
+        setDistance(distanceTo(values));
+    }, [playerPosition, coords]);
 
     const [systemCenter, setSystemCenter] = useState({
         x: ref.current ? coords.x : 0,
@@ -61,11 +75,11 @@ const useApproach = ({
 
     useEffect(() => {
         if (!miniMap) {
-            if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distanceToPlayer() < (approachDistance * ratios[zoom]) && !zoomed && zoom === scale - 1) {
+            if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distance < (approachDistance * ratios[zoom]) && !zoomed && zoom === scale - 1) {
                 setZoomed(true);
                 dispatch(setOrbit({type, name}));
                 dispatch(zoomIn({ scale }));
-            } else if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distanceToPlayer() > ((approachDistance * ratios[zoom]) * 2) && zoomed && zoom === scale) {
+            } else if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distance > ((approachDistance * ratios[zoom]) * 2) && zoomed && zoom === scale) {
                 setZoomed(false);
                 dispatch(setOrbit({type, name: undefined}));
                 dispatch(zoomOut({ scale: scale - 1 }));
