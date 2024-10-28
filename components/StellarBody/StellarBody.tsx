@@ -77,6 +77,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
           textTransform: 'uppercase',
           transform: `translate(-50%, -50%)`, 
           overflow: 'hidden',
+          // transition: 'all .1s ease-in-out',
         }}
         className={`${variantClass} ${bodyClass} ${waterClass} ${lowestOrbit.name === name && orbitedClass}`}
       >

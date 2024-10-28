@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ratios } from '../utils/functions/zoom';
-import { StellarBodyType } from '../utils/types/stellarBodies';
+import { StellarBodyType, StarSystem as SystemType } from '../utils/types/stellarBodies';
 
 export interface Coords {
     x: number;
@@ -34,6 +34,7 @@ export interface GameState {
     target: Orbits;
     orbit: Orbits;
     lowestOrbit: Target;
+    visibleSystems: SystemType[] | undefined;
 }
 
 const initialState: GameState = {
@@ -64,6 +65,7 @@ const initialState: GameState = {
         name: undefined,
         type: undefined,
     },
+    visibleSystems: undefined,
 };
 
 const gameStateSlice = createSlice({
@@ -127,6 +129,12 @@ const gameStateSlice = createSlice({
             console.log(action.payload);
             state.lowestOrbit = action.payload;
         },
+        setTarget: (state, action: PayloadAction<Orbits>) => {
+            state.target = action.payload;
+        },
+        setVisibleSystems: (state, action: PayloadAction<SystemType[] | undefined>) => {
+            state.visibleSystems = action.payload;
+        },
         setWindowSize: (state, action: PayloadAction<Coords>) => {
             state.windowSize.x = action.payload.x;
             state.windowSize.y = action.payload.y;
@@ -144,6 +152,7 @@ export const {
     updateAll,
     setOrbit,
     setLowestOrbit,
+    setVisibleSystems,
     setWindowSize
 } = gameStateSlice.actions;
 export default gameStateSlice.reducer;

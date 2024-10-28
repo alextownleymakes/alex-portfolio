@@ -1,35 +1,27 @@
 "use client";
 
 import React from 'react';
-import { StarSystem as StarSystemType } from '../../utils/types/stellarBodies';
 import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
 import StarSystem from '../StarSystem/StarSystem';
 import { ratios } from '../../utils/functions/zoom';
 import { useCursor } from '@/hooks/useCursor';
 import DisplayContainer from '../DisplayContainer/DisplayContainer';
+import { systems } from '@/utils/systems/systems';
+import { useVisibleSystems } from '@/hooks/useVisibleSystems';
 
-interface GalaxyProps {
-    systems: StarSystemType[]
-}
-
-const Galaxy: React.FC<GalaxyProps> = ({
-    systems,
-}) => {
+const Galaxy: React.FC = ({}) => {
     const playerState = useSelector((state: RootState) => state.gameState);
-
     const windowSize = useSelector((state: RootState) => state.gameState.windowSize);
+    const visibleSystems = useSelector((state: RootState) => state.gameState.visibleSystems);
 
-    const { position, universeSize, zoomedPosition, zoom, dev} = playerState;
+    useVisibleSystems(systems);
+
+    const { position, universeSize, zoomedPosition, zoom, dev } = playerState;
 
     const ratio = ratios[zoom];
     const galaxyRef = React.useRef<HTMLDivElement>(null);
     const cursorCoords = useCursor(galaxyRef);
-
-    const visibleSystems = systems.filter(system => {
-        const distance = Math.sqrt(Math.pow(playerState.position.x - system.position.x, 2) + Math.pow(playerState.position.y - system.position.y, 2));
-        return distance < 3000;
-    });
 
     if (!windowSize.x || !windowSize.y) return null;
 
@@ -42,11 +34,11 @@ const Galaxy: React.FC<GalaxyProps> = ({
                     width: universeSize * ratio,
                     height: universeSize * ratio,
                     position: 'absolute',
-                    left: -((universeSize * ratio) / 2) + (windowSize.x/2) - (zoomedPosition.x !== 0 ? zoomedPosition.x : position.x),
-                    top: -((universeSize * ratio) / 2) + (windowSize.y/2)- (zoomedPosition.y !== 0 ? zoomedPosition.y : position.y),
+                    left: -((universeSize * ratio) / 2) + (windowSize.x / 2) - (zoomedPosition.x !== 0 ? zoomedPosition.x : position.x),
+                    top: -((universeSize * ratio) / 2) + (windowSize.y / 2) - (zoomedPosition.y !== 0 ? zoomedPosition.y : position.y),
                     // transition: 'all .1s ease-in-out',
                 }}>
-                {visibleSystems.map((system) => (
+                {visibleSystems?.map((system) => (
                     <StarSystem
                         key={system.name}
                         system={system}

@@ -16,10 +16,8 @@ const SpaceGame = () => {
       <PlayerController>
         <HUD />
         <StarField/>
-        <Galaxy
-          systems={systems}
-        />
-        <Player />
+        <Galaxy/>
+        <Player/>
       </PlayerController>
     </Universe>
   );

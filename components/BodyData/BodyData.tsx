@@ -36,6 +36,7 @@ const BodyData: React.FC<BodyDataProps> = ({
                 color: '#999',
                 fontSize: '0.7rem',
                 textTransform: 'uppercase',
+                // transition: 'all .1s ease-in-out',
             }}
         >
             <span style={{ fontWeight: 600 }}>

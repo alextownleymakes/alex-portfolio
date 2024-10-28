@@ -67,7 +67,7 @@ const useApproach = ({
                 dispatch(zoomIn({ scale }));
             } else if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distanceToPlayer() > ((approachDistance * ratios[zoom]) * 2) && zoomed && zoom === scale) {
                 setZoomed(false);
-                dispatch(setOrbit({type: undefined, name: undefined}));
+                dispatch(setOrbit({type, name: undefined}));
                 dispatch(zoomOut({ scale: scale - 1 }));
             }
         }

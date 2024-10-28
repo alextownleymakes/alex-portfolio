@@ -184,9 +184,6 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
         }
     }
 
-
-
-
     return (
         <>
             {children}
