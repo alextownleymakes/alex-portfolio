@@ -8,8 +8,15 @@ export interface Coords {
 }
 
 export interface Target {
-    id: number | undefined;
+    name: string | undefined;
     type: StellarBodyType | undefined;
+}
+
+export interface Orbits {
+    system: string | undefined;
+    star: string | undefined;
+    planet: string | undefined;
+    moon: string | undefined;
 }
 
 export interface GameState {
@@ -24,8 +31,8 @@ export interface GameState {
     speed: number;
     rotation: number;
     dev: boolean;
-    target: Target;
-    orbiting: Target;
+    target: Orbits;
+    orbit: Orbits;
 }
 
 const initialState: GameState = {
@@ -40,8 +47,18 @@ const initialState: GameState = {
     speed: 0,
     rotation: 0,
     dev: false,
-    target: { id: undefined, type: undefined },
-    orbiting: { id: undefined, type: undefined }
+    target: {
+        system: undefined,
+        star: undefined,
+        planet: undefined,
+        moon: undefined,
+    },
+    orbit: {
+        system: undefined,
+        star: undefined,
+        planet: undefined,
+        moon: undefined,
+    }
 };
 
 const gameStateSlice = createSlice({
@@ -83,7 +100,23 @@ const gameStateSlice = createSlice({
             Object.assign(state, action.payload); // This is fine if you are updating multiple fields.
         },
         setOrbit: (state, action: PayloadAction<Target>) => {
-            state.orbiting = action.payload;
+            const { name, type } = action.payload;
+            switch (type as string) {
+                case 'system':
+                    state.orbit.system = name;
+                    break;
+                case 'star':
+                    state.orbit.star = name;
+                    break;
+                case 'planet':
+                    state.orbit.planet = name;
+                    break;
+                case 'moon':
+                    state.orbit.moon = name;
+                    break;
+                default:
+                    break;
+            }
         },
         setWindowSize: (state, action: PayloadAction<Coords>) => {
             state.windowSize.x = action.payload.x;

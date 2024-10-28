@@ -119,16 +119,13 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
         const bodyLeft = formulateLeft(stellarData);
         const size = formulateSize(stellarData);
         const str = (!star && !planet && !moon ) ? (250 * ratio) + 'px': `calc(10px + ${bodyLeft}px + ${size/2}px)`;
-        console.log('left:', str);
         return str;
     }
 
     const formulateDTop = (stellarData: StellarDataType): string => {
         const { star, planet, moon } = stellarData;
         const bodyTop = formulateTop(stellarData);
-        const size = formulateSize(stellarData);
         const str = (!star && !planet && !moon ) ? `calc(${dev ? '-1.55' : '-.5'}rem` : `calc(${bodyTop}px - ${dev ? '1.55' : '.5'}rem)`
-        console.log('top:',dev,  str);
         return str;
     }
 

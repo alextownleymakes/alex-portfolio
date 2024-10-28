@@ -12,7 +12,7 @@ export interface UseApproachProps {
     coords: Coords;
     scale: number;
     miniMap?: boolean;
-    id?: number;
+    name?: string;
     type?: StellarBodyType;
 }
 
@@ -28,7 +28,7 @@ const useApproach = ({
     coords,
     scale,
     miniMap = false,
-    id,
+    name,
     type
 }: UseApproachProps):
     UseApproachReturn => {

@@ -336,3 +336,4 @@ export const solSystem: StarSystem = {
   comets: [],
   position: { x: 500, y: 500 },
 };
+

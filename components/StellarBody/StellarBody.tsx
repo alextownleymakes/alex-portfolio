@@ -42,7 +42,9 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
     ref,
     coords: { x, y },
     scale,
-    miniMap
+    miniMap,
+    type,
+    name
   }
 
   const { distanceToPlayer } = useApproach(useApproachProps);
@@ -50,6 +52,8 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
   const variantClass = variant ? variant === 'moon' ? styles['craters'] : styles[variant] : '';
   const bodyClass = styles['body'];
   const waterClass = variant === 'earthLike' ? styles['earthLikeWater'] : '';
+  const orbitString = `orbited${miniMap ? '-mm' : `-${type}`}`
+  const orbitedClass = styles[orbitString];
 
   return (
     <>
@@ -74,7 +78,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
           transform: `translate(-50%, -50%)`, 
           overflow: 'hidden',
         }}
-        className={`${variantClass} ${bodyClass} ${waterClass}`}
+        className={`${variantClass} ${bodyClass} ${waterClass} ${orbitedClass}`}
       >
       </div>
       <BodyData
