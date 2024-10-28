@@ -15,13 +15,9 @@ export interface StarFieldStar {
   twinkleDelay: number; // Random delay before starting twinkle effect
 }
 
-interface StarFieldProps {
-  width: number; // Width of the field of view
-  height: number; // Height of the field of view
-}
-
 // Function to generate a star with a weighted random size and twinkle effect
 const generateStar = (width: number, height: number): StarFieldStar => {
+
   const randomValue = Math.random();
   let size, speedFactor;
 
@@ -52,7 +48,7 @@ const generateStar = (width: number, height: number): StarFieldStar => {
   const twinkleDuration = Math.random() * (7 - 1.5) + 1; // Between 1.5s and 4s
   const twinkleDelay = Math.random() * 2; // Random delay between 0 and 2 seconds
 
-  return {
+  const values = {
     id: Math.random(),
     x: Math.random() * width,
     y: Math.random() * height,
@@ -61,16 +57,23 @@ const generateStar = (width: number, height: number): StarFieldStar => {
     twinkle,
     twinkleDuration,
     twinkleDelay,
-  };
+  }
+
+  return values;
 };
 
-const StarField: React.FC<StarFieldProps> = ({ width, height }) => {
+const StarField: React.FC = () => {
 
+  const windowSize = useSelector((state: RootState) => state.gameState.windowSize);
   const scale = useSelector((state: RootState) => state.gameState.zoom);
   const playerVelocity = useSelector((state: RootState) => state.gameState.velocity);
-  const [stars, setStars] = useState<StarFieldStar[]>(() =>
-    Array.from({ length: 350 }, () => generateStar(width, height))
-  );
+  const [stars, setStars] = useState<StarFieldStar[]>([]);
+  const { x: width, y: height } = windowSize;
+  
+  useEffect(() => {
+    if (width === 0 || height === 0) return;
+    setStars(Array.from({ length: 350 }, () => generateStar(width, height)));
+  }, [width, height]);
 
   useEffect(() => {
     setStars((prevStars) =>
@@ -90,17 +93,17 @@ const StarField: React.FC<StarFieldProps> = ({ width, height }) => {
 
   return (
     <svg width={width} height={height} style={{ position: 'absolute', top: 0, left: 0 }}>
-      {stars.map((star) => (
+      {stars?.map((star) => (
         <circle
           key={star.id}
-          cx={star.x}
-          cy={star.y}
-          r={star.size}
+          cx={star?.x}
+          cy={star?.y}
+          r={star?.size}
           fill="white"
           className={styles.twinkle} 
           style={{
-            animationDuration: `${star.twinkleDuration}s`,
-            animationDelay: `${star.twinkleDelay}s`,
+            animationDuration: `${star?.twinkleDuration || 1}s`,
+            animationDelay: `${star?.twinkleDelay || 1}s`,
           }}
         />
       ))}

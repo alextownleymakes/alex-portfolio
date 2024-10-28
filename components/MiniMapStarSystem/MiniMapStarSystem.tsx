@@ -13,7 +13,7 @@ interface MiniMapStarSystemProps {
   onFlyNearStar?: (starId: number) => void; // Callback when flying near a star
 }
 
-const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system, onFlyNearStar }) => {
+const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system }) => {
   const systemSize = useSelector((state: RootState) => state.gameState.galaxySize);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
   const ratio = ratios[zoom] / 10;
@@ -61,8 +61,6 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system, onFlyNear
                   miniMap={true}
                 />
               {zoom > scales.star && planet.moons?.map((moon: Moon) => (
-                  planet.moons &&
-                  planet.moons.map((moon) => (
                     <StellarBody
                       key={`${moon.name}-moon`} // Ensure each moon has a unique key
                       system={system}
@@ -73,7 +71,7 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system, onFlyNear
                       scale={scales.moon}
                       miniMap={true}
                     />
-                  ))))}
+                  ))}
               </React.Fragment>
             ))}
         </React.Fragment>

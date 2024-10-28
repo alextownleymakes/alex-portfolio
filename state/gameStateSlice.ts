@@ -1,13 +1,20 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ratios, ScalesType } from '../utils/functions/zoom';
+import { ratios } from '../utils/functions/zoom';
+import { StellarBodyType } from '../utils/types/stellarBodies';
 
 export interface Coords {
     x: number;
     y: number;
 }
 
+export interface Target {
+    id: number | undefined;
+    type: StellarBodyType | undefined;
+}
+
 export interface GameState {
     zoom: number;
+    windowSize: Coords;
     universeSize: number;
     galaxySize: number;
     approachDistance: number;
@@ -17,11 +24,14 @@ export interface GameState {
     speed: number;
     rotation: number;
     dev: boolean;
+    target: Target;
+    orbiting: Target;
 }
 
 const initialState: GameState = {
     zoom: 0,
     position: { x: 0, y: 0 },
+    windowSize: { x: 0, y: 0 },
     universeSize: 100000,
     galaxySize: 500,
     approachDistance: 200,
@@ -30,6 +40,8 @@ const initialState: GameState = {
     speed: 0,
     rotation: 0,
     dev: false,
+    target: { id: undefined, type: undefined },
+    orbiting: { id: undefined, type: undefined }
 };
 
 const gameStateSlice = createSlice({
@@ -69,6 +81,13 @@ const gameStateSlice = createSlice({
         },
         updateAll: (state, action: PayloadAction<Partial<GameState>>) => {
             Object.assign(state, action.payload); // This is fine if you are updating multiple fields.
+        },
+        setOrbit: (state, action: PayloadAction<Target>) => {
+            state.orbiting = action.payload;
+        },
+        setWindowSize: (state, action: PayloadAction<Coords>) => {
+            state.windowSize.x = action.payload.x;
+            state.windowSize.y = action.payload.y;
         }
     },
 });
@@ -80,6 +99,8 @@ export const {
     updateVelocity,
     updateSpeed,
     updateRotation,
-    updateAll
+    updateAll,
+    setOrbit,
+    setWindowSize
 } = gameStateSlice.actions;
 export default gameStateSlice.reducer;

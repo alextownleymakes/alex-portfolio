@@ -1,3 +1,5 @@
+"use client";
+
 import { useDispatch, useSelector } from 'react-redux';
 import { RootState } from '../../state/store';
 import { pressKey, releaseKey } from "@/state/keyStateSlice";

@@ -18,6 +18,8 @@ const Galaxy: React.FC<GalaxyProps> = ({
 }) => {
     const playerState = useSelector((state: RootState) => state.gameState);
 
+    const windowSize = useSelector((state: RootState) => state.gameState.windowSize);
+
     const { position, universeSize, zoomedPosition, zoom, dev} = playerState;
 
     const ratio = ratios[zoom];
@@ -29,6 +31,8 @@ const Galaxy: React.FC<GalaxyProps> = ({
         return distance < 3000;
     });
 
+    if (!windowSize.x || !windowSize.y) return null;
+
     return (
         <>
             <div
@@ -38,8 +42,8 @@ const Galaxy: React.FC<GalaxyProps> = ({
                     width: universeSize * ratio,
                     height: universeSize * ratio,
                     position: 'absolute',
-                    left: -((universeSize * ratio) / 2) + (window.innerWidth / 2) - (zoomedPosition.x !== 0 ? zoomedPosition.x : position.x),
-                    top: -((universeSize * ratio) / 2) + (window.innerHeight / 2) - (zoomedPosition.y !== 0 ? zoomedPosition.y : position.y),
+                    left: -((universeSize * ratio) / 2) + (windowSize.x/2) - (zoomedPosition.x !== 0 ? zoomedPosition.x : position.x),
+                    top: -((universeSize * ratio) / 2) + (windowSize.y/2)- (zoomedPosition.y !== 0 ? zoomedPosition.y : position.y),
                     // transition: 'all .1s ease-in-out',
                 }}>
                 {visibleSystems.map((system) => (

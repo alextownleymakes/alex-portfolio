@@ -5,17 +5,33 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/store";
 import { Coords, zoomIn, zoomOut } from "@/state/gameStateSlice";
 import { ratios, scaleDistances } from "@/utils/functions/zoom";
+import { StellarBodyType } from "@/utils/types/stellarBodies";
 
-interface useApproachProps {
+export interface UseApproachProps {
     ref: React.RefObject<HTMLElement>;
     coords: Coords;
     scale: number;
     miniMap?: boolean;
+    id?: number;
+    type?: StellarBodyType;
 }
 
-const useApproach = (
-    { ref, coords, scale, miniMap = false }: useApproachProps
-): { approachDistance: number, distanceToPlayer: () => number, systemCenter: { x: number, y: number }, activeSystem: boolean } => {
+export interface UseApproachReturn {
+    approachDistance: number;
+    distanceToPlayer: () => number;
+    systemCenter: Coords;
+    activeSystem: boolean;
+}
+
+const useApproach = ({
+    ref,
+    coords,
+    scale,
+    miniMap = false,
+    id,
+    type
+}: UseApproachProps):
+    UseApproachReturn => {
 
     const dispatch = useDispatch();
     const playerPosition = useSelector((state: RootState) => state.gameState.zoomedPosition);

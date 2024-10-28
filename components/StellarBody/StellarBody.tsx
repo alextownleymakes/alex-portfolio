@@ -1,14 +1,12 @@
 import React from 'react';
+import useApproach, { UseApproachProps } from '@/hooks/useApproach';
 import { useSelector } from 'react-redux';
 import { StarSystem as StarSystemType, Star as StarType, Planet as PlanetType, Moon as MoonType, StellarBodyType, StarVariantType, PlanetVariantType } from '../../utils/types/stellarBodies';
 import { ratios } from '../../utils/functions/zoom';
 import { RootState } from '../../state/store';
-import useApproach from '@/hooks/useApproach';
 import { StellarDataType, BodyValuesProps, bodyValues } from '@/utils/functions/calculations';
 import BodyData from '../BodyData/BodyData';
 import styles from './StellarBody.module.scss';  // Importing the CSS Module
-
-
 
 interface StellarBodyProps {
   system?: StarSystemType;
@@ -40,7 +38,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
   const bv = bodyValues(bodyValueProps);
   const { x, y, left, top, width, height, backgroundColor, border, dLeft, dTop, name, key } = bv;
 
-  const useApproachProps = {
+  const useApproachProps: UseApproachProps = {
     ref,
     coords: { x, y },
     scale,

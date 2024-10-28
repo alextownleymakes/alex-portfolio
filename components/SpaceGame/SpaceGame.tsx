@@ -1,6 +1,6 @@
 "use client";
 
-import React from 'react';
+import React, { useEffect } from 'react';
 import StarField from "../StarField/StarField";
 import Universe from '../Universe/Universe';
 import Galaxy from '../Galaxy/Galaxy';
@@ -15,10 +15,7 @@ const SpaceGame = () => {
     <Universe>
       <PlayerController>
         <HUD />
-        <StarField
-          width={window.innerWidth}
-          height={window.innerHeight}
-        />
+        <StarField/>
         <Galaxy
           systems={systems}
         />

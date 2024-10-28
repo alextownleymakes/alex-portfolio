@@ -6,9 +6,9 @@ import { ratios, scales } from '../../utils/functions/zoom';
 import { RootState } from '../../state/store';
 import useApproach from '@/hooks/useApproach';
 import StellarBody from '../StellarBody/StellarBody';
-import { bodies, BodyTypes, bodyValues } from '@/utils/functions/calculations';
+import { bodyValues } from '@/utils/functions/calculations';
 import BodyData from '../BodyData/BodyData';
-import { Star, Planet, Moon, Asteroid, AsteroidBelt, PlanetVariants, StarVariants, StellarBodies, StarVariantType, PlanetVariantType } from '@/utils/types/stellarBodies';
+import { Star, Planet, Moon, StarVariantType, } from '@/utils/types/stellarBodies';
 
 
 interface StarSystemProps {
@@ -45,8 +45,8 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
       id={system.id + ''}
       ref={starSysRef}
       style={{
-        top,
-        left,
+        top: `calc(50% + ${system.position.y * ratio}px)`,
+        left: `calc(50% + ${system.position.x * ratio}px)`,
         width: 0,
         height: 0,
         position: 'absolute',
