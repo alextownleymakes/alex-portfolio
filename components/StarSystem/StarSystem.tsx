@@ -20,7 +20,7 @@ interface StarSystemProps {
 
 const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
-  const dev = useSelector((state: RootState) => state.gameState.dev);
+  const dev = useSelector((state: RootState) => state.keyState.devDisplay.pressed);
   const ratio = ratios[zoom];
   const starSysRef = React.useRef<HTMLDivElement>(null);
 
@@ -35,6 +35,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
     stellarData: { system },
     ratio,
     miniMap,
+    dev
   });
 
   const { name, type, x, y, dLeft, dTop } = bv;
@@ -60,7 +61,6 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
         y={y}
         left={dLeft}
         top={dTop}
-        dev={dev} 
         miniMap={miniMap}
         distanceToPlayer={distanceToPlayer}
       />

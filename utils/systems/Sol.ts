@@ -306,7 +306,7 @@ export const sedna: Planet = {
 
 export const solStar: Star = {
   id: 1,
-  name: 'Sol',
+  name: 'The Sun',
   mass: 1.989e30, // kg
   chemicalComposition: {
     H: 0.74,

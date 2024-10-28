@@ -100,29 +100,36 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
         );
     }
 
-    const formulateLeft = (stellarData: StellarDataType): string => {
+    const formulateLeft = (stellarData: StellarDataType): number => {
         const { system, star, planet, moon } = stellarData;
         const formula = (!star && !planet && !moon )? formulateX({system}) : formulateX(stellarData) - (system ? formulateX({system}) : 0);
-        return calc(formula);
+        return formula;
     }
 
-    const formulateTop = (stellarData: StellarDataType): string => {
+    const formulateTop = (stellarData: StellarDataType): number => {
         const { system, star, planet, moon } = stellarData;
 
         const formula = (!star && !planet && !moon )? formulateY({system}) : formulateY(stellarData) - (system ? formulateY({system}) : 0);
-        return calc(formula);
+        return formula;
     }
 
     const formulateDLeft = (stellarData: StellarDataType): string => {
         const { star, planet, moon } = stellarData;
-        const size = 250 * ratio + 10;
-        const formula = (!star && !planet && !moon ) ? size + 'px': `calc(10px + 100%)`;
 
-        return formula;
+        const bodyLeft = formulateLeft(stellarData);
+        const size = formulateSize(stellarData);
+        const str = (!star && !planet && !moon ) ? (250 * ratio) + 'px': `calc(10px + ${bodyLeft}px + ${size/2}px)`;
+        console.log('left:', str);
+        return str;
     }
 
-    const formulateDTop = () => {
-        return `calc(50% - ${dev ? '1.55' : '.5'}rem)`;
+    const formulateDTop = (stellarData: StellarDataType): string => {
+        const { star, planet, moon } = stellarData;
+        const bodyTop = formulateTop(stellarData);
+        const size = formulateSize(stellarData);
+        const str = (!star && !planet && !moon ) ? `calc(${dev ? '-1.55' : '-.5'}rem` : `calc(${bodyTop}px - ${dev ? '1.55' : '.5'}rem)`
+        console.log('top:',dev,  str);
+        return str;
     }
 
     const formulateColor = (stellarData: StellarDataType): string => {
@@ -164,14 +171,14 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
         key: formulateKey(stellarData),
         x: formulateX(stellarData),
         y: formulateY(stellarData),
-        left: formulateLeft(stellarData),
-        top: formulateTop(stellarData),
+        left: calc(formulateLeft(stellarData)),
+        top: calc(formulateTop(stellarData)),
         width: formulateSize(stellarData),
         height: formulateSize(stellarData),
         backgroundColor: formulateBackgroundColor(stellarData),
         border: formulateBorder(stellarData),
         dLeft: formulateDLeft(stellarData),
-        dTop: formulateDTop(),
+        dTop: formulateDTop(stellarData),
         type: formulateType(stellarData),
     }
 

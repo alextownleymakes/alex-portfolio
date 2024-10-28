@@ -23,7 +23,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
 
   const ref = React.useRef<HTMLDivElement>(null);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
-  const dev = useSelector((state: RootState) => state.gameState.dev);
+  const dev = useSelector((state: RootState) => state.keyState.devDisplay.pressed);
   const ratio = !miniMap ? ratios[zoom] : ratios[zoom] / 10;
 
   const stellarData: StellarDataType = { system, star, planet, moon };
@@ -76,7 +76,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
         }}
         className={`${variantClass} ${bodyClass} ${waterClass}`}
       >
-        
+      </div>
       <BodyData
         name={name}
         type={type}
@@ -84,11 +84,9 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
         y={y}
         left={dLeft}
         top={dTop}
-        dev={dev}
         miniMap={miniMap}
         distanceToPlayer={distanceToPlayer}
       />
-      </div>
     </>
   );
 };
