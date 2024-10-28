@@ -24,6 +24,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
   const ref = React.useRef<HTMLDivElement>(null);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
   const dev = useSelector((state: RootState) => state.keyState.devDisplay.pressed);
+  const lowestOrbit = useSelector((state: RootState) => state.gameState.lowestOrbit);
   const ratio = !miniMap ? ratios[zoom] : ratios[zoom] / 10;
 
   const stellarData: StellarDataType = { system, star, planet, moon };
@@ -52,8 +53,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
   const variantClass = variant ? variant === 'moon' ? styles['craters'] : styles[variant] : '';
   const bodyClass = styles['body'];
   const waterClass = variant === 'earthLike' ? styles['earthLikeWater'] : '';
-  const orbitString = `orbited${miniMap ? '-mm' : `-${type}`}`
-  const orbitedClass = styles[orbitString];
+  const orbitedClass = styles['orbited'];
 
   return (
     <>
@@ -78,7 +78,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
           transform: `translate(-50%, -50%)`, 
           overflow: 'hidden',
         }}
-        className={`${variantClass} ${bodyClass} ${waterClass} ${orbitedClass}`}
+        className={`${variantClass} ${bodyClass} ${waterClass} ${lowestOrbit.name === name && orbitedClass}`}
       >
       </div>
       <BodyData

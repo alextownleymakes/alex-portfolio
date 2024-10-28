@@ -4,6 +4,7 @@ import { setWindowSize } from '@/state/gameStateSlice';
 import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/state/store';
 import { useEffect } from 'react';
+import { useLowestOrbit } from '@/hooks/useLowestOrbit';
 
 interface UniverseProps {
     children: React.ReactNode,
@@ -14,7 +15,10 @@ const Universe: React.FC<UniverseProps> = ({
 
     const windowSize = useSelector((state: RootState) => state.gameState.windowSize);
     const universeRef = React.useRef<HTMLDivElement>(null);
+    const orbit = useSelector((state: RootState) => state.gameState.orbit);
     const dispatch = useDispatch();
+
+    useLowestOrbit(orbit);
 
     useEffect(() => {
         if (universeRef.current) {

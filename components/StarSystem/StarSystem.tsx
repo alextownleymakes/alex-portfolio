@@ -75,7 +75,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
             scale={scales.star}
             variant={star.variant as StarVariantType}
           />
-          {zoom > scales.starSystem && activeSystem && star.planets?.map((planet: Planet) => (
+          {zoom > scales.galaxy && activeSystem && star.planets?.map((planet: Planet) => (
             <React.Fragment key={`${planet.name}-planet`}> {/* Ensure each planet has a unique key */}
               <StellarBody
                 key={`${planet.name}-planet`}
@@ -87,7 +87,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
                 scale={scales.planet}
                 variant={planet.variant}
               />
-              {zoom > scales.star && planet.moons?.map((moon: Moon) => (
+              {zoom > scales.starSystem && planet.moons?.map((moon: Moon) => (
                 <StellarBody
                   key={`${moon.name}-moon`} // Ensure each moon has a unique key
                   system={system}

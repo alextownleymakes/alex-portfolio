@@ -1,4 +1,6 @@
 import { StarSystem as StarSystemType, Star as StarType, Planet as PlanetType, Moon as MoonType } from '../../utils/types/stellarBodies';
+import { RootState } from '../../state/store';
+import { useSelector } from 'react-redux';
 
 export type BodyTypes = 'starSystem' | 'star' | 'planetSystem' | 'planet' | 'moonSystem' | 'moon' | 'asteroidSytem' | 'asteroid';
 
@@ -45,9 +47,13 @@ export interface BodyValuesProps {
 
 export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
 
+    const zoom = useSelector((state: RootState) => state.gameState.zoom);
+
     const { stellarData, ratio, miniMap, dev } = data;
 
     const calc = (f: number): string => `calc(50% + ${f}px)`;
+
+    const divide = 1.5;
 
     const formulateX = (stellarData: StellarDataType): number => {
         const { system, star, planet, moon } = stellarData;
@@ -63,9 +69,9 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
                 +
                 starX
                 +
-                planetX
+                ( zoom < 2 ? planetX / divide : planetX)
                 +
-                moonX
+                ( zoom < 3 ? moonX / divide : moonX)
             ) * ratio
         );
     }
@@ -84,9 +90,9 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
                 +
                 starY
                 +
-                planetY
+                ( zoom < 2 ? planetY / divide : planetY)
                 +
-                moonY
+                ( zoom < 3 ? moonY / divide : moonY)
             ) * ratio
         );
     }

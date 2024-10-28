@@ -1,9 +1,9 @@
 .body {
 
-    box-shadow: 
-        inset -1px -1px 0px -6px rgba(123, 213, 255, 2.431), 
-        inset 5px 6px 9px 1px rgba(0, 17, 55, .6), 
-        1px 1px 100px -1px rgba(127, 127, 127, 0.5), 
+    box-shadow:
+        inset -1px -1px 0px -6px rgba(123, 213, 255, 2.431),
+        inset 5px 6px 9px 1px rgba(0, 17, 55, .6),
+        1px 1px 100px -1px rgba(127, 127, 127, 0.5),
         .5px .5px 2px 1px rgba(142, 227, 246, 0.22)
 }
 
@@ -301,75 +301,57 @@
     }
 }
 
-.orbited-star {
-    animation: orbit 2s infinite ease-in-out;
-}
-
-@keyframes orbit {
-        0% {
-            box-shadow: 
-                0 0 3px 5px rgba(70, 130, 180, 0.6), 
-                0 0 5px 10px rgba(253, 253, 253, 0.3);
-        }
-        
-        40% {
-            box-shadow: 
-                0 0 3px 10px rgba(70, 130, 180, 0.6), 
-                0 0 10px 20px rgba(253, 253, 253, .5);
-        }
-
-        100% {
-            box-shadow: 
-                0 0 3px 5px rgba(70, 130, 180, 0.6), 
-                0 0 5px 10px rgba(253, 253, 253, 0.3);
-        }
-}
-
-.orbited-mm {
-    animation: orbit-mm 2s infinite ease-in-out;
-}
-
-@keyframes orbit-mm {
-        0% {
-            box-shadow: 
-                0 0 3px 2px rgba(70, 130, 180, 0.6), 
-                0 0 10px 5px rgba(253, 253, 253, 0.3);
-        }
-        
-        40% {
-            box-shadow: 
-                0 0 3px 4px rgba(70, 130, 180, 0.6), 
-                0 0 10px 5px rgba(253, 253, 253, 1);
-        }
-
-        100% {
-            box-shadow: 
-                0 0 3px 2px rgba(70, 130, 180, 0.6), 
-                0 0 10px 5px rgba(253, 253, 253, 0.3);
-        }
-    
-}
-
-.orbited-planet {
+.orbited {
     animation: orbit-planet 2s infinite ease-in-out;
 }
 
 @keyframes orbit-planet {
     0% {
-        box-shadow: 
-            0 0 3px 2px rgba(70, 130, 180, 0.6), 
-            0 0 10px 5px rgba(253, 253, 253, 0.3);
+        box-shadow:
+            0 0 3px 3px rgba(0, 0, 0, 1),
+            0 0 4px 4px rgb(11, 128, 224,0),
+            // 0 0 10px 10px rgba(255, 255, 255, 1);
     }
-    
+
     40% {
-        box-shadow: 
-            0 0 3px 4px rgba(70, 130, 180, 0.6), 
-            0 0 10px 5px rgba(253, 253, 253, 1);
+        box-shadow:
+            0 0 4px 6px rgba(0, 0, 0, 1),
+            0 0 10px 10px rgb(255, 255, 255),
+            // 0 0 6px 6px rgba(253, 253, 253, 0);
     }
 
     100% {
-        box-shadow: 
-            0 0 3px 2px rgba(70, 130, 180, 0.6), 
-            0 0 10px 5px rgba(253, 253, 253, 0.3);
+        box-shadow:
+            0 0 3px 3px rgba(0, 0, 0, 1),
+            0 0 4px 4px rgba(11, 128, 224,0),
+            // 0 0 10px 10px rgba(255, 255, 255, 1);
     }
 }
+
+.targeted {
+    animation: target 2s infinite ease-in-out;
+}
+
+ @keyframes target {
+    0% {
+        box-shadow:
+            0 0 3px 3px rgba(0, 0, 0, 1),
+            0 0 4px 4px rgb(11, 128, 224,0),
+            // 0 0 10px 10px rgba(255, 255, 255, 1);
+    }
+
+    40% {
+        box-shadow:
+            0 0 4px 6px rgba(0, 0, 0, 1),
+            0 0 10px 10px rgb(11, 224, 75),
+            // 0 0 6px 6px rgba(253, 253, 253, 0);
+    }
+
+    100% {
+        box-shadow:
+            0 0 3px 3px rgba(0, 0, 0, 1),
+            0 0 4px 4px rgba(11, 128, 224,0),
+            // 0 0 10px 10px rgba(255, 255, 255, 1);
+    }
+    
+ }

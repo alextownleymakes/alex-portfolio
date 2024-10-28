@@ -3,7 +3,7 @@
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/store";
-import { Coords, zoomIn, zoomOut } from "@/state/gameStateSlice";
+import { Coords, setOrbit, zoomIn, zoomOut } from "@/state/gameStateSlice";
 import { ratios, scaleDistances } from "@/utils/functions/zoom";
 import { StellarBodyType } from "@/utils/types/stellarBodies";
 
@@ -63,9 +63,11 @@ const useApproach = ({
         if (!miniMap) {
             if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distanceToPlayer() < (approachDistance * ratios[zoom]) && !zoomed && zoom === scale - 1) {
                 setZoomed(true);
+                dispatch(setOrbit({type, name}));
                 dispatch(zoomIn({ scale }));
             } else if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distanceToPlayer() > ((approachDistance * ratios[zoom]) * 2) && zoomed && zoom === scale) {
                 setZoomed(false);
+                dispatch(setOrbit({type: undefined, name: undefined}));
                 dispatch(zoomOut({ scale: scale - 1 }));
             }
         }

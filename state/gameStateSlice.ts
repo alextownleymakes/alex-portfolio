@@ -33,6 +33,7 @@ export interface GameState {
     dev: boolean;
     target: Orbits;
     orbit: Orbits;
+    lowestOrbit: Target;
 }
 
 const initialState: GameState = {
@@ -58,7 +59,11 @@ const initialState: GameState = {
         star: undefined,
         planet: undefined,
         moon: undefined,
-    }
+    },
+    lowestOrbit: {
+        name: undefined,
+        type: undefined,
+    },
 };
 
 const gameStateSlice = createSlice({
@@ -118,6 +123,10 @@ const gameStateSlice = createSlice({
                     break;
             }
         },
+        setLowestOrbit: (state, action: PayloadAction<Target>) => {
+            console.log(action.payload);
+            state.lowestOrbit = action.payload;
+        },
         setWindowSize: (state, action: PayloadAction<Coords>) => {
             state.windowSize.x = action.payload.x;
             state.windowSize.y = action.payload.y;
@@ -134,6 +143,7 @@ export const {
     updateRotation,
     updateAll,
     setOrbit,
+    setLowestOrbit,
     setWindowSize
 } = gameStateSlice.actions;
 export default gameStateSlice.reducer;
