@@ -40,11 +40,16 @@ const useApproach = ({
     const approachDistance = scaleDistances[scale];
 
     const [distance, setDistance] = useState(0);
+    const [zoomed, setZoomed] = useState(false);
+    const [systemCenter, setSystemCenter] = useState({
+        x: ref.current ? coords.x : 0,
+        y: ref.current ? coords.y : 0,
+    });
 
     useEffect(() => {
 
         const values = {
-            px: playerPosition.x,
+            px: Number(playerPosition.x),
             py: playerPosition.y,
             cx: coords.x,
             cy: coords.y,
@@ -52,12 +57,6 @@ const useApproach = ({
 
         setDistance(distanceTo(values));
     }, [playerPosition, coords]);
-
-    const [systemCenter, setSystemCenter] = useState({
-        x: ref.current ? coords.x : 0,
-        y: ref.current ? coords.y : 0,
-    });
-
 
     useEffect(() => {
         setSystemCenter({
@@ -67,11 +66,12 @@ const useApproach = ({
 
     }, [ref.current]);
 
-    const [zoomed, setZoomed] = useState(false);
-
-    const distanceToPlayer = () => {
-        return Math.sqrt(Math.pow(playerPosition.x - coords.x, 2) + Math.pow(playerPosition.y - coords.y, 2));
-    }
+    const distanceToPlayer = () => distanceTo({
+        px: Number(playerPosition.x),
+        py: playerPosition.y,
+        cx: coords.x,
+        cy: coords.y,
+    });
 
     useEffect(() => {
         if (!miniMap) {
@@ -85,7 +85,7 @@ const useApproach = ({
                 dispatch(zoomOut({ scale: scale - 1 }));
             }
         }
-    }, [distanceToPlayer()]);
+    }, [distance]);
     return { approachDistance, distanceToPlayer, systemCenter, activeSystem: zoomed };
 
 };

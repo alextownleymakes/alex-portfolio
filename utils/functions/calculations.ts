@@ -194,5 +194,5 @@ export const calculateDistance = (pos1: { x: number; y: number }, pos2: { x: num
 
 export const distanceTo = (props : { px: number, py: number, cx: number, cy: number }) => {
     const { px, py, cx, cy } = props;
-    return Math.sqrt(Math.pow(px - cx, 2) + Math.pow(py - cy, 2));
+    return Number(Math.sqrt(Math.pow(px - cx, 2) + Math.pow(py - cy, 2)).toFixed(0));
 }

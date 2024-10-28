@@ -8,7 +8,7 @@ interface BodyDataProps {
     x: number;
     y: number;
     miniMap: boolean;
-    distanceToPlayer: () => number;
+    distance: number;
     left: number | string;
     top: number | string;
 }
@@ -21,7 +21,7 @@ const BodyData: React.FC<BodyDataProps> = ({
     left = 'calc(100% + 5px)',
     top = 'calc(50% - 1.5rem)',
     miniMap = false,
-    distanceToPlayer
+    distance
 }) => {
 
     const dev = useSelector((state: RootState) => state.keyState.devDisplay.pressed);
@@ -46,7 +46,7 @@ const BodyData: React.FC<BodyDataProps> = ({
             {dev && <br />}
             {dev && `x: ${x}; y: ${y}`}
             {dev && <br />}
-            {dev && (` DTP: ${distanceToPlayer().toFixed(0)};`)}
+            {dev && (` DTP: ${distance};`)}
         </div>
     );
 }

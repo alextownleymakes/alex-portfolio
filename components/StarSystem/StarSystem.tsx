@@ -62,7 +62,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
         left={dLeft}
         top={dTop}
         miniMap={miniMap}
-        distanceToPlayer={distanceToPlayer}
+        distance={distanceToPlayer()}
       />
       {system.stars.map((star: Star) => (
         <React.Fragment key={`${star.name}-star`}> {/* Ensure each star has a unique key */}

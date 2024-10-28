@@ -90,7 +90,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
         left={dLeft}
         top={dTop}
         miniMap={miniMap}
-        distanceToPlayer={distanceToPlayer}
+        distance={distanceToPlayer()}
       />
     </>
   );
