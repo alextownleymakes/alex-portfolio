@@ -1,6 +1,6 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-export type DrawerList = 'miniMap' | 'flightData' | 'systemMap' | 'systemInfo' | 'playerInfo' | 'gameMenu' | 'shipStats' | 'missonBoard' | 'market' | 'shipyard' | 'inventory' | 'log' | 'chat' | 'settings' | 'controls' | 'devDisplay';
+export type DrawerList = 'miniMap' | 'flightData' | 'systemMap' | 'systemInfo' | 'playerInfo' | 'gameMenu' | 'shipStats' | 'missionControl' | 'market' | 'shipyard' | 'inventory' | 'log' | 'chat' | 'settings' | 'controls' | 'devDisplay';
 
 export type DrawerListObject = {[key: string]: DrawerList};
 
@@ -12,7 +12,7 @@ export const drawerList: DrawerListObject = {
     playerInfo: 'playerInfo',
     gameMenu: 'gameMenu',
     shipStats: 'shipStats',
-    missonBoard: 'missonBoard',
+    missionControl: 'missionControl',
     market: 'market',
     shipyard: 'shipyard',
     inventory: 'inventory',
@@ -21,6 +21,7 @@ export const drawerList: DrawerListObject = {
     settings: 'settings',
     controls: 'controls',
     devDisplay: 'devDisplay',
+
 }
 
 export interface DrawerState {
@@ -31,7 +32,7 @@ export interface DrawerState {
     playerInfo: boolean;
     gameMenu: boolean;
     shipStats: boolean;
-    missonBoard: boolean;
+    missionControl: boolean;
     market: boolean;
     shipyard: boolean;
     inventory: boolean;
@@ -50,7 +51,7 @@ const initialState: DrawerState = {
     playerInfo: false,
     gameMenu: false,
     shipStats: false,
-    missonBoard: false,
+    missionControl: false,
     market: false,
     shipyard: false,
     inventory: false,

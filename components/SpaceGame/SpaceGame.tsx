@@ -7,6 +7,7 @@ import Galaxy from '../Galaxy/Galaxy';
 import Player from "../Player/Player";
 import PlayerController from '../PlayerController/PlayerController';
 import HUD from '../HUD/HUD';
+import MissionCenter from '../MissionCenter/MissionCenter';
 
 const SpaceGame = () => {
 
@@ -14,8 +15,9 @@ const SpaceGame = () => {
     <Universe>
       <PlayerController>
         <HUD />
-        <StarField/>
         <Galaxy/>
+        <MissionCenter />
+        <StarField/>
         <Player/>
       </PlayerController>
     </Universe>

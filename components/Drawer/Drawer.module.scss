@@ -3,13 +3,70 @@
     transition: transform 0.3s ease;
 }
 
-.shipHud {
-    border: 4px solid rgba(0, 55, 92, 0.887);
-    background-color: rgba(1, 40, 66, 0.779);
+.hud::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-blend-mode: difference;
+    animation: b 1s infinite alternate;
+    opacity: .8;
+    outline: none;
+    box-shadow: inset 0 0 10px #224a6b;
+    backdrop-filter: blur(10px);
 }
+
+.hud-top::before {
+    border-radius: 0 0 50px 50px;
+}
+
+.hud-bottom::before {
+    border-radius: 50px 50px 0 0;
+}
+
+.hud-left::before {
+    border-radius: 0 50px 50px 0;
+}
+
+.hud-right::before {
+    border-radius: 50px 0 0 50px;
+}
+
+.hud::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background-color: rgba(1, 40, 66, 0.779);
+    background:
+        repeating-radial-gradient(#002f4e 0 0.0001%, #009fcb 0 0.0002%) 50% 0/2500px 2500px,
+        repeating-conic-gradient(#002f4e 0 0.0001%, #009fcb 0 0.0002%) 60% 60%/2500px 2500px;
+    background-blend-mode: difference;
+    animation: b 1s infinite alternate;
+    scale: 98% 94%;
+    border-radius: 50px;
+    box-shadow: 0 0 10px #224a6b;
+    backdrop-filter: blur(10px);
+    opacity: .5;
+}
+
+@keyframes b {
+    0% {
+        background-position: 50% 0, 60% 60%
+    }
+
+    100% {
+        background-position: 50% 0, 60% 50%
+    }
+}
+
 /* Drawer.module.scss */
 
-.drawerTop {
+.drawer-top {
     top: 0;
     width: 100%;
     height: 35%;
@@ -17,34 +74,38 @@
     margin: 0 auto auto auto;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
+    border-top: none;
 }
 
-.drawerBottom {
+.drawer-bottom {
     bottom: 0;
     width: 100%;
     height: 35%;
     transform: translateY(200%);
     margin: auto auto 10 auto;
+    border-bottom: none;
     border-bottom-left-radius: 0;
     border-bottom-right-radius: 0;
 }
 
-.drawerLeft {
+.drawer-left {
     left: 0;
     width: 35%;
     height: 100%;
     transform: translateX(-200%);
     margin: auto 0 auto auto;
+    border-left: none;
     border-top-left-radius: 0;
     border-bottom-left-radius: 0;
 }
 
-.drawerRight {
+.drawer-right {
     right: 0;
     width: 35%;
     height: 100%;
     transform: translateX(200%);
     margin: auto auto auto 0;
+    border-right: none;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
 }

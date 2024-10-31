@@ -73,6 +73,10 @@ const useApproach = ({
         cy: coords.y,
     });
 
+    const checkForMission = () => {
+        // Check for mission
+    }
+
     useEffect(() => {
         if (!miniMap) {
             if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distance < (approachDistance * ratios[zoom]) && !zoomed && zoom === scale - 1) {
