@@ -42,47 +42,50 @@ const DevDisplayHUD: React.FC = () => {
     }
 
     return (<Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={2}>
-            <Grid size={6}>
+        <Grid container spacing={4}>
+            <Grid size={4}>
                 <ol>
-                    <li>
+                    {/* <li>
                         <strong>Position:</strong>&nbsp;{zoomedPosition.x.toFixed(0)},&nbsp;{zoomedPosition.y.toFixed(0)}
                     </li>
                     <li>
                         <strong>Velocity:</strong>&nbsp;{velocity.x.toFixed(0)},&nbsp;{velocity.y.toFixed(0)}
-                    </li>
+                    </li> */}
                     <li>
                         <strong>Throttle:</strong>&nbsp;{speed.toFixed(0)}
                     </li>
                     <li>
                         <strong>Rotation:</strong>&nbsp;{rotation.toFixed(0)}
                     </li>
-                    <li>
-                        <strong>Zoom:</strong>&nbsp;{zoom.toFixed(0)}
-                    </li>
-                    <li>
-                        <strong>Lowest Orbit:</strong>&nbsp;{lowestOrbit.name}
-                    </li>
                 </ol>
             </Grid>
-            {lowestOrbit.name && lowestOrbit.type && (
-                <Grid size={6}>
-                    <h1><strong>ORBITAL LOCK</strong></h1>
-                    {lowestOrbit.name?.toUpperCase() ?? 'No Orbit'}{' '}{lowestOrbit.type ? `(${lowestOrbit.type})` : ''}
-                    <div
-                        style={{
-                            marginLeft: "auto",
-                            marginTop: "30px",
-                            width: "150px",
-                            height: "150px",
-                            backgroundColor: 'none',
-                            borderRadius: '50%',
-                            border: '1px solid #fff',
-                            opacity: 0.5,
-                            zIndex: -1,
-                        }}
-                    >{' '}</div>
-                </Grid>)}
+            <Grid size={4}>
+                <h1><strong>ORBITAL LOCK</strong></h1>
+                {lowestOrbit.name?.toUpperCase() ?? 'No Orbit'}{' '}{lowestOrbit.type ? `(${lowestOrbit.type})` : ''}
+                {lowestOrbit.name && lowestOrbit.type &&
+                    (
+                        <div
+                            style={{
+                                marginLeft: "auto",
+                                marginTop: "30px",
+                                width: "150px",
+                                height: "150px",
+                                backgroundColor: 'none',
+                                borderRadius: '50%',
+                                border: '1px solid #fff',
+                                opacity: 0.5,
+                                zIndex: -1,
+                            }}
+                        >
+                            {' '}
+                        </div>
+                    )
+                }
+            </Grid>
+            <Grid size={4}>
+                <h1><strong>ACTIVE MISSION</strong></h1>
+                {playerState.currentMission ? playerState.currentMission : 'No Active Mission'}
+            </Grid>
         </Grid>
     </Box>);
 }

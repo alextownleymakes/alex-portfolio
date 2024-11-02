@@ -28,7 +28,7 @@ const KeyboardHUDBody: React.FC = () => {
 
 export const keyboardProps: HUDPieceProps = {
     name: 'controls',
-    position: 'right',
+    position: 'left',
     styles: {
         height: 'auto',
         width: 'auto',
