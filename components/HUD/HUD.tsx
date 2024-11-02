@@ -13,6 +13,15 @@ const HUD: React.FC = () => {
         keyboardProps,
         missionCenterProps,
         devDisplayProps,
+        // {...miniMapProps,
+        //     styles: {
+        //         ...miniMapProps.styles,
+        //         left: '1%',
+        //         width: '30%',
+        //         padding: '60px',
+        //         margin: '0 auto 0 0',
+        //     },
+        // }
     ];
 
     const hud = hudPieces.map((piece) => <HUDPiece {...piece} key={piece.name} />);

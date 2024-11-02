@@ -55,8 +55,8 @@ export const miniMapProps: HUDPieceProps = {
     styles: {
         right: '1%',
         margin: '0 auto',
-        width: 'auto',
-        padding: '60px',
+        width: '30%',
+        // padding: '60px',
     },
     className: 'hud',
     children: <MiniMapBody/>

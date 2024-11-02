@@ -8,7 +8,7 @@ import { StellarDataType, BodyValuesProps, bodyValues } from '@/utils/functions/
 import BodyData from '../BodyData/BodyData';
 import styles from './StellarBody.module.scss';  // Importing the CSS Module
 
-interface StellarBodyProps {
+export interface StellarBodyProps {
   system?: StarSystemType;
   planet?: PlanetType;
   star?: StarType;
