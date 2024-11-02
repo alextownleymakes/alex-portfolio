@@ -4,7 +4,32 @@ import { useSelector } from "react-redux";
 import { HUDPieceProps } from "../HUD/HUDPiece";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
+import { systems } from '../../utils/systems/systems';
 
+
+const findBody = (
+    obj: { [key: string]: any },
+    name: string,
+    type: string
+): any | undefined => {
+    // Base case: if the current object matches, return it
+    if (obj.name === name && obj.type === type) {
+        return obj;
+    }
+
+    // Iterate through each property of the current object
+    for (const key in obj) {
+        // Ensure the property is an object before diving deeper
+        if (typeof obj[key] === "object" && obj[key] !== null) {
+            const result = findBody(obj[key], name, type);
+            if (result) {
+                return result; // Found a match in a nested object
+            }
+        }
+    }
+
+    return undefined; // No match found in this branch
+}
 
 const DevDisplayHUD: React.FC = () => {
 
@@ -13,33 +38,19 @@ const DevDisplayHUD: React.FC = () => {
 
     const { position, zoomedPosition, velocity, speed, rotation, zoom, lowestOrbit } = gameState;
 
+    const [currentSystem, setCurrentSystem] = React.useState<any>(null);
     React.useEffect(() => {
-        console.log('lowestOrbit', lowestOrbit);
+        if (lowestOrbit.name && lowestOrbit.type) {
+            const system = findBody(systems, lowestOrbit.name, lowestOrbit.type);
+            if (system) {
+                setCurrentSystem(system);
+            }
+        } else {
+            setCurrentSystem(null);
+        }
+
     }, [lowestOrbit]);
 
-    const findBody = (
-        obj: { [key: string]: any },
-        name: string,
-        type: string
-    ): any | undefined => {
-        // Base case: if the current object matches, return it
-        if (obj.name === name && obj.type === type) {
-            return obj;
-        }
-
-        // Iterate through each property of the current object
-        for (const key in obj) {
-            // Ensure the property is an object before diving deeper
-            if (typeof obj[key] === "object" && obj[key] !== null) {
-                const result = findBody(obj[key], name, type);
-                if (result) {
-                    return result; // Found a match in a nested object
-                }
-            }
-        }
-
-        return undefined; // No match found in this branch
-    }
 
     return (<Box sx={{ flexGrow: 1 }}>
         <Grid container spacing={4}>
@@ -62,7 +73,7 @@ const DevDisplayHUD: React.FC = () => {
             <Grid size={4}>
                 <h1><strong>ORBITAL LOCK</strong></h1>
                 {lowestOrbit.name?.toUpperCase() ?? 'No Orbit'}{' '}{lowestOrbit.type ? `(${lowestOrbit.type})` : ''}
-                {lowestOrbit.name && lowestOrbit.type &&
+                {currentSystem &&
                     (
                         <div
                             style={{
@@ -72,7 +83,7 @@ const DevDisplayHUD: React.FC = () => {
                                 height: "150px",
                                 backgroundColor: 'none',
                                 borderRadius: '50%',
-                                border: '1px solid #fff',
+                                border: `2px solid ${currentSystem.color}`,
                                 opacity: 0.5,
                                 zIndex: -1,
                             }}
