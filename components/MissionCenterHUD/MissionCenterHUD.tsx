@@ -3,11 +3,12 @@ import { useSelector } from 'react-redux';
 import { RootState } from '../../state/store';
 import { PlayerMission, missionAppear } from '@/state/playerSlice';
 import { useDispatch } from 'react-redux';
-import Drawer from '../Drawer/Drawer';
+import { VFXSpan } from 'react-vfx';
 import { open } from '@/state/drawersStateSlice';
-import MissionCenterBody from './MissionCenterBody';
+import styles from './MissionCenter.module.scss';
+import { HUDPieceProps } from '../HUD/HUDPiece';
 
-const MissionCenterHUD: React.FC = () => {
+const MissionCenterBody: React.FC = () => {
 
   const dispatch = useDispatch();
   const missions = useSelector((state: RootState) => state.player.missions);
@@ -18,35 +19,55 @@ const MissionCenterHUD: React.FC = () => {
   useEffect(() => {
     const msn: PlayerMission[] = missions.filter((mission) => mission.origin.name === lowestOrbit.name);
     const availMsn = msn?.filter((mission) => !mission.started && !mission.failed) || undefined;
-    availMsn && availMsn.length > 0 && availMsn[0].id && dispatch(missionAppear(availMsn[0].id));
+    if (availMsn && availMsn.length > 0 && availMsn[0].id ) dispatch(missionAppear(availMsn[0].id));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lowestOrbit]);
 
   useEffect(() => {
     if (currentMission) {
       const msn = missions?.find((mission) => mission.id === currentMission);
-      msn && setMission(msn);
+      if (msn) setMission(msn);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMission]);
 
   useEffect(() => {
-    console.log('Mission:', mission);
-    mission && dispatch(open({ drawer: 'missionControl' }));
+    if (mission) dispatch(open({ drawer: 'missionControl' }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mission]);
 
-  return (
-    <Drawer
-      name="missionControl"
-      position="top"
-      styles={{
-        left: '20%',
-        right: '20%',
-        width: 'auto',
-      }}
-      className='hud'
-    >
-      <MissionCenterBody mission={mission} />
-    </Drawer>
-  );
+    return (
+        <div className={styles['mission-center-body']}>
+            {mission &&
+                <VFXSpan
+                    shader="rgbShift"
+                    style={{
+
+                        textTransform: 'uppercase',
+                        margin: '0 auto',
+                        opacity: '.5',
+                    }}
+                >
+                    <h1 style={{ fontSize: '2.5rem', marginTop: '-.8rem' }}>Mission Control</h1>
+                    <p>MISSON: {mission?.name}</p>
+                    <p>OBJECTIVE: {mission?.description}</p>
+                    <p>Reward: {mission?.reward.amount} {mission?.reward.type}</p>
+                    <p>STATUS: {!mission?.started ? 'AVALABLE' : mission.failed ? 'FAILED' : mission.completed ? 'COMPLETED' : 'STAGE ' + mission.stage}</p>
+                    <p>ORIGIN: {mission?.origin.name}</p>
+                </VFXSpan>
+            }
+        </div>
+    )
 };
 
-export default MissionCenterHUD;
+export const missionCenterProps: HUDPieceProps = {
+  name: 'missionControl',
+  position: 'top',
+  styles: {
+    left: '20%',
+    right: '20%',
+    width: 'auto',
+  },
+  className: 'hud',
+  children: <MissionCenterBody/>
+}

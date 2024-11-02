@@ -1,17 +1,28 @@
 "use client";
 
 import DevDisplay from "../DevDisplay/DevDisplay";
-import KeyboardHUD from "../KeyboardHUD/KeyboardHUD";
-import MiniMapHUD from "../MiniMapHUD/MiniMapHUD";
+import { keyboardProps } from "../KeyboardHUD/KeyboardHUD";
+import { miniMapProps } from "../MiniMapHUD/MiniMapHUD";
+import { missionCenterProps } from "../MissionCenterHUD/MissionCenterHUD";
 import FlightDataHUD from "../FlightDataHUD/FlightDataHUD";
-import MissionCenterHUD from "../MissionCenterHUD/MissionCenterHUD";
+import HUDPiece, { HUDPieceProps } from "../HUD/HUDPiece";
 
 interface AutomationProps {
     children?: React.ReactNode,
 }
+
 const HUD: React.FC<AutomationProps> = ({
     children = null
 }) => {
+
+    const hudPieces: HUDPieceProps[] = [
+        miniMapProps,
+        keyboardProps,
+        missionCenterProps,
+    ];
+
+    const hud = hudPieces.map((piece) => <HUDPiece {...piece} key={piece.name} />);
+
     return (
         <div
             style={{
@@ -22,10 +33,8 @@ const HUD: React.FC<AutomationProps> = ({
             }}
         >
             <DevDisplay />
-            <MiniMapHUD />
-            <KeyboardHUD />
             <FlightDataHUD />
-            <MissionCenterHUD />
+            {hud}
             {children}
         </div >
     );

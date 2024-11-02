@@ -1,14 +1,15 @@
 import React from 'react';
+import { StarSystem } from "@/utils/types/stellarBodies";
+import MiniMapStarSystem from "../MiniMapStarSystem/MiniMapStarSystem";
+import Player from "../Player/Player";
+import styles from './Minimap.module.scss';
 import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
 import { ratios } from '../../utils/functions/zoom';
-import { useCursor } from '@/hooks/useCursor';
-import Drawer from '../Drawer/Drawer';
 import { systems } from '../../utils/systems/systems';
-import { StarSystem } from '../../utils/types/stellarBodies';
-import MiniMapBody from './MiniMapBody';
+import { HUDPieceProps } from '../HUD/HUDPiece';
 
-const MiniMapHUD: React.FC = () => {
+const MiniMapBody: React.FC= () => {
 
     const playerState = useSelector((state: RootState) => state.gameState);
     const { position, zoomedPosition, universeSize, zoom } = playerState;
@@ -20,36 +21,43 @@ const MiniMapHUD: React.FC = () => {
         return distance < 3000;
     });
 
-    const cursorCoords = useCursor(galaxyRef);
-
     const galaxyPosX = `calc(-${(universeSize * ratio) / 2}px + 50% - ${((zoomedPosition.x !== 0 ? zoomedPosition.x : position.x) / 10)}px)`;
     const galaxyPosY = `calc(-${(universeSize * ratio) / 2}px + 50% - ${((zoomedPosition.y !== 0 ? zoomedPosition.y : position.y) / 10)}px)`;
     const galaxySize = universeSize * ratio;
 
-    const miniMapBodyProps = {
-        galaxyRef,
-        galaxySize,
-        galaxyPosX,
-        galaxyPosY,
-        visibleSystems,
-    };
-
     return (
-        <Drawer
-            name="miniMap"
-            position="bottom"
-            styles={{
-                right: '1%',
-                margin: '0 auto',
-                width: 'auto',
-                padding: '60px',
-                // border: '1px solid #fff',
-            }}
-            className='hud'
-        >
-            <MiniMapBody {...miniMapBodyProps}/>
-        </Drawer>
+        <div className={styles['minimap-body']}>
+            <div
+                ref={galaxyRef}
+                id="minimap"
+                style={{
+                    width: galaxySize,
+                    height: galaxySize,
+                    position: 'absolute',
+                    left: galaxyPosX,
+                    top: galaxyPosY,
+                }}>
+                {visibleSystems.map((system) => (
+                    <MiniMapStarSystem
+                        key={system.name + '-minimap'}
+                        system={system}
+                    />
+                ))}
+            </div>
+            <Player miniMap={true} />
+        </div>
     );
 }
 
-export default MiniMapHUD;
+export const miniMapProps: HUDPieceProps = {
+    name: 'miniMap',
+    position: 'bottom',
+    styles: {
+        right: '1%',
+        margin: '0 auto',
+        width: 'auto',
+        padding: '60px',
+    },
+    className: 'hud',
+    children: <MiniMapBody/>
+}
