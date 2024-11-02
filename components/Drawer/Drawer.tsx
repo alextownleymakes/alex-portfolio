@@ -25,7 +25,14 @@ const Drawer: React.FC<DrawerProps> = ({ children, name, styles: extraStyles, cl
     return (
         <DisplayContainer styles={extraStyles} className={`${styles.drawer} ${positionClass} ${openClass} ${propClass}`}>
             {className==='hud' && <div className={`${styles['hud']} ${styles['hud-' + position]}`}>{' '}</div>}
-            <div className={styles['drawer']}>
+            <div 
+                style={{
+                    height: 'auto',
+                    width: 'auto',
+                    position: className === 'hud' ? 'relative' : 'static',
+                    // padding: className === 'hud' ? '5%' : '',
+                }}
+            >
                 {children}
             </div>
         </DisplayContainer>

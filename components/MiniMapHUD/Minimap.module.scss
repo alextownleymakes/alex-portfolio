@@ -1,0 +1,18 @@
+.minimap-display-container {
+    right: 10;
+    bottom: 0;
+    width: 300;
+    height: 300;
+}
+
+.minimap-body {
+    border-radius: 50%;
+    background-color: #101d02;
+    border: 1px solid #44ab10;
+    overflow: hidden;
+    height: 330px;
+    width: 330px;
+    margin: 0 auto;
+    contain: content;
+    content: '';
+}

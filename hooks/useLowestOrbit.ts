@@ -10,7 +10,6 @@ export const useLowestOrbit = (orbit: Orbits) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        console.log('useLowestOrbit', orbit);
         const lowOrb: { type: StellarBodyType | undefined, name: string | undefined } = { type: undefined, name: undefined };
 
         if (orbit.moon) {

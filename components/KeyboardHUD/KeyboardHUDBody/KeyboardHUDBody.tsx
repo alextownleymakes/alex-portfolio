@@ -7,20 +7,20 @@ interface KeyboardHUDBodyProps {
 
 const KeyboardHUDBody: React.FC<KeyboardHUDBodyProps> = ({keys}) => {
     return (
-        <ol style={{ fontSize: '.7rem', lineHeight: '1.5rem' }}>
+        <div>
             {keys.map((key) => {
                 const className = key.pressed ? styles['key'] + ' ' + styles['pressed'] : styles['key'];
 
                 return (
-                    <li key={key.key + 'key-hud'}>
+                    <div style={{fontSize: '.7rem', lineHeight: '1.5rem'}}key={key.key + 'key-hud'}>
                     <span className={className}>
                         {key.key}
                     </span>
                     {" "}{key.action}
-                </li>
+                </div>
                 )
             })}
-        </ol>
+        </div>
      )
 }
 

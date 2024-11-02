@@ -126,7 +126,6 @@ const gameStateSlice = createSlice({
             }
         },
         setLowestOrbit: (state, action: PayloadAction<Target>) => {
-            console.log(action.payload);
             state.lowestOrbit = action.payload;
         },
         setTarget: (state, action: PayloadAction<Orbits>) => {

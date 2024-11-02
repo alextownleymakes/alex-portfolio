@@ -19,9 +19,12 @@ const KeyboardHUD: React.FC = () => {
         styles: {
             height: 'auto',
             width: 'auto',
+            padding: '20px',
             paddingRight: '2rem',
+            paddingLeft: '50px',
             top: 10
         },
+        className: 'hud',
         children: <KeyboardHUDBody keys={keysArray}/>
     }
     

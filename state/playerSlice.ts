@@ -19,8 +19,9 @@ export interface PlayerMission {
     started: boolean;
     stage: number;
     completed: boolean;
-    body: Target;
+    origin: Target;
     failed: boolean;
+    target: Target;
 }
 
 export interface PlayerState {
@@ -36,16 +37,20 @@ const initialState: PlayerState = {
     missions: [
         {
             id: 1,
-            name: 'First Mission',
-            description: 'This is your first mission. Good luck!',
+            name: `Alex's Portfolio`,
+            description: 'Collect the portfolio from the Earth.',
             reward: {
                 type: 'credits',
                 amount: 1000
             },
             completed: false,
-            body: {
+            origin: {
                 name: 'Moon',
                 type: 'moon'
+            },
+            target: {
+                name: 'Earth',
+                type: 'planet'
             },
             started: false,
             stage: 0,
