@@ -100,13 +100,12 @@
 
 .drawer-top {
     top: 0;
-    width: 100%;
-    height: 35%;
     transform: translateY(-200%);
     margin: 0 auto auto auto;
     border-top-left-radius: 0;
     border-top-right-radius: 0;
     border-top: none;
+    padding-bottom: 50px;
 }
 
 .drawer-bottom {
@@ -138,8 +137,7 @@
     border-right: none;
     border-top-right-radius: 0;
     border-bottom-right-radius: 0;
-
-    padding-left: 70px;
+    padding-left: 40px;
 }
 
 .drawerOpen {

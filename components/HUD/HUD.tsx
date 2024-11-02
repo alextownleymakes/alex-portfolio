@@ -4,7 +4,7 @@ import DevDisplay from "../DevDisplay/DevDisplay";
 import KeyboardHUD from "../KeyboardHUD/KeyboardHUD";
 import MiniMapHUD from "../MiniMapHUD/MiniMapHUD";
 import FlightDataHUD from "../FlightDataHUD/FlightDataHUD";
-import MissionCenter from "../MissionCenter/MissionCenter";
+import MissionCenterHUD from "../MissionCenterHUD/MissionCenterHUD";
 
 interface AutomationProps {
     children?: React.ReactNode,
@@ -25,7 +25,7 @@ const HUD: React.FC<AutomationProps> = ({
             <MiniMapHUD />
             <KeyboardHUD />
             <FlightDataHUD />
-            <MissionCenter />
+            <MissionCenterHUD />
             {children}
         </div >
     );

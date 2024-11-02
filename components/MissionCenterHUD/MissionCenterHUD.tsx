@@ -5,10 +5,9 @@ import { PlayerMission, missionAppear } from '@/state/playerSlice';
 import { useDispatch } from 'react-redux';
 import Drawer from '../Drawer/Drawer';
 import { open } from '@/state/drawersStateSlice';
-import { VFXSpan } from 'react-vfx';
-import { ShaderPreset } from '@vfx-js/core';
+import MissionCenterBody from './MissionCenterBody';
 
-const MissionCenter: React.FC = () => {
+const MissionCenterHUD: React.FC = () => {
 
   const dispatch = useDispatch();
   const missions = useSelector((state: RootState) => state.player.missions);
@@ -45,34 +44,9 @@ const MissionCenter: React.FC = () => {
       }}
       className='hud'
     >
-      <div style={{ opacity: '0.8' }}>
-        {/* {shaderList.map((shader: string) => (
-          <VFXSpan 
-            shader={shader}
-            style={{fontSize: '1rem', textTransform: 'uppercase', margin: '0 auto'}}
-          >{shader}</VFXSpan>
-        ))} */}
-        {mission &&
-          <VFXSpan
-            shader="rgbShift"
-            style={{
-
-              textTransform: 'uppercase',
-              margin: '0 auto',
-              opacity: '.5',
-            }}
-          >
-            <h1 style={{ fontSize: '2.5rem', marginTop: '-.8rem' }}>Mission Control</h1>
-            <p>MISSON: {mission?.name}</p>
-            <p>OBJECTIVE: {mission?.description}</p>
-            <p>Reward: {mission?.reward.amount} {mission?.reward.type}</p>
-            <p>STATUS: {!mission?.started ? 'AVALABLE' : mission.failed ? 'FAILED' : mission.completed ? 'COMPLETED' : 'STAGE ' + mission.stage}</p>
-            <p>ORIGIN: {mission?.origin.name}</p>
-          </VFXSpan>
-        }
-      </div>
+      <MissionCenterBody mission={mission} />
     </Drawer>
   );
 };
 
-export default MissionCenter;
+export default MissionCenterHUD;
