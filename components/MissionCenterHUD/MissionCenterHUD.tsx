@@ -1,10 +1,9 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../state/store';
-import { PlayerMission, missionAppear } from '@/state/playerSlice';
+import { PlayerMission, missionStart } from '@/state/playerSlice';
 import { useDispatch } from 'react-redux';
-import { VFXSpan } from 'react-vfx';
-import { open } from '@/state/drawersStateSlice';
+import { open, close } from '@/state/drawersStateSlice';
 import styles from './MissionCenter.module.scss';
 import { HUDPieceProps } from '../HUD/HUDPiece';
 import Grid from '@mui/material/Grid2';
@@ -18,9 +17,12 @@ const MissionCenterBody: React.FC = () => {
   const [mission, setMission] = React.useState<PlayerMission | null>(null);
 
   useEffect(() => {
+
+
     const msn: PlayerMission[] = missions.filter((mission) => mission.origin.name === lowestOrbit.name);
     const availMsn = msn?.filter((mission) => !mission.started && !mission.failed) || undefined;
-    if (availMsn && availMsn.length > 0 && availMsn[0].id) dispatch(missionAppear(availMsn[0].id));
+    if (availMsn && availMsn.length > 0 && availMsn[0].id) setMission(availMsn[0]);
+    // if (availMsn && availMsn.length > 0 && availMsn[0].id) dispatch(missionAppear(availMsn[0].id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lowestOrbit]);
 
@@ -36,6 +38,13 @@ const MissionCenterBody: React.FC = () => {
     if (mission) dispatch(open({ drawer: 'missionControl' }));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mission]);
+
+  const acceptMission = () => {
+    if (mission) {
+      dispatch(missionStart(mission.id));
+      dispatch(close({ drawer: 'missionControl' }));
+    }
+  }
 
   return (
     <div className={styles['mission-center-body']}>

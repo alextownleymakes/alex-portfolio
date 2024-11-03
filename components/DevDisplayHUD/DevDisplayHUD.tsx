@@ -1,12 +1,11 @@
-import React from 'react';
 import { RootState } from "@/state/store";
-import { useSelector } from "react-redux";
-import { HUDPieceProps } from "../HUD/HUDPiece";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
+import React from 'react';
+import { useSelector } from "react-redux";
 import { systems } from '../../utils/systems/systems';
 import Body from '../Body/Body';
-import Divider from '@mui/material/Divider';
+import { HUDPieceProps } from "../HUD/HUDPiece";
 
 
 const findBody = (
@@ -41,6 +40,7 @@ const DevDisplayHUD: React.FC = () => {
     const playerState = useSelector((state: RootState) => state.player);
 
     const { speed, rotation, lowestOrbit } = gameState;
+    const credits = playerState.resources[1].amount;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [currentSystem, setCurrentSystem] = React.useState<any>(null);
@@ -101,12 +101,12 @@ const DevDisplayHUD: React.FC = () => {
                         )
                     }
                 </Grid>
-                {/* </Grid>
-            <Divider />
-            <Grid container spacing={4}> */}
                 <Grid size={12}>
                     <h1><strong>ACTIVE&nbsp;MISSION</strong></h1>
                     {playerState.currentMission ? playerState.currentMission : 'No Active Mission'}
+                </Grid>
+                <Grid size={12}>
+                    <h1><strong>CREDITS</strong>: ‡{credits}</h1>
                 </Grid>
             </Grid>
         </Box>
