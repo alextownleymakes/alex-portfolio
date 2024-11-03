@@ -7,6 +7,7 @@ import { VFXSpan } from 'react-vfx';
 import { open } from '@/state/drawersStateSlice';
 import styles from './MissionCenter.module.scss';
 import { HUDPieceProps } from '../HUD/HUDPiece';
+import Grid from '@mui/material/Grid2';
 
 const MissionCenterBody: React.FC = () => {
 
@@ -19,7 +20,7 @@ const MissionCenterBody: React.FC = () => {
   useEffect(() => {
     const msn: PlayerMission[] = missions.filter((mission) => mission.origin.name === lowestOrbit.name);
     const availMsn = msn?.filter((mission) => !mission.started && !mission.failed) || undefined;
-    if (availMsn && availMsn.length > 0 && availMsn[0].id ) dispatch(missionAppear(availMsn[0].id));
+    if (availMsn && availMsn.length > 0 && availMsn[0].id) dispatch(missionAppear(availMsn[0].id));
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [lowestOrbit]);
 
@@ -36,28 +37,39 @@ const MissionCenterBody: React.FC = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [mission]);
 
-    return (
-        <div className={styles['mission-center-body']}>
-            {mission &&
-                <VFXSpan
-                    shader="rgbShift"
-                    style={{
+  return (
+    <div className={styles['mission-center-body']}>
+      <Grid container spacing={3}>
+        <Grid size={12} style={{alignItems: 'center'}}>
+          <h1 style={{ fontSize: '2.5rem', marginTop: '-.8rem', textTransform: 'uppercase', }}>Mission Control</h1>
+        </Grid>
+      </Grid>
+      <Grid container spacing={3}>
+        <Grid size={6}>
+          {mission &&
+            <div
+              // shader="rgbShift"
+              style={{
 
-                        textTransform: 'uppercase',
-                        margin: '0 auto',
-                        opacity: '.5',
-                    }}
-                >
-                    <h1 style={{ fontSize: '2.5rem', marginTop: '-.8rem' }}>Mission Control</h1>
-                    <p>MISSON: {mission?.name}</p>
-                    <p>OBJECTIVE: {mission?.description}</p>
-                    <p>Reward: {mission?.reward.amount} {mission?.reward.type}</p>
-                    <p>STATUS: {!mission?.started ? 'AVALABLE' : mission.failed ? 'FAILED' : mission.completed ? 'COMPLETED' : 'STAGE ' + mission.stage}</p>
-                    <p>ORIGIN: {mission?.origin.name}</p>
-                </VFXSpan>
-            }
-        </div>
-    )
+                textTransform: 'uppercase',
+                margin: '0 auto',
+                opacity: '.5',
+              }}
+            >
+              <p>MISSON: {mission?.name}</p>
+              <p>OBJECTIVE: {mission?.description}</p>
+              <p>Reward: {mission?.reward.map(r => r.amount)} {mission?.reward.map(r => r.type)}</p>
+
+            </div>
+          }
+        </Grid>
+        <Grid size={6}>
+          <p>STATUS: {!mission?.started ? 'AVALABLE' : mission.failed ? 'FAILED' : mission.completed ? 'COMPLETED' : 'STAGE ' + mission.stage}</p>
+          <p>ORIGIN: {mission?.origin.name}</p>
+        </Grid>
+      </Grid>
+    </div>
+  )
 };
 
 export const missionCenterProps: HUDPieceProps = {
@@ -69,5 +81,5 @@ export const missionCenterProps: HUDPieceProps = {
     width: 'auto',
   },
   className: 'hud',
-  children: <MissionCenterBody/>
+  children: <MissionCenterBody />
 }

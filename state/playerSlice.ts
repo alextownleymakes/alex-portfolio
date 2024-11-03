@@ -8,6 +8,8 @@ export interface Target {
 
 export interface PlayerMissionReward {
     type: string;
+    description?: string;
+    item?: number;
     amount: number;
 }
 
@@ -15,7 +17,7 @@ export interface PlayerMission {
     id: number;
     name: string;
     description: string;
-    reward: PlayerMissionReward;
+    reward: PlayerMissionReward[];
     started: boolean;
     stage: number;
     completed: boolean;
@@ -37,12 +39,17 @@ const initialState: PlayerState = {
     missions: [
         {
             id: 1,
-            name: `Alex's Portfolio`,
-            description: 'Collect the portfolio from the Earth.',
-            reward: {
+            name: `Alex's Resume`,
+            description: 'Collect the resume from Venus.',
+            reward: [{
                 type: 'credits',
                 amount: 1000
-            },
+            }, {
+                type: 'special',
+                amount: 1,
+                description: 'Alex\'s Resume',
+                item: 0
+            }],
             completed: false,
             origin: {
                 name: 'Moon',
@@ -76,9 +83,9 @@ const playerStateSlice = createSlice({
         missionComplete: (state, action: PayloadAction<number>) => {
             state.missions[action.payload].completed = true;
         },
-        missionReward: (state, action: PayloadAction<number>) => {
-            state.missions[action.payload].reward.amount;
-        },
+        // missionReward: (state, action: PayloadAction<number>) => {
+        //     state.missions[action.payload].reward.amount;
+        // },
         missionFail: (state, action: PayloadAction<number>) => {
             state.missions[action.payload].failed = true;
         }
@@ -91,7 +98,7 @@ export const {
     missionStart,
     missionProgress,
     missionComplete,
-    missionReward,
+    // missionReward,
     missionFail
 } = playerStateSlice.actions;
 export default playerStateSlice.reducer;

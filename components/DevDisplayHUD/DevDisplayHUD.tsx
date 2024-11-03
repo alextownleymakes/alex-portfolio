@@ -94,7 +94,7 @@ const DevDisplayHUD: React.FC = () => {
                             >
                                 <Body
                                     type={currentSystem.type}
-                                    style={{ height: '144px', width: '144px', position: 'relative', filter: 'grayscale(1)', WebkitFilter: 'grayscale(1)', }}
+                                    style={{ height: '144px', width: '144px', position: 'relative', filter: 'grayscale(1)', WebkitFilter: 'grayscale(1)', opacity: '.6' }}
                                     variant={currentSystem.variant}
                                 />
                             </div>
