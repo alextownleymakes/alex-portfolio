@@ -9,9 +9,11 @@ import Body from '../Body/Body';
 
 
 const findBody = (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     obj: { [key: string]: any },
     name: string,
     type: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): any | undefined => {
     // Base case: if the current object matches, return it
     if (obj.name === name && obj.type === type) {
@@ -37,8 +39,9 @@ const DevDisplayHUD: React.FC = () => {
     const gameState = useSelector((state: RootState) => state.gameState);
     const playerState = useSelector((state: RootState) => state.player);
 
-    const { position, zoomedPosition, velocity, speed, rotation, zoom, lowestOrbit } = gameState;
+    const { speed, rotation, lowestOrbit } = gameState;
 
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const [currentSystem, setCurrentSystem] = React.useState<any>(null);
     React.useEffect(() => {
         if (lowestOrbit.name && lowestOrbit.type) {
@@ -74,11 +77,12 @@ const DevDisplayHUD: React.FC = () => {
             <Grid size={4}>
                 <h1><strong>ORBITAL LOCK</strong></h1>
                 {lowestOrbit.name?.toUpperCase() ?? 'No Orbit'}{' '}{lowestOrbit.type ? `(${lowestOrbit.type})` : ''}
-                {currentSystem && lowestOrbit.type &&
+                {currentSystem &&
                     (
                         <Body
-                            type={lowestOrbit.type}
+                            type={currentSystem.type}
                             style={{ height: '150px', width: '150px', position: 'relative', margin: '30px' }}
+                            variant={currentSystem.variant}
                         />
                     )
                 }

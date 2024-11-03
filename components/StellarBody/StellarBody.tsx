@@ -17,7 +17,7 @@ export interface StellarBodyProps {
   miniMap?: boolean; // Whether the star is in the mini map
   scale: number;
   type: StellarBodyType;
-  variant?: PlanetVariantType | StarVariantType | 'moon';
+  variant: PlanetVariantType | StarVariantType | 'moon';
 }
 
 const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, type, scale, variant, miniMap = false }) => {
@@ -82,7 +82,15 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
         }}
         className={`${variantClass} ${bodyClass} ${waterClass} ${lowestOrbit.name === name && orbitedClass}`}
       >
-      <Body type={type}/>
+      <Body type={type}
+        style={{
+          height: '100%',
+          width: '100%',
+          position: 'relative',
+          margin: '0',
+        }}
+        variant={variant}
+      />
       <BodyData
         name={name}
         type={type}

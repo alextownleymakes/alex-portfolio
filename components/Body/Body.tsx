@@ -1,20 +1,24 @@
 import React from 'react';
 import styles from './Body.module.scss';
-import { StellarBodyType } from '../../utils/types/stellarBodies';
+import { StellarBodyType, StarVariantType, PlanetVariantType } from '../../utils/types/stellarBodies';
 
 interface BodyProps {
     type: StellarBodyType;
     style?: React.CSSProperties;
+    variant: StarVariantType | PlanetVariantType | 'moon';
 }
 
-const Body: React.FC<BodyProps> = ({ type, style }) => {
+const Body: React.FC<BodyProps> = ({ type, style, variant }) => {
+
+    const className = (variant && variant !== 'moon') ? type + '-' + variant : type;
+
     return (
-    <div style={style ?? {width: '100%', height: '100%', position: 'absolute'}}>
-        <div className={`${styles['body-container']} ${styles[type]}-container`} styl>
-            <div className={styles[type === 'star' ? 'star-anim' : (type === 'planet' ? 'clouds-anim' : 'moon-anim')]}></div>
-            <div className={styles['inner-shadow']}></div>
+        <div style={style ?? { width: '100%', height: '100%', position: 'absolute' }}>
+            <div className={`${styles['body-container']} ${styles[className]} ${styles[type + '-anim']}`}>
+                <div className={`${styles['clouds']} ${styles[type + '-' + variant + '-clouds']}`}></div>
+                <div className={styles['inner-shadow']}></div>
+            </div>
         </div>
-    </div>
     );
 }
 

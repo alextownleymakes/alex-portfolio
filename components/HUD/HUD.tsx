@@ -2,7 +2,7 @@ import { devDisplayProps } from "../DevDisplayHUD/DevDisplayHUD";
 import { keyboardProps } from "../KeyboardHUD/KeyboardHUD";
 import { miniMapProps } from "../MiniMapHUD/MiniMapHUD";
 import { missionCenterProps } from "../MissionCenterHUD/MissionCenterHUD";
-import FlightDataHUD from "../FlightDataHUD/FlightDataHUD";
+// import FlightDataHUD from "../FlightDataHUD/FlightDataHUD";
 import HUDPiece, { HUDPieceProps } from "../HUD/HUDPiece";
 
 
@@ -24,7 +24,7 @@ const HUD: React.FC = () => {
         // }
     ];
 
-    const hud = hudPieces.map((piece) => <HUDPiece {...piece} key={piece.name} />);
+    const hud = hudPieces.map((piece, i) => <HUDPiece {...piece} key={piece.name + '-' + i} />);
 
     return (
         <div

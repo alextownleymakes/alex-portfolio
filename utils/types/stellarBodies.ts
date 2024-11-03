@@ -2,7 +2,7 @@ import { StarComposition, PlanetComposition, MoonComposition, AsteroidCompositio
 
 export type StellarBodyType = 'star' | 'planet' | 'moon' | 'asteroid' | 'asteroidBelt' | 'comet' | 'starSystem';
 
-export type PlanetVariantType = 'terrestrial' | 'gas' | 'gasGiant' | 'iceGiant' | 'dwarf' | 'exoplanet' | 'earthLike' | 'superEarth';
+export type PlanetVariantType = 'rocky' | 'terrestrial' | 'gas' | 'gasGiant' | 'dwarfGas' | 'iceGiant' | 'dwarf' | 'exoplanet' | 'earthLike' | 'superEarth';
 
 export type StarVariantType = 'mainSequence' | 'redGiant' | 'whiteDwarf' | 'supernova' | 'blackHole' | 'neutronStar' | 'pulsar' | 'quarkStar';
 
@@ -23,8 +23,10 @@ export const StellarBodies: StellarBodiesObject = {
 };
 
 export const PlanetVariants: PlanetVariantTypeObject = {
+  rocky: 'rocky',
   terrestrial: 'terrestrial',
   gas: 'gas',
+  dwarfGas: 'dwarfGas',
   gasGiant: 'gasGiant',
   iceGiant: 'iceGiant',
   dwarf: 'dwarf',

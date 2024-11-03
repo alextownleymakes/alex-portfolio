@@ -61,7 +61,7 @@ export const mercury: Planet = {
   name: 'Mercury',
   mass: 3.3011e23, // kg
   radius: 5, // km
-  variant: PlanetVariants.terrestrial,
+  variant: PlanetVariants.rocky,
   distanceFromStar: 0.39, // AU
   orbitalPeriod: 88, // Earth days
   color: 'Gray',
@@ -81,7 +81,7 @@ export const venus: Planet = {
   mass: 4.8675e24, // kg
   radius: 6, // km
   distanceFromStar: 0.72, // AU
-  variant: PlanetVariants.gas,
+  variant: PlanetVariants.dwarfGas,
   orbitalPeriod: 225, // Earth days
   chemicalComposition: {
     CO2: 0.96,

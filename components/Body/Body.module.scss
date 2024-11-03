@@ -11,6 +11,14 @@
     filter: grayscale(0.5);
 }
 
+.clouds {
+    height: 100%;
+    width: 100%;
+    border-radius: 50%;
+    position: relative;
+    opacity: 0.45;
+}
+
 .planet-container {
     box-shadow: 5px -3px 10px 3px #5e90f1;
 }
@@ -19,46 +27,16 @@
     box-shadow: 5px -3px 10px 3px #fcff4c;
 }
 
-.clouds-anim {
-    animation: rotate-day 50s linear infinite, spin-clouds 100s ease infinite;
-    background-image: url(https://www.solarsystemscope.com/textures/download/2k_earth_clouds.jpg);
-    background-size: 200%;
-    border-radius: 50%;    
+.planet-anim {
     box-shadow: 5px 0 10px 5px #040615 inset, -9px 0px 10px 5px #5e90f1 inset;
-    height: 100%;
-    // margin-left: 100px;
-    opacity: 0.65;
-    position: absolute;
-    width: 100%;
-    z-index: 4;
 }
 
 .star-anim {
-    animation: rotate-day 50s linear infinite, spin-clouds 100s ease infinite;
-    background-image: url(https://www.solarsystemscope.com/textures/download/2k_sun.jpg);
-    background-size: 200%;
-    border-radius: 50%;    
     box-shadow: 5px 0 10px 5px #6e6624 inset, -9px 0px 10px 5px #ffd4b4 inset;
-    height: 100%;
-    // margin-left: 100px;
-    opacity: 0.85;
-    position: absolute;
-    width: 100%;
-    z-index: 4;
 }
 
 .moon-anim {
-    animation: rotate-day 50s linear infinite, spin-clouds 100s ease infinite;
-    background-image: url(https://www.solarsystemscope.com/textures/download/2k_moon.jpg);
-    background-size: 200%;
-    border-radius: 50%;    
     box-shadow: 5px 0 10px 5px #282723 inset, -9px 0px 10px 5px #ccc6c1 inset;
-    height: 100%;
-    // margin-left: 100px;
-    opacity: 0.9;
-    position: absolute;
-    width: 100%;
-    z-index: 4;
 }
 
 .inner-shadow {
@@ -70,6 +48,179 @@
     position: absolute;
     width: 100%;
     z-index: 5;
+}
+
+.planet-rocky {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_mercury.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+    box-shadow: 5px -3px 10px 3px #c2c2c2;
+}
+
+.planet-terrestrial {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_mars.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+    box-shadow: 5px 5px 10px -4px #b5825e
+                inset, -5px 3px 10px 3px #5f3c24
+                inset, 5px -3px 10px 10px #5b3a23 inset
+    ;
+}
+
+.planet-earthLike {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_earth_daymap.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+    box-shadow: 5px -3px 10px 3px #5e90f1 inset,
+                -5px 3px 10px 3px #152b57 inset,
+                5px -3px 10px 3px #040615 inset
+}
+
+.planet-earthLike-clouds {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_earth_clouds.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+    box-shadow: 5px 5px 10px -4px #5e90f1 inset,
+                -5px 3px 10px 3px #152b57 inset,
+                5px -3px 10px 10px #040615 inset
+
+}
+
+.planet-gas {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_saturn.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+    box-shadow: 5px -3px 10px 3px #f1cc5e;
+}
+
+.planet-gas-clouds {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_saturn_venus_atmosphere.png);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+    box-shadow: 5px -3px 10px 3px #f1cc5e inset,
+                -5px 3px 10px 3px #f1cc5e inset,
+                5px -3px 10px 3px #f1cc5e inset
+}
+
+.planet-gasGiant {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_jupiter.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+    box-shadow: 5px -3px 10px 3px #e25ef1;
+}
+
+.planet-gasGiant-clouds {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_venus_atmosphere.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+    box-shadow: 5px -3px 10px 3px #e25ef1;
+}
+
+.planet-iceGiant {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_uranus.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+    box-shadow: 5px -3px 10px 3px #5ef1e2;
+}
+
+.planet-iceGiant-clouds {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_venus_atmosphere.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+    box-shadow: 5px -3px 10px 3px #5ef1e2;
+}
+
+.planet-superEarth {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_earth_daymap.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+    box-shadow: 5px -3px 10px 3px #5e90f1;
+}
+
+.planet-superEarth-clouds {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_earth_clouds.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+    box-shadow: 5px -3px 10px 3px #5e90f1;
+}
+
+.planet-dwarf {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_pluto.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+    box-shadow: 5px -3px 10px 3px #c2c2c2;
+
+}
+
+.planet-dwarfGas {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_venus.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+    box-shadow: 5px -3px 10px 3px #c2c2c2;
+}
+
+.planet-dwarfGas-clouds {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_venus_atmosphere.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+    box-shadow: 5px -3px 10px 3px #c2c2c2;
+}
+
+.moon {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_moon.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+    box-shadow: 5px -3px 10px 3px #ccc6c1 inset,
+                -5px 3px 5px 2px #282723 inset,
+    
+}
+
+.star-mainSequence {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_sun.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+}
+
+.star-redGiant {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_sun.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+}
+
+.star-whiteDwarf {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_sun.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+}
+
+.star-neutron {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_sun.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+}
+
+.star-blackHole {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_sun.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+}
+
+.star-supernova {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_sun.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+}
+
+.star-pulsar {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_sun.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
+}
+
+.star-quark {
+    background-image: url(https://www.solarsystemscope.com/textures/download/2k_sun.jpg);
+    background-size: 200%;
+    animation: rotate-day 50s linear infinite;
 }
 
 @keyframes rotate-day {
