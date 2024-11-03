@@ -6,6 +6,7 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import { systems } from '../../utils/systems/systems';
 import Body from '../Body/Body';
+import Divider from '@mui/material/Divider';
 
 
 const findBody = (
@@ -56,51 +57,68 @@ const DevDisplayHUD: React.FC = () => {
     }, [lowestOrbit]);
 
 
-    return (<Box sx={{ flexGrow: 1 }}>
-        <Grid container spacing={4}>
-            <Grid size={4}>
-                <ol>
-                    {/* <li>
+    return (
+        <Box sx={{ padding: '20px' }}>
+            <Grid container spacing={4} columnSpacing={4}>
+                <Grid size={12}>
+                    <ol>
+                        {/* <li>
                         <strong>Position:</strong>&nbsp;{zoomedPosition.x.toFixed(0)},&nbsp;{zoomedPosition.y.toFixed(0)}
                     </li>
                     <li>
                         <strong>Velocity:</strong>&nbsp;{velocity.x.toFixed(0)},&nbsp;{velocity.y.toFixed(0)}
                     </li> */}
-                    <li>
-                        <strong>Throttle:</strong>&nbsp;{speed.toFixed(0)}
-                    </li>
-                    <li>
-                        <strong>Rotation:</strong>&nbsp;{rotation.toFixed(0)}
-                    </li>
-                </ol>
+                        <li>
+                            <strong>Throttle:</strong>&nbsp;{speed.toFixed(0)}
+                        </li>
+                        <li>
+                            <strong>Rotation:</strong>&nbsp;{rotation.toFixed(0)}
+                        </li>
+                    </ol>
+                </Grid>
+                {/* </Grid> */}
+                {/* <Grid container columnSpacing={4}> */}
+                <Grid size={12}>
+                    <h1><strong>ORBITAL&nbsp;LOCK</strong>: {currentSystem?.name?.toUpperCase() ?? 'NONE'}</h1>
+                    <span>{currentSystem?.variant?.toUpperCase()} {currentSystem?.type?.toUpperCase()}</span>
+                    {currentSystem &&
+                        (
+                            <div style={{
+                                border: `3px solid ${currentSystem.color}`,
+                                borderRadius: '50%',
+                                margin: '30px',
+                                width: '150px',
+                                height: '150px',
+                                boxShadow: `0 0 200px 5px ${currentSystem.color}`,
+                            }}
+                            >
+                                <Body
+                                    type={currentSystem.type}
+                                    style={{ height: '144px', width: '144px', position: 'relative', filter: 'grayscale(1)', WebkitFilter: 'grayscale(1)', }}
+                                    variant={currentSystem.variant}
+                                />
+                            </div>
+                        )
+                    }
+                </Grid>
+                {/* </Grid>
+            <Divider />
+            <Grid container spacing={4}> */}
+                <Grid size={12}>
+                    <h1><strong>ACTIVE&nbsp;MISSION</strong></h1>
+                    {playerState.currentMission ? playerState.currentMission : 'No Active Mission'}
+                </Grid>
             </Grid>
-            <Grid size={4}>
-                <h1><strong>ORBITAL LOCK</strong></h1>
-                {lowestOrbit.name?.toUpperCase() ?? 'No Orbit'}{' '}{lowestOrbit.type ? `(${lowestOrbit.type})` : ''}
-                {currentSystem &&
-                    (
-                        <Body
-                            type={currentSystem.type}
-                            style={{ height: '150px', width: '150px', position: 'relative', margin: '30px' }}
-                            variant={currentSystem.variant}
-                        />
-                    )
-                }
-            </Grid>
-            <Grid size={4}>
-                <h1><strong>ACTIVE MISSION</strong></h1>
-                {playerState.currentMission ? playerState.currentMission : 'No Active Mission'}
-            </Grid>
-        </Grid>
-    </Box>);
+        </Box>
+    );
 }
 
 export const devDisplayProps: HUDPieceProps = {
     name: "miniMap",
-    position: "bottom",
+    position: "right",
     styles: {
-        right: '32%',
-        width: 'auto',
+        bottom: '300px',
+        width: '18%',
     },
     className: 'hud',
     children: <DevDisplayHUD />,

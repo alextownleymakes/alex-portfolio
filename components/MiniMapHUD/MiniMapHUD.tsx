@@ -51,12 +51,12 @@ const MiniMapBody: React.FC= () => {
 
 export const miniMapProps: HUDPieceProps = {
     name: 'miniMap',
-    position: 'bottom',
+    position: 'right',
     styles: {
-        right: '1%',
+        bottom: '1%',
         margin: '0 auto',
-        width: '30%',
-        // padding: '60px',
+        height: '280px',
+        width: '18%',
     },
     className: 'hud',
     children: <MiniMapBody/>

@@ -81,7 +81,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
           // transition: 'all .1s ease-in-out',
         }}
         className={`${variantClass} ${bodyClass} ${waterClass} ${lowestOrbit.name === name && orbitedClass}`}
-      >
+      >{!miniMap &&
       <Body type={type}
         style={{
           height: '100%',
@@ -90,7 +90,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
           margin: '0',
         }}
         variant={variant}
-      />
+      />}
       <BodyData
         name={name}
         type={type}
