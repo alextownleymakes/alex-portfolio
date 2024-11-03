@@ -7,6 +7,7 @@ import { RootState } from '../../state/store';
 import { StellarDataType, BodyValuesProps, bodyValues } from '@/utils/functions/calculations';
 import BodyData from '../BodyData/BodyData';
 import styles from './StellarBody.module.scss';  // Importing the CSS Module
+import Body from '../Body/Body';
 
 export interface StellarBodyProps {
   system?: StarSystemType;
@@ -28,14 +29,14 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
   const ratio = !miniMap ? ratios[zoom] : ratios[zoom] / 10;
 
   const stellarData: StellarDataType = { system, star, planet, moon };
-  
+
   const bodyValueProps: BodyValuesProps = {
     stellarData,
     miniMap,
     ratio,
     dev
   }
-  
+
   const bv = bodyValues(bodyValueProps);
   const { x, y, left, top, width, height, backgroundColor, border, dLeft, dTop, name, key } = bv;
 
@@ -75,13 +76,13 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
           color: '#999',
           fontSize: '0.7rem',
           textTransform: 'uppercase',
-          transform: `translate(-50%, -50%)`, 
+          transform: `translate(-50%, -50%)`,
           overflow: 'hidden',
           // transition: 'all .1s ease-in-out',
         }}
         className={`${variantClass} ${bodyClass} ${waterClass} ${lowestOrbit.name === name && orbitedClass}`}
       >
-      </div>
+      <Body type={type}/>
       <BodyData
         name={name}
         type={type}
@@ -92,8 +93,8 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
         miniMap={miniMap}
         distance={distanceToPlayer()}
       />
+    </div>
     </>
   );
-};
-
+}
 export default StellarBody;

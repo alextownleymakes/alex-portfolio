@@ -1,11 +1,7 @@
-.dev-display-body {
-    padding: 20px;
-}
 
 
-.planet-container {
+.body-container {
     border-radius: 50%;
-    box-shadow: 5px -3px 10px 3px #5e90f1;
     height: 100%;
     width: 100%;
     overflow: hidden;
@@ -13,6 +9,14 @@
     z-index: 1;
     -webkit-filter: grayscale(0.5);
     filter: grayscale(0.5);
+}
+
+.planet-container {
+    box-shadow: 5px -3px 10px 3px #5e90f1;
+}
+
+.star-container {
+    box-shadow: 5px -3px 10px 3px #fcff4c;
 }
 
 .clouds-anim {

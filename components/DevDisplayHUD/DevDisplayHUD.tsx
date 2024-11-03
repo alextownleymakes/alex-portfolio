@@ -5,6 +5,7 @@ import { HUDPieceProps } from "../HUD/HUDPiece";
 import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import { systems } from '../../utils/systems/systems';
+import Body from '../Body/Body';
 
 
 const findBody = (
@@ -73,23 +74,12 @@ const DevDisplayHUD: React.FC = () => {
             <Grid size={4}>
                 <h1><strong>ORBITAL LOCK</strong></h1>
                 {lowestOrbit.name?.toUpperCase() ?? 'No Orbit'}{' '}{lowestOrbit.type ? `(${lowestOrbit.type})` : ''}
-                {currentSystem &&
+                {currentSystem && lowestOrbit.type &&
                     (
-                        <div
-                            style={{
-                                marginLeft: "auto",
-                                marginTop: "30px",
-                                width: "150px",
-                                height: "150px",
-                                backgroundColor: 'none',
-                                borderRadius: '50%',
-                                border: `2px solid ${currentSystem.color}`,
-                                opacity: 0.5,
-                                zIndex: -1,
-                            }}
-                        >
-                            {' '}
-                        </div>
+                        <Body
+                            type={lowestOrbit.type}
+                            style={{ height: '150px', width: '150px', position: 'relative', margin: '30px' }}
+                        />
                     )
                 }
             </Grid>
