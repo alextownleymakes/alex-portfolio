@@ -32,16 +32,12 @@ const useAuCoordinates = (
     const moonAngle = data.moon ? useCurrentAngle(data.moon?.angleFromPlanet, data.moon?.orbitalPeriod) : 0;
 
     return useMemo(() => {
-
         const { system, star, planet, moon } = data;
-        const finalCoords = { x: 0, y: 0 };
-        const bodyName = moon?.name || planet?.name || star?.name || system?.name || 'Unknown';
 
         const systemCoords = { x: (system?.position.x || 0) * ratio, y: (system?.position.y || 0) * ratio };
         const starDistance = star?.distanceFromCenter || 0;
         const planetDistance = planet?.distanceFromStar || 0;
         const moonDistance = moon?.distanceFromPlanet || 0;
-
 
         const starAngleInRadians = (starAngle * Math.PI) / 180;
         const planetAngleInRadians = (planetAngle * Math.PI) / 180;
@@ -67,7 +63,7 @@ const useAuCoordinates = (
         };
 
         const coords: { [key: string]: Coordinates } = {
-            'starSystem': {
+            'system': {
                 x: systemCoords.x,
                 y: systemCoords.y,
                 aX: systemCoords.x,
@@ -91,19 +87,6 @@ const useAuCoordinates = (
                 aX: moonCoords.x + systemCoords.x,
                 aY: moonCoords.y + systemCoords.y,
             }
-        }
-
-        if (type === 'moon' && bodyName === 'Moon') {
-            console.log(`Moon: ${bodyName} - system x: ${systemCoords.x}, y: ${systemCoords.y}`);
-            console.log(`Moon: ${bodyName} - star x: ${starCoords.x}, y: ${starCoords.y}`);
-            console.log(`Moon: ${bodyName} - planet x: ${planetCoords.x}, y: ${planetCoords.y}`);
-            console.log(`Moon: ${bodyName} - moon x: ${moonCoords.x}, y: ${moonCoords.y}`);
-            console.log('moonDistance: ', moonDistance);
-            console.log('moonDistanceInPx: ', moonDistanceInPx);
-            console.log('moonAngle: ', moonAngle);
-            console.log('moonAngleInRadians: ', moonAngleInRadians);
-            console.log('moon from planet x: ', (moonDistanceInPx * Math.cos(moonAngleInRadians) * ratio))
-            console.log('moon from planet y: ', (moonDistanceInPx * Math.sin(moonAngleInRadians) * ratio))
         }
 
         return coords[type];

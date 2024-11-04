@@ -10,6 +10,7 @@ import { bodyValues } from '@/utils/functions/calculations';
 import BodyData from '../BodyData/BodyData';
 import { Star, Planet, Moon, StarVariantType, } from '@/utils/types/stellarBodies';
 import { orbits } from '@/state/gameStateSlice';
+import useAuCoordinates from '@/hooks/useAuCoordinates';
 
 
 interface StarSystemProps {
@@ -24,8 +25,8 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
   const o = useSelector((state: RootState) => state.gameState.orbits);
   const dev = useSelector((state: RootState) => state.keyState.devDisplay.pressed);
   const ratio = ratios[zoom];
-  const starSysRef = React.useRef<HTMLDivElement>(null);
 
+  const starSysRef = React.useRef<HTMLDivElement>(null);
 
   const useApproachProps = {
     ref: starSysRef,
@@ -44,7 +45,9 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
     dev
   });
 
-  const { name, type, x, y, dLeft, dTop } = bv;
+  const { name, type } = bv;
+
+  const { x, y, aX, aY} = useAuCoordinates({system, star: undefined, planet: undefined, moon: undefined}, orbits.system, ratio);
 
   if (o.system !== '' && o.system !== system.name) return null;
 
@@ -67,12 +70,12 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
         type={type}
         x={x}
         y={y}
-        left={dLeft}
-        top={dTop}
+        left={50}
+        top={0}
         miniMap={miniMap}
         distance={distanceToPlayer()}
       />
-      {system.stars.map((star: Star) => (
+      {system.stars.map((star: Star) => o.star !== '' && o.star !== system.stars[0].name ? '' : (
         <React.Fragment key={`${star.name}-star`}> {/* Ensure each star has a unique key */}
           <StellarBody
             key={`${star.name}-star`}
@@ -83,7 +86,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
             scale={scales.star}
             variant={star.variant as StarVariantType}
           />
-          {zoom > scales.galaxy && activeSystem && star.planets?.map((planet: Planet) => (
+          {zoom > scales.galaxy && activeSystem && star.planets?.map((planet: Planet) => o.planet !== '' && o.planet !== planet.name ? '' : (
             <React.Fragment key={`${planet.name}-planet`}> {/* Ensure each planet has a unique key */}
               <StellarBody
                 key={`${planet.name}-planet`}
@@ -95,7 +98,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
                 scale={scales.planet}
                 variant={planet.variant}
               />
-              {zoom > scales.star && planet.moons?.map((moon: Moon) => (
+              {zoom > scales.star && planet.moons?.map((moon: Moon) => o.moon !== '' && o.moon !== moon.name ? '' : (
                 <StellarBody
                   key={`${moon.name}-moon`} // Ensure each moon has a unique key
                   system={system}

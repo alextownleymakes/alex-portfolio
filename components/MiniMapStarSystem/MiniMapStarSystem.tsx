@@ -1,10 +1,17 @@
-// StarSystem.tsx
+// MiniMapStarSystem.tsx
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Moon, Planet, Star, StarSystem as StarSystemType } from '../../utils/types/stellarBodies';
+import { StarSystem as StarSystemType } from '../../utils/types/stellarBodies';
 import { ratios, scales } from '../../utils/functions/zoom';
 import { RootState } from '../../state/store';
+import useApproach from '@/hooks/useApproach';
 import StellarBody from '../StellarBody/StellarBody';
+import { bodyValues } from '@/utils/functions/calculations';
+import BodyData from '../BodyData/BodyData';
+import { Star, Planet, Moon, StarVariantType, } from '@/utils/types/stellarBodies';
+import { orbits } from '@/state/gameStateSlice';
+import useAuCoordinates from '@/hooks/useAuCoordinates';
+
 
 
 interface MiniMapStarSystemProps {
@@ -15,13 +22,14 @@ interface MiniMapStarSystemProps {
 
 const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system }) => {
   const systemSize = useSelector((state: RootState) => state.gameState.galaxySize);
+  const o = useSelector((state: RootState) => state.gameState.orbits);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
   const ratio = ratios[zoom] / 10;
 
   const starSysRef = React.useRef<HTMLDivElement>(null);
 
-  const starSysLeft = `calc(${system.position.x * ratio}px + 50% - ${(systemSize * ratio) / 2}px)`;
-  const starSysTop = `calc(${system.position.y * ratio}px + 50% - ${(systemSize * ratio) / 2}px)`;
+  const starSysLeft = `calc(${system.position.x * ratio}px + 50%)`;
+  const starSysTop = `calc(${system.position.y * ratio}px + 50%)`;
   const starSysSize = systemSize * ratio;
 
   return (
@@ -70,6 +78,7 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system }) => {
                       type={moon.type}
                       scale={scales.moon}
                       miniMap={true}
+                      variant='moon'
                     />
                   ))}
               </React.Fragment>

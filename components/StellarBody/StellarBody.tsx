@@ -42,7 +42,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
 
 
   const bv = bodyValues(bodyValueProps);
-  const { left, top, width, height, backgroundColor, border, dLeft, dTop, name, key } = bv;
+  const { width, height, backgroundColor, border, name, key } = bv;
 
   const { x, y, aX, aY} = useAuCoordinates(stellarData, type, ratio);
 
@@ -102,8 +102,8 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
         type={type}
         x={x}
         y={y}
-        left={dLeft}
-        top={dTop}
+        left={`calc(${width} + 10px)`}
+        top={`calc(${height} / 2)`}
         miniMap={miniMap}
         distance={distanceToPlayer()}
       />

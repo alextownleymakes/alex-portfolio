@@ -58,7 +58,6 @@ export interface Star {
   temperature: number;
   age: number;
   radius: number;
-  position: { x: number; y: number }; // StarSystem coordinates
   planets: Planet[]; // Array of planets orbiting the star
 }
 
@@ -75,7 +74,6 @@ export interface Planet {
   angleFromStar: number; // Angle from the star in degrees
   orbitalPeriod: number; // Orbital period in Earth days
   color?: string;
-  position: { x: number; y: number }; // Solar system coordinates
   moons?: Moon[]; // Array of moons
 }
 
@@ -91,7 +89,6 @@ export interface Moon {
   angleFromPlanet: number; // Angle from the planet in degrees
   orbitalPeriod: number; // Orbital period around the planet
   color?: string;
-  position: { x: number; y: number }; // Position relative to the planet
 }
 
 // Asteroid interface

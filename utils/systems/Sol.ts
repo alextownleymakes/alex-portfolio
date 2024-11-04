@@ -20,7 +20,6 @@ export const moon: Moon = {
     Mg: 0.19,
     Fe: 0.1,
   },
-  position: { x: -30, y: -25 }, // Relative to Earth
   type: orbits.moon,
 };
 
@@ -39,7 +38,6 @@ export const phobos: Moon = {
     Si: 0.3,
     O: 0.1,
   },
-  position: { x: 10, y: 10 }, // Relative to Mars
   type: orbits.moon,
 };
 
@@ -55,7 +53,6 @@ export const deimos: Moon = {
     C: 0.4,
     Si: 0.2,
   },
-  position: { x: -22, y: 40 }, // Relative to Mars
   type: orbits.moon,
 };
 
@@ -76,7 +73,6 @@ export const mercury: Planet = {
     O: 0.2,
     silicon: 0.1,
   },
-  position: { x: 59, y: 38 }, // Relative coordinates
   type: orbits.planet,
 };
 
@@ -96,7 +92,6 @@ export const venus: Planet = {
     Fe: 0.03,
   },
   color: 'Yellow',
-  position: { x: 60, y: -50 },
   type: orbits.planet,
 };
 
@@ -116,7 +111,6 @@ export const earth: Planet = {
     Fe: 0.06,
   },
   color: 'Blue',
-  position: { x: -60, y: -80 },
   moons: [moon],
   type: orbits.planet,
 };
@@ -136,7 +130,6 @@ export const mars: Planet = {
     FeO: 0.18,
     Al2O3: 0.06,
   },
-  position: { x: -52, y: 95 },
   type: orbits.planet,
 };
 
@@ -155,7 +148,6 @@ export const jupiter: Planet = {
     He: 0.1,
     CH4: 0.002,
   },
-  position: { x: -442, y: 140 },
   type: orbits.planet,
 };
 
@@ -173,7 +165,6 @@ export const saturn: Planet = {
     He: 0.03,
     CH4: 0.001,
   },
-  position: { x: 600, y: -350 },
   type: orbits.planet,
 };
 
@@ -191,7 +182,6 @@ export const uranus: Planet = {
     H: 0.83,
     He: 0.15,
   },
-  position: { x: 1200, y: 500 },
   type: orbits.planet,
 };
 
@@ -209,7 +199,6 @@ export const neptune: Planet = {
     He: 0.19,
     CH4: 0.01,
   },
-  position: { x: 1300, y: 500 },
   type: orbits.planet,
 };
 
@@ -228,7 +217,6 @@ export const pluto: Planet = {
     CH4: 0.01,
     CO: 0.01,
   },
-  position: { x: 1400, y: 500 },
   type: orbits.planet,
 };
 
@@ -246,7 +234,6 @@ export const ceres: Planet = {
     SiO2: 0.26,
     FeO: 0.17,
   },
-  position: { x: 59, y: 38 },
   type: orbits.planet,
 };
 
@@ -264,7 +251,6 @@ export const eris: Planet = {
     CH4: 0.3,
     CO: 0.2,
   },
-  position: { x: 59, y: 38 },
   type: orbits.planet,
 };
 
@@ -282,7 +268,6 @@ export const haumea: Planet = {
     CH4: 0.3,
     CO: 0.1,
   },
-  position: { x: 59, y: 38 },
   type: orbits.planet,
 };
 
@@ -300,7 +285,6 @@ export const makemake: Planet = {
     CH4: 0.3,
     CO: 0.2,
   },
-  position: { x: 59, y: 38 },
   type: orbits.planet,
 };
 
@@ -318,7 +302,6 @@ export const sedna: Planet = {
     CH4: 0.3,
     CO: 0.2,
   },
-  position: { x: 59, y: 38 },
   type: orbits.planet,
 };
 
@@ -342,7 +325,6 @@ export const solStar: Star = {
   temperature: 5778, // Kelvin
   age: 4.6e9, // 4.6 billion years
   radius: 50, // km
-  position: { x: 0, y: 0 }, // Center of the solar system
   planets: [mercury, venus, earth, mars, jupiter, saturn, uranus, neptune, pluto],
   type: orbits.star,
 };

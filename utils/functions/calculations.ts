@@ -25,16 +25,10 @@ export interface StellarDataType {
 export interface BodyValuesType {
     name: string;
     key: string;
-    x: number;
-    y: number;
-    left: string;
-    top: string;
     width: number;
     height: number;
     backgroundColor: string;
     border: string;
-    dTop: string;
-    dLeft: string;
     type: string;
 }
 
@@ -55,47 +49,6 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
 
     const divide = 1.5;
 
-    const formulateX = (stellarData: StellarDataType): number => {
-        const { system, star, planet, moon } = stellarData;
-
-        const systemX = system && system.position && system.position.x ? system.position.x : 0;
-        const starX = star && star.position && star.position.x ? star.position.x : 0;
-        const planetX = planet && planet.position && planet.position.x ? planet.position.x : 0;
-        const moonX = moon && moon.position && moon.position.x ? moon.position.x : 0;
-
-        return (
-            (
-                systemX
-                +
-                starX
-                +
-                ( zoom < 2 ? planetX / divide : planetX)
-                +
-                ( zoom < 3 ? moonX / divide : moonX)
-            ) * ratio
-        );
-    }
-
-    const formulateY = (stellarData: StellarDataType): number => {
-        const { system, star, planet, moon } = stellarData;
-
-        const systemY = system && system.position && system.position.y ? system.position.y : 0;
-        const starY = star && star.position && star.position.y ? star.position.y : 0;
-        const planetY = planet && planet.position && planet.position.y ? planet.position.y : 0;
-        const moonY = moon && moon.position && moon.position.y ? moon.position.y : 0;
-
-        return (
-            (
-                systemY
-                +
-                starY
-                +
-                ( zoom < 2 ? planetY / divide : planetY)
-                +
-                ( zoom < 3 ? moonY / divide : moonY)
-            ) * ratio
-        );
-    }
 
     const formulateSize = (stellarData: StellarDataType): number => {
         const { star, planet, moon } = stellarData;
@@ -104,35 +57,6 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
             *
             ratio
         );
-    }
-
-    const formulateLeft = (stellarData: StellarDataType): number => {
-        const { system, star, planet, moon } = stellarData;
-        const formula = (!star && !planet && !moon )? formulateX({system}) : formulateX(stellarData) - (system ? formulateX({system}) : 0);
-        return formula;
-    }
-
-    const formulateTop = (stellarData: StellarDataType): number => {
-        const { system, star, planet, moon } = stellarData;
-
-        const formula = (!star && !planet && !moon )? formulateY({system}) : formulateY(stellarData) - (system ? formulateY({system}) : 0);
-        return formula;
-    }
-
-    const formulateDLeft = (stellarData: StellarDataType): string => {
-        const { star, planet, moon } = stellarData;
-
-        const bodyLeft = formulateLeft(stellarData);
-        const size = formulateSize(stellarData);
-        const str = (!star && !planet && !moon ) ? (250 * ratio) + 'px': `calc(10px + ${bodyLeft}px + ${size/2}px)`;
-        return str;
-    }
-
-    const formulateDTop = (stellarData: StellarDataType): string => {
-        const { star, planet, moon } = stellarData;
-        const bodyTop = formulateTop(stellarData);
-        const str = (!star && !planet && !moon ) ? `calc(${dev ? '-1.55' : '-.5'}rem` : `calc(${bodyTop}px - ${dev ? '1.55' : '.5'}rem)`
-        return str;
     }
 
     const formulateColor = (stellarData: StellarDataType): string => {
@@ -172,16 +96,10 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
     const bodyValues: BodyValuesType = {
         name: formulateName(stellarData),
         key: formulateKey(stellarData),
-        x: formulateX(stellarData),
-        y: formulateY(stellarData),
-        left: calc(formulateLeft(stellarData)),
-        top: calc(formulateTop(stellarData)),
         width: formulateSize(stellarData),
         height: formulateSize(stellarData),
         backgroundColor: formulateBackgroundColor(stellarData),
         border: formulateBorder(stellarData),
-        dLeft: formulateDLeft(stellarData),
-        dTop: formulateDTop(stellarData),
         type: formulateType(stellarData),
     }
 

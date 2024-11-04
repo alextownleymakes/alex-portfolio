@@ -83,7 +83,7 @@ const useApproach = ({
                 setZoomed(true);
                 type && name && dispatch(setOrbit({type, name}));
                 dispatch(zoomIn({ scale }));
-            } else if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distance > ((approachDistance * ratios[zoom]) * 2) && zoomed && zoom === scale) {
+            } else if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distance > ((approachDistance * ratios[zoom]) * 3) && zoomed && zoom === scale) {
                 setZoomed(false);
                 type && dispatch(setOrbit({type, name: ''}));
                 dispatch(zoomOut({ scale: scale - 1 }));

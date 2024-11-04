@@ -31,11 +31,11 @@ export const scales: { [key: string]: number } = {
 
 export const scaleDistances: { [key: string]: number } = {
     0: 800,
-    1: 390,
-    2: 190,
-    3: 90,
-    4: 44,
-    5: 20,
+    1: 500,
+    2: 400,
+    3: 100,
+    4: 30,
+    5: 10,
 }
 
 export type ScalesType = typeof scales;

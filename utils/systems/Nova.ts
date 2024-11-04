@@ -17,7 +17,6 @@ export const moonB1A: Moon = {
     Mg: 0.19,
     Fe: 0.1,
   },
-  position: { x: 12, y: -40 }, // Relative to Planet B1
   type: orbits.moon
 };
 
@@ -37,7 +36,6 @@ export const planetA1: Planet = {
     silicon: 0.3,
     Fe: 0.2,
   },
-  position: { x: -27, y: 41 }, // Relative to Star A
   variant: PlanetVariants.terrestrial,
   type: orbits.planet,
 };
@@ -57,7 +55,6 @@ export const planetA2: Planet = {
     silicon: 0.25,
     Fe: 0.15,
   },
-  position: { x: -50, y: 60 }, // Relative to Star A
   variant: PlanetVariants.terrestrial,
   type: orbits.planet,
 };
@@ -78,7 +75,6 @@ export const planetB1: Planet = {
     Fe: 0.3,
     Mg: 0.15,
   },
-  position: { x: -23, y: 11 }, // Relative to Star B
   variant: PlanetVariants.terrestrial,
   type: orbits.planet,
 };
@@ -98,7 +94,6 @@ export const planetB2: Planet = {
     Fe: 0.25,
     silicon: 0.2,
   },
-  position: { x: 40, y: -4 },
   variant: PlanetVariants.terrestrial,
   type: orbits.planet,
 };
@@ -108,7 +103,7 @@ export const novaAlpha: Star = {
   id: 14,
   name: 'Nova Alpha',
   mass: 2.0e30, // kg
-  distanceFromCenter: 9.0, 
+  distanceFromCenter: 4.0, 
   angleFromCenter: 45, // Degrees
   orbitalPeriod: 11.9, // Earth days
   chemicalComposition: {
@@ -129,14 +124,13 @@ export const novaAlpha: Star = {
   temperature: 5800, // Kelvin
   age: 5e9, // 5 billion years
   radius: 55, // km (scaled for game purposes)
-  position: { x: -150, y: 75 }, // Position relative to the barycenter
 };
 
 export const novaBeta: Star = {
   id: 15,
   name: 'Nova Beta',
   mass: 1.5e30, // kg
-  distanceFromCenter: 12.2, 
+  distanceFromCenter: 2.2, 
   angleFromCenter: 135, // Degrees
   orbitalPeriod: 11.9, // Earth days
   chemicalComposition: {
@@ -157,7 +151,6 @@ export const novaBeta: Star = {
   temperature: 5500, // Kelvin
   age: 4.5e9, // 4.5 billion years
   radius: 45, // km (scaled for game purposes)
-  position: { x: 100, y: -50 }, // Position relative to the barycenter
 };
 
 // Export the entire Binary Star System
