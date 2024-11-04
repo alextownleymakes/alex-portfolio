@@ -5,16 +5,16 @@ import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/store";
 import { Coords, setOrbit, zoomIn, zoomOut } from "@/state/gameStateSlice";
 import { ratios, scaleDistances } from "@/utils/functions/zoom";
-import { StellarBodyType } from "@/utils/types/stellarBodies";
 import { distanceTo } from "@/utils/functions/calculations";
+import { OrbitTypes } from "@/state/gameStateSlice";
 
 export interface UseApproachProps {
     ref: React.RefObject<HTMLElement>;
     coords: Coords;
     scale: number;
     miniMap?: boolean;
-    name?: string;
-    type?: StellarBodyType;
+    name: string;
+    type: OrbitTypes;
 }
 
 export interface UseApproachReturn {
@@ -81,11 +81,11 @@ const useApproach = ({
         if (!miniMap) {
             if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distance < (approachDistance * ratios[zoom]) && !zoomed && zoom === scale - 1) {
                 setZoomed(true);
-                dispatch(setOrbit({type, name}));
+                type && name && dispatch(setOrbit({type, name}));
                 dispatch(zoomIn({ scale }));
             } else if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distance > ((approachDistance * ratios[zoom]) * 2) && zoomed && zoom === scale) {
                 setZoomed(false);
-                dispatch(setOrbit({type, name: undefined}));
+                type && dispatch(setOrbit({type, name: ''}));
                 dispatch(zoomOut({ scale: scale - 1 }));
             }
         }

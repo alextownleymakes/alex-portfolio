@@ -9,6 +9,7 @@ import StellarBody from '../StellarBody/StellarBody';
 import { bodyValues } from '@/utils/functions/calculations';
 import BodyData from '../BodyData/BodyData';
 import { Star, Planet, Moon, StarVariantType, } from '@/utils/types/stellarBodies';
+import { orbits } from '@/state/gameStateSlice';
 
 
 interface StarSystemProps {
@@ -20,15 +21,20 @@ interface StarSystemProps {
 
 const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
+  const o = useSelector((state: RootState) => state.gameState.orbits);
   const dev = useSelector((state: RootState) => state.keyState.devDisplay.pressed);
   const ratio = ratios[zoom];
   const starSysRef = React.useRef<HTMLDivElement>(null);
+
 
   const useApproachProps = {
     ref: starSysRef,
     coords: { x: system.position.x * ratio, y: system.position.y * ratio },
     scale: scales.starSystem,
+    type: orbits.system,
+    name: system.name,
   };
+
   const { distanceToPlayer, activeSystem } = useApproach(useApproachProps);
 
   const bv = bodyValues({
@@ -39,6 +45,8 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
   });
 
   const { name, type, x, y, dLeft, dTop } = bv;
+
+  if (o.system !== '' && o.system !== system.name) return null;
 
   return (
     <div
@@ -87,7 +95,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
                 scale={scales.planet}
                 variant={planet.variant}
               />
-              {zoom > scales.starSystem && planet.moons?.map((moon: Moon) => (
+              {zoom > scales.star && planet.moons?.map((moon: Moon) => (
                 <StellarBody
                   key={`${moon.name}-moon`} // Ensure each moon has a unique key
                   system={system}

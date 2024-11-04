@@ -11,12 +11,25 @@ export interface Target {
     name: string | undefined;
     type: StellarBodyType | undefined;
 }
+export type OrbitTypes = 'system' | 'star' | 'planet' | 'moon';
+
+export const orbits: { [key in OrbitTypes]: OrbitTypes } = {
+    system: 'system',
+    star: 'star',
+    planet: 'planet',
+    moon: 'moon',
+};
+
+export interface Orbit {
+    name: string;
+    type: OrbitTypes;
+}
 
 export interface Orbits {
-    system: string | undefined;
-    star: string | undefined;
-    planet: string | undefined;
-    moon: string | undefined;
+    system: string;
+    star: string;
+    planet: string;
+    moon: string;
 }
 
 export interface GameState {
@@ -32,7 +45,7 @@ export interface GameState {
     rotation: number;
     dev: boolean;
     target: Orbits;
-    orbit: Orbits;
+    orbits: Orbits;
     lowestOrbit: Target;
     visibleSystems: SystemType[] | undefined;
 }
@@ -50,16 +63,16 @@ const initialState: GameState = {
     rotation: 0,
     dev: false,
     target: {
-        system: undefined,
-        star: undefined,
-        planet: undefined,
-        moon: undefined,
+        system: '',
+        star: '',
+        planet: '',
+        moon: '',
     },
-    orbit: {
-        system: undefined,
-        star: undefined,
-        planet: undefined,
-        moon: undefined,
+    orbits: {
+        system: '',
+        star: '',
+        planet: '',
+        moon: '',
     },
     lowestOrbit: {
         name: undefined,
@@ -106,24 +119,9 @@ const gameStateSlice = createSlice({
         updateAll: (state, action: PayloadAction<Partial<GameState>>) => {
             Object.assign(state, action.payload); // This is fine if you are updating multiple fields.
         },
-        setOrbit: (state, action: PayloadAction<Target>) => {
+        setOrbit: (state, action: PayloadAction<Orbit>) => {
             const { name, type } = action.payload;
-            switch (type as string) {
-                case 'system':
-                    state.orbit.system = name;
-                    break;
-                case 'star':
-                    state.orbit.star = name;
-                    break;
-                case 'planet':
-                    state.orbit.planet = name;
-                    break;
-                case 'moon':
-                    state.orbit.moon = name;
-                    break;
-                default:
-                    break;
-            }
+            state.orbits[type] = name;
         },
         setLowestOrbit: (state, action: PayloadAction<Target>) => {
             state.lowestOrbit = action.payload;

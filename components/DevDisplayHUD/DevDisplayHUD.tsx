@@ -6,40 +6,17 @@ import { useSelector } from "react-redux";
 import { systems } from '../../utils/systems/systems';
 import Body from '../Body/Body';
 import { HUDPieceProps } from "../HUD/HUDPiece";
-
-
-const findBody = (
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    obj: { [key: string]: any },
-    name: string,
-    type: string
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-): any | undefined => {
-    // Base case: if the current object matches, return it
-    if (obj.name === name && obj.type === type) {
-        return obj;
-    }
-
-    // Iterate through each property of the current object
-    for (const key in obj) {
-        // Ensure the property is an object before diving deeper
-        if (typeof obj[key] === "object" && obj[key] !== null) {
-            const result = findBody(obj[key], name, type);
-            if (result) {
-                return result; // Found a match in a nested object
-            }
-        }
-    }
-
-    return undefined; // No match found in this branch
-}
+import { findBody } from '../../utils/functions/calculations';
+import { PlayerMission } from "@/state/playerSlice";
 
 const DevDisplayHUD: React.FC = () => {
 
     const gameState = useSelector((state: RootState) => state.gameState);
     const playerState = useSelector((state: RootState) => state.player);
 
-    const { speed, rotation, lowestOrbit } = gameState;
+    const currentMission: PlayerMission | undefined = playerState?.missions?.find((mission) => mission.id === (playerState?.currentMission || 0)+1) || undefined;
+
+    const { speed, rotation, lowestOrbit, zoomedPosition } = gameState;
     const credits = playerState.resources[1].amount;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -62,9 +39,10 @@ const DevDisplayHUD: React.FC = () => {
             <Grid container spacing={4} columnSpacing={4}>
                 <Grid size={12}>
                     <ol>
-                        {/* <li>
+                        <li>
                         <strong>Position:</strong>&nbsp;{zoomedPosition.x.toFixed(0)},&nbsp;{zoomedPosition.y.toFixed(0)}
                     </li>
+                        {/* 
                     <li>
                         <strong>Velocity:</strong>&nbsp;{velocity.x.toFixed(0)},&nbsp;{velocity.y.toFixed(0)}
                     </li> */}
@@ -103,7 +81,12 @@ const DevDisplayHUD: React.FC = () => {
                 </Grid>
                 <Grid size={12}>
                     <h1><strong>ACTIVE&nbsp;MISSION</strong></h1>
-                    {playerState.currentMission ? playerState.currentMission : 'No Active Mission'}
+                    {currentMission ? currentMission.name : 'No Active Mission'}
+                </Grid>
+                <Grid size={12}>
+                    <h1><strong>CURRENT&nbsp;OBJECTIVE</strong></h1>
+                    {currentMission?.description}
+                    {/* {(currentMission && playerState?.currentMissionStage) ? currentMission.stage[playerState?.currentMissionStage].description : 'No Active Mission'} */}
                 </Grid>
                 <Grid size={12}>
                     <h1><strong>CREDITS</strong>: ‡{credits}</h1>

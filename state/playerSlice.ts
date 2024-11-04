@@ -166,9 +166,10 @@ const playerStateSlice = createSlice({
     initialState,
     reducers: {
         missionStart: (state, action: PayloadAction<number>) => {
+            const msn = action.payload;
             state.currentMission = action.payload;
             state.currentMissionStage = 0;
-            state.missions[action.payload].started = true;
+            state.missions[msn].started = true;
             state.missions[action.payload].stage[0].started = true;
         },
         missionProgress: (state, action: PayloadAction<MissionProgressPayload>) => {

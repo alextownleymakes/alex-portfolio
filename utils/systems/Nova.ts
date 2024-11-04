@@ -1,7 +1,6 @@
 // Import the necessary types/interfaces you've already defined
 import { Star, Planet, Moon, Asteroid, AsteroidBelt, StarSystem, StarVariants, PlanetVariants, StellarBodies } from '../types/stellarBodies';
-
-
+import { orbits } from "@/state/gameStateSlice";
 
 // Define moons for Planet B1
 export const moonB1A: Moon = {
@@ -10,6 +9,7 @@ export const moonB1A: Moon = {
   mass: 7.342e22, // kg
   radius: 4, // km
   distanceFromPlanet: 0.002, // AU
+  angleFromPlanet: 45, // Degrees
   orbitalPeriod: 27, // Earth days
   chemicalComposition: {
     O: 0.42,
@@ -18,7 +18,7 @@ export const moonB1A: Moon = {
     Fe: 0.1,
   },
   position: { x: 12, y: -40 }, // Relative to Planet B1
-  type: StellarBodies.moon
+  type: orbits.moon
 };
 
 // Define planets for Star A (Alpha)
@@ -28,6 +28,7 @@ export const planetA1: Planet = {
   mass: 3.0e24, // kg
   radius: 12, // km
   distanceFromStar: 1, // AU
+  angleFromStar: 30, // Degrees
   orbitalPeriod: 365, // Earth days
   color: 'Blue',
   moons: [],
@@ -38,7 +39,7 @@ export const planetA1: Planet = {
   },
   position: { x: -27, y: 41 }, // Relative to Star A
   variant: PlanetVariants.terrestrial,
-  type: StellarBodies.planet,
+  type: orbits.planet,
 };
 
 export const planetA2: Planet = {
@@ -47,6 +48,7 @@ export const planetA2: Planet = {
   mass: 5.0e24, // kg
   radius: 15, // km
   distanceFromStar: 1.5, // AU
+  angleFromStar: 60, // Degrees
   orbitalPeriod: 540, // Earth days
   color: 'Green',
   moons: [],
@@ -57,7 +59,7 @@ export const planetA2: Planet = {
   },
   position: { x: -50, y: 60 }, // Relative to Star A
   variant: PlanetVariants.terrestrial,
-  type: StellarBodies.planet,
+  type: orbits.planet,
 };
 
 // Define planets for Star B (Beta)
@@ -67,6 +69,7 @@ export const planetB1: Planet = {
   mass: 4.0e24, // kg
   radius: 12, // km
   distanceFromStar: 1.2, // AU
+  angleFromStar: 15, // Degrees
   orbitalPeriod: 420, // Earth days
   color: 'Red',
   moons: [moonB1A],
@@ -77,7 +80,7 @@ export const planetB1: Planet = {
   },
   position: { x: -23, y: 11 }, // Relative to Star B
   variant: PlanetVariants.terrestrial,
-  type: StellarBodies.planet,
+  type: orbits.planet,
 };
 
 export const planetB2: Planet = {
@@ -86,6 +89,7 @@ export const planetB2: Planet = {
   mass: 6.0e24, // kg
   radius: 30, // km
   distanceFromStar: 2.0, // AU
+  angleFromStar: 90, // Degrees
   orbitalPeriod: 600, // Earth days
   color: 'Yellow',
   moons: [],
@@ -96,7 +100,7 @@ export const planetB2: Planet = {
   },
   position: { x: 40, y: -4 },
   variant: PlanetVariants.terrestrial,
-  type: StellarBodies.planet,
+  type: orbits.planet,
 };
 
 // Define the binary stars (orbiting around the barycenter at {0, 0})
@@ -104,6 +108,9 @@ export const novaAlpha: Star = {
   id: 14,
   name: 'Nova Alpha',
   mass: 2.0e30, // kg
+  distanceFromCenter: 9.0, 
+  angleFromCenter: 45, // Degrees
+  orbitalPeriod: 11.9, // Earth days
   chemicalComposition: {
     H: 0.73,
     He: 0.25,
@@ -115,7 +122,7 @@ export const novaAlpha: Star = {
     planetA2,
   ],
   variant: StarVariants.mainSequence,
-  type: StellarBodies.star,
+  type: orbits.star,
   density: 1.45, // g/cm³
   luminosity: 3.95e26, // Watts
   color: 'Blue',
@@ -129,6 +136,9 @@ export const novaBeta: Star = {
   id: 15,
   name: 'Nova Beta',
   mass: 1.5e30, // kg
+  distanceFromCenter: 12.2, 
+  angleFromCenter: 135, // Degrees
+  orbitalPeriod: 11.9, // Earth days
   chemicalComposition: {
     H: 0.72,
     He: 0.26,
@@ -140,7 +150,7 @@ export const novaBeta: Star = {
     planetB2,
   ],
   variant: StarVariants.mainSequence,
-  type: StellarBodies.star,
+  type: orbits.star,
   density: 1.38, // g/cm³
   luminosity: 2.85e26, // Watts
   color: 'White',

@@ -12,16 +12,12 @@ export const bodyRatios: { [key: string]: number } = {
 }
 
 export const ratios: { [key: string]: number } = {
-    0: 1/1,
-    1: 2/1,
-    2: 4/1,
+    0: 1/4,
+    1: 1/1,
+    2: 2/1,
     3: 8/1,
-    4: 16/1,
-    5: 32/1,
-    6: 64/1,
-    7: 128/1,
-    8: 256/2,
-    9: 562/1,
+    4: 32/1,
+    5: 128/1,
 }
 
 export const scales: { [key: string]: number } = {
@@ -34,17 +30,15 @@ export const scales: { [key: string]: number } = {
 }
 
 export const scaleDistances: { [key: string]: number } = {
-    0: 600,
-    1: 200,
-    2: 100,
-    3: 20,
-    4: 10,
-    5: 3,
+    0: 800,
+    1: 390,
+    2: 190,
+    3: 90,
+    4: 44,
+    5: 20,
 }
 
 export type ScalesType = typeof scales;
-
-
 
 export const zoom = (scale: number, x: number, y: number) => {
     const ratio = bodyRatios[scale];

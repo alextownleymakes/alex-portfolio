@@ -15,10 +15,10 @@ const Universe: React.FC<UniverseProps> = ({
 
     const windowSize = useSelector((state: RootState) => state.gameState.windowSize);
     const universeRef = React.useRef<HTMLDivElement>(null);
-    const orbit = useSelector((state: RootState) => state.gameState.orbit);
+    const orbits = useSelector((state: RootState) => state.gameState.orbits);
     const dispatch = useDispatch();
 
-    useLowestOrbit(orbit);
+    useLowestOrbit(orbits);
 
     useEffect(() => {
         if (universeRef.current) {

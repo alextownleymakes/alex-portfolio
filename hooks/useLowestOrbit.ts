@@ -5,25 +5,25 @@ import { setLowestOrbit, Orbits } from '../state/gameStateSlice';
 import { StellarBodyType } from '../utils/types/stellarBodies';
 
 
-export const useLowestOrbit = (orbit: Orbits) => {
+export const useLowestOrbit = (orbits: Orbits) => {
 
     const dispatch = useDispatch();
 
     useEffect(() => {
         const lowOrb: { type: StellarBodyType | undefined, name: string | undefined } = { type: undefined, name: undefined };
 
-        if (orbit.moon) {
+        if (orbits.moon !== '') {
             lowOrb.type = 'moon';
-            lowOrb.name = orbit.moon;
-        } else if (orbit.planet) {
+            lowOrb.name = orbits.moon;
+        } else if (orbits.planet !== '') {
             lowOrb.type = 'planet';
-            lowOrb.name = orbit.planet;
-        } else if (orbit.star) {
+            lowOrb.name = orbits.planet;
+        } else if (orbits.star !== '') {
             lowOrb.type = 'star';
-            lowOrb.name = orbit.star;
-        } else if (orbit.system) {
+            lowOrb.name = orbits.star;
+        } else if (orbits.system !== '') {
             lowOrb.type = 'starSystem';
-            lowOrb.name = orbit.system;
+            lowOrb.name = orbits.system;
         } else {
             lowOrb.type = undefined;
             lowOrb.name = undefined;
@@ -33,5 +33,5 @@ export const useLowestOrbit = (orbit: Orbits) => {
             dispatch(setLowestOrbit(lowOrb));
         }
         
-    }, [orbit]);
+    }, [orbits]);
 }

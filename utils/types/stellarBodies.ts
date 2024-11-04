@@ -1,15 +1,11 @@
 import { StarComposition, PlanetComposition, MoonComposition, AsteroidComposition, CometComposition } from "../composition";
+import { OrbitTypes } from "@/state/gameStateSlice";
 
 export type StellarBodyType = 'star' | 'planet' | 'moon' | 'asteroid' | 'asteroidBelt' | 'comet' | 'starSystem';
-
 export type PlanetVariantType = 'rocky' | 'terrestrial' | 'gas' | 'gasGiant' | 'dwarfGas' | 'iceGiant' | 'dwarf' | 'exoplanet' | 'earthLike' | 'superEarth';
-
 export type StarVariantType = 'mainSequence' | 'redGiant' | 'whiteDwarf' | 'supernova' | 'blackHole' | 'neutronStar' | 'pulsar' | 'quarkStar';
-
 export type StellarBodiesObject = { [key in StellarBodyType]: StellarBodyType; };
-
 export type StarVariantTypeObject = { [key in StarVariantType]: StarVariantType; };
-
 export type PlanetVariantTypeObject = { [key in PlanetVariantType]: PlanetVariantType; };
 
 export const StellarBodies: StellarBodiesObject = {
@@ -51,7 +47,10 @@ export interface Star {
   name: string;
   mass: number;
   chemicalComposition: StarComposition;
-  type: StellarBodyType;
+  distanceFromCenter: number; // Distance from the center of the galaxy
+  angleFromCenter: number; // Angle from the center in degrees
+  orbitalPeriod: number; // Orbital period in Earth days
+  type: OrbitTypes;
   variant: StarVariantType;
   density: number;
   luminosity: number;
@@ -69,10 +68,11 @@ export interface Planet {
   name: string;
   mass: number;
   radius: number;
-  type: StellarBodyType;
+  type: OrbitTypes;
   variant: PlanetVariantType;
   chemicalComposition: PlanetComposition;
   distanceFromStar: number; // Distance from its star in AU or km
+  angleFromStar: number; // Angle from the star in degrees
   orbitalPeriod: number; // Orbital period in Earth days
   color?: string;
   position: { x: number; y: number }; // Solar system coordinates
@@ -85,9 +85,10 @@ export interface Moon {
   name: string;
   mass: number;
   radius: number;
-  type: StellarBodyType;
+  type: OrbitTypes;
   chemicalComposition: MoonComposition; // Moons can have their own composition
   distanceFromPlanet: number; // Distance from its planet
+  angleFromPlanet: number; // Angle from the planet in degrees
   orbitalPeriod: number; // Orbital period around the planet
   color?: string;
   position: { x: number; y: number }; // Position relative to the planet

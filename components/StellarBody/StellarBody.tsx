@@ -8,6 +8,8 @@ import { StellarDataType, BodyValuesProps, bodyValues } from '@/utils/functions/
 import BodyData from '../BodyData/BodyData';
 import styles from './StellarBody.module.scss';  // Importing the CSS Module
 import Body from '../Body/Body';
+import useAuCoordinates from '@/hooks/useAuCoordinates';
+import { OrbitTypes } from '@/state/gameStateSlice';
 
 export interface StellarBodyProps {
   system?: StarSystemType;
@@ -16,7 +18,7 @@ export interface StellarBodyProps {
   moon?: MoonType;
   miniMap?: boolean; // Whether the star is in the mini map
   scale: number;
-  type: StellarBodyType;
+  type: OrbitTypes;
   variant: PlanetVariantType | StarVariantType | 'moon';
 }
 
@@ -37,12 +39,16 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
     dev
   }
 
+
+
   const bv = bodyValues(bodyValueProps);
-  const { x, y, left, top, width, height, backgroundColor, border, dLeft, dTop, name, key } = bv;
+  const { left, top, width, height, backgroundColor, border, dLeft, dTop, name, key } = bv;
+
+  const { x, y, aX, aY} = useAuCoordinates(stellarData, type, ratio);
 
   const useApproachProps: UseApproachProps = {
     ref,
-    coords: { x, y },
+    coords: {x: aX, y: aY},
     scale,
     miniMap,
     type,
@@ -64,8 +70,8 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
         ref={ref}
         style={{
           position: 'absolute',
-          left, // Use pixel-based position for accuracy
-          top,
+          left: x, // Use pixel-based position for accuracy
+          top: y,
           width,
           height,
           backgroundColor,

@@ -196,3 +196,29 @@ export const distanceTo = (props : { px: number, py: number, cx: number, cy: num
     const { px, py, cx, cy } = props;
     return Number(Math.sqrt(Math.pow(px - cx, 2) + Math.pow(py - cy, 2)).toFixed(0));
 }
+
+export const findBody = (
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    obj: { [key: string]: any },
+    name: string,
+    type: string
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+): any | undefined => {
+    // Base case: if the current object matches, return it
+    if (obj.name === name && obj.type === type) {
+        return obj;
+    }
+
+    // Iterate through each property of the current object
+    for (const key in obj) {
+        // Ensure the property is an object before diving deeper
+        if (typeof obj[key] === "object" && obj[key] !== null) {
+            const result = findBody(obj[key], name, type);
+            if (result) {
+                return result; // Found a match in a nested object
+            }
+        }
+    }
+
+    return undefined; // No match found in this branch
+}
