@@ -3,6 +3,7 @@ import keyStateReducer from './keyStateSlice';
 import gameStateReducer from './gameStateSlice';
 import drawerStateReducer from './drawersStateSlice';
 import playerStateReducer from './playerSlice';
+import galaxyStateReducer from './galaxyStateSlice';
 
 const store = configureStore({
   reducer: {
@@ -10,6 +11,7 @@ const store = configureStore({
     gameState: gameStateReducer,
     drawers: drawerStateReducer,
     player: playerStateReducer,
+    galaxy: galaxyStateReducer,
   },
   middleware: (getDefaultMiddleware) => getDefaultMiddleware(), // Typing is automatically inferred here
 });

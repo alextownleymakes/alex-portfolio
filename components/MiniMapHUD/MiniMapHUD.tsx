@@ -6,20 +6,17 @@ import styles from './Minimap.module.scss';
 import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
 import { ratios } from '../../utils/functions/zoom';
-import { systems } from '../../utils/systems/systems';
+// import { systems } from '../../utils/systems/systems';
 import { HUDPieceProps } from '../HUD/HUDPiece';
 
 const MiniMapBody: React.FC= () => {
 
     const playerState = useSelector((state: RootState) => state.gameState);
     const { position, zoomedPosition, universeSize, zoom } = playerState;
+    const visibleSystems = useSelector((state: RootState) => state.gameState.visibleSystems);
 
     const ratio = ratios[zoom] / 10;
     const galaxyRef = React.useRef<HTMLDivElement>(null);
-    const visibleSystems: StarSystem[] = systems.filter(system => {
-        const distance = Math.sqrt(Math.pow(playerState.position.x - system.position.x, 2) + Math.pow(playerState.position.y - system.position.y, 2));
-        return distance < 3000;
-    });
 
     const galaxyPosX = `calc(-${(universeSize * ratio) / 2}px + 50% - ${((zoomedPosition.x !== 0 ? zoomedPosition.x : position.x) / 10)}px)`;
     const galaxyPosY = `calc(-${(universeSize * ratio) / 2}px + 50% - ${((zoomedPosition.y !== 0 ? zoomedPosition.y : position.y) / 10)}px)`;
@@ -37,7 +34,7 @@ const MiniMapBody: React.FC= () => {
                     left: galaxyPosX,
                     top: galaxyPosY,
                 }}>
-                {visibleSystems.map((system) => (
+                {visibleSystems?.map((system) => (
                     <MiniMapStarSystem
                         key={system.name + '-minimap'}
                         system={system}

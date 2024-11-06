@@ -1,6 +1,7 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ratios } from '../utils/functions/zoom';
 import { StellarBodyType, StarSystem as SystemType } from '../utils/types/stellarBodies';
+import { StarSystemType } from '../utils/types/stellarTypes';
 
 export interface Coords {
     x: number;
@@ -47,14 +48,14 @@ export interface GameState {
     target: Orbits;
     orbits: Orbits;
     lowestOrbit: Target;
-    visibleSystems: SystemType[] | undefined;
+    visibleSystems: StarSystemType[] | undefined;
 }
 
 const initialState: GameState = {
     zoom: 0,
     position: { x: 0, y: 0 },
     windowSize: { x: 0, y: 0 },
-    universeSize: 100000,
+    universeSize: 1000000,
     galaxySize: 500,
     approachDistance: 200,
     zoomedPosition: { x: 0, y: 0 },
@@ -129,7 +130,7 @@ const gameStateSlice = createSlice({
         setTarget: (state, action: PayloadAction<Orbits>) => {
             state.target = action.payload;
         },
-        setVisibleSystems: (state, action: PayloadAction<SystemType[] | undefined>) => {
+        setVisibleSystems: (state, action: PayloadAction<StarSystemType[] | undefined>) => {
             state.visibleSystems = action.payload;
         },
         setWindowSize: (state, action: PayloadAction<Coords>) => {

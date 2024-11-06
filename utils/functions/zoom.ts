@@ -12,12 +12,12 @@ export const bodyRatios: { [key: string]: number } = {
 }
 
 export const ratios: { [key: string]: number } = {
-    0: 1/4,
-    1: 1/1,
-    2: 2/1,
-    3: 8/1,
-    4: 32/1,
-    5: 128/1,
+    0: 1,
+    1: 2,
+    2: 4,
+    3: 16,
+    4: 32,
+    5: 128,
 }
 
 export const scales: { [key: string]: number } = {
@@ -31,29 +31,67 @@ export const scales: { [key: string]: number } = {
 
 export const scaleDistances: { [key: string]: number } = {
     0: 800,
-    1: 500,
-    2: 400,
-    3: 100,
-    4: 30,
-    5: 10,
+    1: 300,
+    2: 200,
+    3: 50,
+    4: 10,
+    5: 2,
 }
 
 export type ScalesType = typeof scales;
 
-export const zoom = (scale: number, x: number, y: number) => {
-    const ratio = bodyRatios[scale];
-    return {
-        x: x * ratio,
-        y: y * ratio,
-    };
+
+//////////////////////////////
+//////////////////////////////
+//////////////////////////////
+//////////////////////////////
+//////////////////////////////
+
+
+export interface ScaleType {
+    [key: number]: number;
 }
 
-export const getGraphCenter = (width: number, height: number) => ({
-    x: width / 2,
-    y: height / 2,
-});
+export const scale: ScaleType = {
+    0: 1/100,
+    1: 5,
+    2: 10,
+    3: 50,
+    4: 500,
+    5: 50000,
+    6: 500000
+}
+export interface ZoomType {
+    [key: number]: number;
+}
 
-export const translatePoint = (centerX: number, centerY: number, pointX: number, pointY: number, scale: number) => ({
-    left: `${centerX + pointX * scale}px`,
-    top: `${centerY - pointY * scale}px`,
-});
+export const zoom: ZoomType = {
+    0: scale[0],
+    1: scale[1],
+    2: scale[2],
+    3: scale[3],
+    4: scale[4],
+    5: scale[5],
+    6: scale[6]
+}
+
+// a star system is around 100AU radius
+// a solar system is around 30AU radius
+
+export const approachDistances = {
+    0: 100, //100px = 1000AU, galaxy
+    1: 100, //250px = 100AU, star system
+    2: 200, //500px = 100AU, star 1
+    3: 50,
+    4: 10,
+    5: 2
+}
+
+export const recedeDistances = {
+    0: 707,
+    1: 300,
+    2: 200,
+    3: 50,
+    4: 10,
+    5: 2
+}

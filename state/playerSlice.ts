@@ -60,8 +60,8 @@ export interface PlayerState {
     resources: PlayerResource[];
 }
 
-const mission_1: PlayerMission = {
-    id: 1,
+const mission_0: PlayerMission = {
+    id: 0,
     name: `Alex's Resume`,
     description: 'Collect the resume from Venus.',
     started: false,
@@ -106,7 +106,7 @@ const mission_1: PlayerMission = {
         firstStage: true
     },
     {
-        id: 0,
+        id: 1,
         description: 'Deliver the resume to Earth.',
         target: {
             name: 'Earth',
@@ -131,7 +131,7 @@ const mission_1: PlayerMission = {
 };
 
 const missions: PlayerMission[] = [
-    mission_1
+    mission_0
 ]
 
 const initialState: PlayerState = {

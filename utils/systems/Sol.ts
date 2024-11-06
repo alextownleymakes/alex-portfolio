@@ -30,7 +30,7 @@ export const phobos: Moon = {
   name: 'Phobos',
   mass: 1.0659e16, // kg
   radius: 4, // km
-  distanceFromPlanet: 0.00032, // AU
+  distanceFromPlanet: 0.0032, // AU
   angleFromPlanet: 270, // Degrees
   orbitalPeriod: 0.319, // Earth days
   chemicalComposition: {
@@ -46,7 +46,7 @@ export const deimos: Moon = {
   name: 'Deimos',
   mass: 1.4762e15, // kg
   radius: 5, // km
-  distanceFromPlanet: 0.00049, // AU
+  distanceFromPlanet: 0.002634, // AU
   angleFromPlanet: 300, // Degrees
   orbitalPeriod: 1.26, // Earth days
   chemicalComposition: {

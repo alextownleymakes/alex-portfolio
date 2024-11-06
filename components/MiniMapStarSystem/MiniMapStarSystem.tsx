@@ -1,16 +1,17 @@
 // MiniMapStarSystem.tsx
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { StarSystem as StarSystemType } from '../../utils/types/stellarBodies';
 import { ratios, scales } from '../../utils/functions/zoom';
 import { RootState } from '../../state/store';
 import useApproach from '@/hooks/useApproach';
 import StellarBody from '../StellarBody/StellarBody';
 import { bodyValues } from '@/utils/functions/calculations';
 import BodyData from '../BodyData/BodyData';
-import { Star, Planet, Moon, StarVariantType, } from '@/utils/types/stellarBodies';
+import { StarType, PlanetType, MoonType } from '@/utils/types/stellarTypes';
 import { orbits } from '@/state/gameStateSlice';
 import useAuCoordinates from '@/hooks/useAuCoordinates';
+
+import { StarSystemType } from '@/utils/types/stellarTypes';
 
 
 
@@ -28,8 +29,12 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system }) => {
 
   const starSysRef = React.useRef<HTMLDivElement>(null);
 
-  const starSysLeft = `calc(${system.position.x * ratio}px + 50%)`;
-  const starSysTop = `calc(${system.position.y * ratio}px + 50%)`;
+  const { x, y, aX, aY} = useAuCoordinates({system}, orbits.system, ratio);
+  if ( Number.isNaN(x) || Number.isNaN(y) || Number.isNaN(aX) || Number.isNaN(aY) ) {console.log('minimap starSystem', x, y, aX, aY)};
+  if ( Number.isNaN(x) || Number.isNaN(y) || Number.isNaN(aX) || Number.isNaN(aY) ) return null;
+
+  const starSysLeft = `calc(${x}px + 50%)`;
+  const starSysTop = `calc(${y}px + 50%)`;
   const starSysSize = systemSize * ratio;
 
   return (
@@ -45,7 +50,7 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system }) => {
         position: 'absolute',
       }}
     >
-      {system.stars.map((star: Star) => (
+      {system.stars.map((star: StarType) => (
         <React.Fragment key={`${star.name}-star-mm`}> {/* Ensure each star has a unique key */}
           <StellarBody
             key={`${star.name}-star`}
@@ -56,7 +61,7 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system }) => {
             variant={star.variant}
             miniMap={true}
           />
-          {zoom > scales.starSystem && star.planets?.map((planet: Planet) => (
+          {zoom > scales.starSystem && star.planets?.map((planet: PlanetType) => (
               <React.Fragment key={`${planet.name}-planet-mm`}> {/* Ensure each planet has a unique key */}
                 <StellarBody
                   key={`${planet.name}-planet`}
@@ -68,7 +73,7 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system }) => {
                   variant={planet.variant}
                   miniMap={true}
                 />
-              {zoom > scales.star && planet.moons?.map((moon: Moon) => (
+              {zoom > scales.star && planet.moons?.map((moon: MoonType) => (
                     <StellarBody
                       key={`${moon.name}-moon`} // Ensure each moon has a unique key
                       system={system}

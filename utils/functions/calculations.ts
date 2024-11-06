@@ -1,6 +1,6 @@
-import { StarSystem as StarSystemType, Star as StarType, Planet as PlanetType, Moon as MoonType } from '../../utils/types/stellarBodies';
 import { RootState } from '../../state/store';
 import { useSelector } from 'react-redux';
+import { StarSystemType, StarType, PlanetType, MoonType } from '../types/stellarTypes';
 
 export type BodyTypes = 'starSystem' | 'star' | 'planetSystem' | 'planet' | 'moonSystem' | 'moon' | 'asteroidSytem' | 'asteroid';
 

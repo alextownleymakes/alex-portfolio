@@ -7,14 +7,18 @@ import StarSystem from '../StarSystem/StarSystem';
 import { ratios } from '../../utils/functions/zoom';
 import { useCursor } from '@/hooks/useCursor';
 import DisplayContainer from '../DisplayContainer/DisplayContainer';
-import { systems } from '@/utils/systems/systems';
 import { useVisibleSystems } from '@/hooks/useVisibleSystems';
+import { useDispatch } from 'react-redux';
+import { useGalaxyGeneration } from '@/hooks/useGalaxyGeneration';
+import { StarSystemType } from '@/utils/types/stellarTypes';
 
 const Galaxy: React.FC = ({}) => {
     const playerState = useSelector((state: RootState) => state.gameState);
     const windowSize = useSelector((state: RootState) => state.gameState.windowSize);
     const visibleSystems = useSelector((state: RootState) => state.gameState.visibleSystems);
+    const systems = useSelector((state: RootState) => state.galaxy.systems);
 
+    useGalaxyGeneration(100);
     useVisibleSystems(systems);
 
     const { position, universeSize, zoomedPosition, zoom, dev } = playerState;
@@ -38,7 +42,7 @@ const Galaxy: React.FC = ({}) => {
                     top: -((universeSize * ratio) / 2) + (windowSize.y / 2) - (zoomedPosition.y !== 0 ? zoomedPosition.y : position.y),
                     // transition: 'all .1s ease-in-out',
                 }}>
-                {visibleSystems?.map((system) => (
+                {visibleSystems?.map((system: StarSystemType) => (
                     <StarSystem
                         key={system.name}
                         system={system}

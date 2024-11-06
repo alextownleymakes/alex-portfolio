@@ -35,7 +35,7 @@ const DevDisplayHUD: React.FC = () => {
 
 
     return (
-        <Box sx={{ padding: '20px' }}>
+        <Box sx={{ padding: '20px', margin: '20px 0' }}>
             <Grid container spacing={4} columnSpacing={4}>
                 <Grid size={12}>
                     <ol>

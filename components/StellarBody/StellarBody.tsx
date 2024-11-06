@@ -1,7 +1,9 @@
 import React from 'react';
 import useApproach, { UseApproachProps } from '@/hooks/useApproach';
 import { useSelector } from 'react-redux';
-import { StarSystem as StarSystemType, Star as StarType, Planet as PlanetType, Moon as MoonType, StellarBodyType, StarVariantType, PlanetVariantType } from '../../utils/types/stellarBodies';
+import { StarVariants, PlanetVariants } from '../../utils/types/stellarTypes';
+import { StarSystemType, StarType, PlanetType, MoonType } from '../../utils/types/stellarTypes';
+
 import { ratios } from '../../utils/functions/zoom';
 import { RootState } from '../../state/store';
 import { StellarDataType, BodyValuesProps, bodyValues } from '@/utils/functions/calculations';
@@ -19,7 +21,7 @@ export interface StellarBodyProps {
   miniMap?: boolean; // Whether the star is in the mini map
   scale: number;
   type: OrbitTypes;
-  variant: PlanetVariantType | StarVariantType | 'moon';
+  variant: PlanetVariants | StarVariants | 'moon';
 }
 
 const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, type, scale, variant, miniMap = false }) => {
@@ -45,6 +47,10 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
   const { width, height, backgroundColor, border, name, key } = bv;
 
   const { x, y, aX, aY} = useAuCoordinates(stellarData, type, ratio);
+
+  if ( Number.isNaN(x) || Number.isNaN(y) || Number.isNaN(aX) || Number.isNaN(aY) ) {console.log(name, x, y, aX, aY)};
+  if ( Number.isNaN(x) || Number.isNaN(y) || Number.isNaN(aX) || Number.isNaN(aY) ) return null;
+  
 
   const useApproachProps: UseApproachProps = {
     ref,
