@@ -56,10 +56,10 @@ const useAuCoordinates = (
         },
     }
 
-    const systemAngle = data.system ? getAngle(data.system?.angleFromParent, data.system?.orbitalPeriod) : 0;
-    const starAngle = data.star ? getAngle(data.star?.angleFromParent, data.star?.orbitalPeriod) : 0;
-    const planetAngle = data.planet ? getAngle(data.planet?.angleFromParent, data.planet?.orbitalPeriod) : 0;
-    const moonAngle = data.moon ? getAngle( data.moon?.angleFromParent, data.moon?.orbitalPeriod) : 0;
+    const systemAngle = data.system ? useCurrentAngle(data.system?.angleFromParent, data.system?.orbitalPeriod) : 0;
+    const starAngle = data.star ? useCurrentAngle(data.star?.angleFromParent, data.star?.orbitalPeriod) : 0;
+    const planetAngle = data.planet ? useCurrentAngle(data.planet?.angleFromParent, data.planet?.orbitalPeriod) : 0;
+    const moonAngle = data.moon ? useCurrentAngle( data.moon?.angleFromParent, data.moon?.orbitalPeriod) : 0;
 
     return useMemo(() => {
         const { system, star, planet, moon } = data;

@@ -23,7 +23,6 @@ interface MiniMapStarSystemProps {
 
 const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system }) => {
   const systemSize = useSelector((state: RootState) => state.gameState.galaxySize);
-  const o = useSelector((state: RootState) => state.gameState.orbits);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
   const ratio = ratios[zoom] / 10;
 
@@ -56,7 +55,7 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system }) => {
             key={`${star.name}-star`}
             star={star}
             system={system}
-            type={star.type}
+            type={'star'}
             scale={scales.star}
             variant={star.variant}
             miniMap={true}
@@ -68,7 +67,7 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system }) => {
                   system={system}
                   star={star}
                   planet={planet}
-                  type={planet.type}
+                  type={'planet'}
                   scale={scales.planet}
                   variant={planet.variant}
                   miniMap={true}
@@ -80,7 +79,7 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system }) => {
                       star={star}
                       planet={planet}
                       moon={moon}
-                      type={moon.type}
+                      type={'moon'}
                       scale={scales.moon}
                       miniMap={true}
                       variant='moon'
