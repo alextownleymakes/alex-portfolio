@@ -21,7 +21,7 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
     const playerState = useSelector((state: RootState) => state.gameState);
     const drawerState = useSelector((state: RootState) => state.drawers);
     const dispatch = useDispatch();
-    const ratio = useSelector((state: RootState) => state.gameState.ratio);
+    const scale = useSelector((state: RootState) => state.gameState.scale);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -137,13 +137,13 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
         }
 
         const newPosition = {
-            x: state.position.x + newVelocityX / ((ratio*ratio) / (.5 * ratio)), 
-            y: state.position.y + newVelocityY / ((ratio*ratio) / (.5 * ratio)),
+            x: state.position.x + newVelocityX / ((.5 * scale)), 
+            y: state.position.y + newVelocityY / ((.5 * scale)),
         };
 
         const newZoomedPosition = {
-            x: newPosition.x * ratio,
-            y: newPosition.y * ratio,
+            x: newPosition.x * scale,
+            y: newPosition.y * scale,
         };
 
         return {

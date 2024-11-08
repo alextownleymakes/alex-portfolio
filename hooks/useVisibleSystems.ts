@@ -9,7 +9,7 @@ import useAuCoordinates from './useAuCoordinates';
 export const useVisibleSystems = (systems: StarSystemType[]) => {
 
     const playerState = useSelector((state: RootState) => state.gameState);
-    const ratio = useSelector((state: RootState) => state.gameState.ratio);
+    const ratio = useSelector((state: RootState) => state.gameState.scale);
     const position = playerState.position;
 
     const dispatch = useDispatch();

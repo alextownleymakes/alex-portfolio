@@ -41,16 +41,16 @@ function determineNumberOfStars(): number {
 }
 
 function positionStarsInSystem(stars: StarType[]) {
-    if (stars.length === 2) {
-        // Example positioning for binary systems
-        const distance = randomInRange(10, 100); // AU, based on typical binary distances
-        stars[0].distanceFromParent = distance / 2;
-        stars[1].distanceFromParent = distance / 2;
-        stars[0].angleFromParent = 0;
-        stars[1].angleFromParent = 180; // Opposite sides
+    for (let i = 0; i < stars.length; i++) {
+
+        stars[i].distanceFromParent = randomInRange(10, 100); // AU
+
+        stars[i].angleFromParent = randomInRange(((360/stars.length) * i), ((360 / stars.length) * (i+1))); // Degrees
     }
     // Add more configurations for systems with 3+ stars if needed
 }
+// Add more configurations for systems with 3+ stars if needed
+
 
 function generateStar(id: number): StarType {
     const mass = generateStarMass();
@@ -288,7 +288,7 @@ function generatePlanet(id: number, star: StarType, previousPlanetDistance: numb
     const variant = determinePlanetVariant(previousPlanetDistance, star);
     const distanceFromStar = calculateDistanceFromStar(id, star, previousPlanetDistance, mass, variant);
     const composition = generatePlanetComposition(variant);
-    
+
     // Orbital and physical properties
     const radius = calculatePlanetRadius(mass, variant);
     const density = calculateDensity(mass, radius);
@@ -565,7 +565,7 @@ function calculateSystemDistanceFromGalacticCenter(): AU {
 function calculateCoordinatesRelativeToGalacticCenterBasedOnDistanceFromAndAngleToParent(): { x: number; y: number } {
     // Example calculation based on distance and angle
 
-    
+
 
 
     return { x: 0, y: 0 }; // Placeholder

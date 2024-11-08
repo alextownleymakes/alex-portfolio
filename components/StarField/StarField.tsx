@@ -2,7 +2,6 @@ import React, { useState, useEffect } from 'react';
 import styles from './StarField.module.scss'; // Import the module SCSS
 import { useSelector } from 'react-redux';
 import { RootState } from '../../state/store';
-import { ratios } from '../../utils/functions/zoom';
 
 export interface StarFieldStar {
   id: number;
@@ -65,7 +64,7 @@ const generateStar = (width: number, height: number): StarFieldStar => {
 const StarField: React.FC = () => {
 
   const windowSize = useSelector((state: RootState) => state.gameState.windowSize);
-  const scale = useSelector((state: RootState) => state.gameState.zoom);
+  const scale = useSelector((state: RootState) => state.gameState.scale);
   const playerVelocity = useSelector((state: RootState) => state.gameState.velocity);
   const [stars, setStars] = useState<StarFieldStar[]>([]);
   const { x: width, y: height } = windowSize;
@@ -78,8 +77,8 @@ const StarField: React.FC = () => {
   useEffect(() => {
     setStars((prevStars) =>
       prevStars.map((star) => {
-        const newX = star.x - playerVelocity.x * star.speedFactor * (1/ratios[scale]) * 20;
-        const newY = star.y - playerVelocity.y * star.speedFactor * (1/ratios[scale]) * 20;
+        const newX = star.x - playerVelocity.x * (star.speedFactor / (.5 * scale) * 20);
+        const newY = star.y - playerVelocity.y * (star.speedFactor / (.5 * scale) * 20);
 
         return {
           ...star,

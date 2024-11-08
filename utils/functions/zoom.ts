@@ -11,15 +11,6 @@ export const bodyRatios: { [key: string]: number } = {
     10: 432287/100000,
 }
 
-export const ratios: { [key: string]: number } = {
-    0: 1,
-    1: 2,
-    2: 4,
-    3: 16,
-    4: 32,
-    5: 128,
-}
-
 export const scales: { [key: string]: number } = {
     galaxy: 0,
     starSystem: 1,
@@ -29,16 +20,6 @@ export const scales: { [key: string]: number } = {
     asteroid: 5,
 }
 
-export const scaleDistances: { [key: string]: number } = {
-    0: 800,
-    1: 300,
-    2: 200,
-    3: 50,
-    4: 10,
-    5: 2,
-}
-
-export type ScalesType = typeof scales;
 
 
 //////////////////////////////
@@ -52,35 +33,30 @@ export interface ScaleType {
     [key: number]: number;
 }
 
-export const scale: ScaleType = {
-    0: 1/100,
-    1: 5,
-    2: 10,
-    3: 50,
-    4: 500,
-    5: 50000,
-    6: 500000
-}
-export interface ZoomType {
-    [key: number]: number;
+// export const scale: ScaleType = {
+//     0: 1/100,
+//     1: 5,
+//     2: 10,
+//     3: 50,
+//     4: 500,
+//     5: 50000,
+//     6: 500000
+// }
+
+export const scale = (z: number) => {
+    return Math.pow(10, z);
 }
 
-export const zoom: ZoomType = {
-    0: scale[0],
-    1: scale[1],
-    2: scale[2],
-    3: scale[3],
-    4: scale[4],
-    5: scale[5],
-    6: scale[6]
+export interface ZoomType {
+    [key: number]: number;
 }
 
 // a star system is around 100AU radius
 // a solar system is around 30AU radius
 
 export const approachDistances = {
-    0: 100, //100px = 1000AU, galaxy
-    1: 100, //250px = 100AU, star system
+    0: 10, //100px = 1000AU, galaxy
+    1: 10, //250px = 100AU, star system
     2: 200, //500px = 100AU, star 1
     3: 50,
     4: 10,

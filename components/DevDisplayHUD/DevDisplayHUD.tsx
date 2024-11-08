@@ -52,6 +52,9 @@ const DevDisplayHUD: React.FC = () => {
                         <li>
                             <strong>Rotation:</strong>&nbsp;{rotation.toFixed(0)}
                         </li>
+                        <li>
+                            <strong>Zoom:</strong>&nbsp;{gameState.zoom}
+                        </li>
                     </ol>
                 </Grid>
                 {/* </Grid> */}

@@ -32,7 +32,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
   const dev = useSelector((state: RootState) => state.keyState.devDisplay.pressed);
   const lowestOrbit = useSelector((state: RootState) => state.gameState.lowestOrbit);
-  const ratioBase = useSelector((state: RootState) => state.gameState.ratio);
+  const ratioBase = useSelector((state: RootState) => state.gameState.scale);
   const ratio = !miniMap ? ratioBase : ratioBase / 10;
 
   const stellarData: StellarDataType = { system, star, planet, moon };
@@ -71,8 +71,8 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
         ref={ref}
         style={{
           position: 'absolute',
-          left: x, // Use pixel-based position for accuracy
-          top: y,
+          left: (x - width/2), // Use pixel-based position for accuracy
+          top: (y - height/2),
           width,
           height,
           backgroundColor,

@@ -38,16 +38,6 @@ export interface ZoomType {
     [key: number]: number;
 }
 
-export const zoom: ZoomType = {
-    0: scale[0],
-    1: scale[1],
-    2: scale[2],
-    3: scale[3],
-    4: scale[4],
-    5: scale[5],
-    6: scale[6]
-}
-
 // what would the values for each be to ensure that if actual measurements in AU were given, 
 // they would scale to these pixel sizes?
 // imagine that at zoom level 0, a star system is 100au from the system center

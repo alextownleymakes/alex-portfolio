@@ -12,7 +12,7 @@ const MiniMapHUD: React.FC= () => {
     const playerState = useSelector((state: RootState) => state.gameState);
     const { position, zoomedPosition } = playerState;
     const visibleSystems = useSelector((state: RootState) => state.gameState.visibleSystems);
-    const ratioBase = useSelector((state: RootState) => state.gameState.ratio);
+    const ratioBase = useSelector((state: RootState) => state.gameState.scale);
 
     const ratio = ratioBase / 10;
     const galaxyRef = React.useRef<HTMLDivElement>(null);

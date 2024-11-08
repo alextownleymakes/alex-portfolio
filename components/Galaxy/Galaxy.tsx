@@ -22,7 +22,7 @@ const Galaxy: React.FC<GalaxyProps> = ({
 
     const windowSize = useSelector((state: RootState) => state.gameState.windowSize);
     const systems = useSelector((state: RootState) => state.galaxy.systems);
-    const ratioBase = useSelector((state: RootState) => state.gameState.ratio);
+    const ratioBase = useSelector((state: RootState) => state.gameState.scale);
     const ratioMiniMap = useSelector((state: RootState) => state.gameState.miniMapRatio);
     const ratio = miniMap ? ratioBase : ratioMiniMap;
 

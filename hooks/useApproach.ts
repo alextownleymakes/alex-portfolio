@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/store";
 import { Coords, setOrbit, zoomIn, zoomOut } from "@/state/gameStateSlice";
-import { ratios, approachDistances, recedeDistances } from "@/utils/functions/zoom";
+import { approachDistances, recedeDistances } from "@/utils/functions/zoom";
 import { distanceTo } from "@/utils/functions/calculations";
 import { OrbitTypes } from "@/state/gameStateSlice";
 
@@ -41,7 +41,7 @@ const useApproach = ({
     const recedeDistance = recedeDistances[scale as keyof typeof recedeDistances];
 
     const [distance, setDistance] = useState(0);
-    const [zoomed, setZoomed] = useState(false);
+    const [zoomed, setZoomed] = useState(0);
     const [systemCenter, setSystemCenter] = useState({
         x: ref.current ? coords.x : 0,
         y: ref.current ? coords.y : 0,
@@ -56,9 +56,8 @@ const useApproach = ({
             cy: coords.y,
         }
 
-        console.log('distance values', values);
-
         setDistance(distanceTo(values));
+
     }, [playerPosition, coords]);
 
     useEffect(() => {
@@ -77,20 +76,24 @@ const useApproach = ({
     });
 
     useEffect(() => {
-        if (!miniMap) {
-            if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distance < (approachDistance * ratios[zoom]) && !zoomed && zoom === scale - 1) {
-                console.log('zoomed in', distance, approachDistance * ratios[zoom], zoomed, zoom, scale);
-                setZoomed(true);
-                type && name && dispatch(setOrbit({type, name}));
-                dispatch(zoomIn({ scale }));
-            } else if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distance > ((recedeDistance * ratios[zoom]) * 3) && zoomed && zoom === scale) {
-                setZoomed(false);
-                type && dispatch(setOrbit({type, name: ''}));
-                dispatch(zoomOut({ scale: scale - 1 }));
+        // console.log('distance to ', name, ' - ', distance);
+    }, [distance]);
+
+    useEffect(() => {
+        if (!miniMap && distance !== 0) {
+            if (distance < 100 && zoomed < 2 
+            ) {
+                setZoomed(zoomed+1);
+                zoom === 0 && type && name && dispatch(setOrbit({type, name}));
+                dispatch(zoomIn());
+            } else if (distance > 300 && zoomed > 0) {
+                setZoomed(zoomed-1);
+                zoom === 1 && type && dispatch(setOrbit({type, name: ''}));
+                dispatch(zoomOut());
             }
         }
     }, [distance]);
-    return { approachDistance, distanceToPlayer, systemCenter, activeSystem: zoomed };
+    return { approachDistance, distanceToPlayer, systemCenter, activeSystem: zoomed > 0};
 
 };
 

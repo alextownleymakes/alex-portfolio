@@ -24,23 +24,24 @@ interface StarSystemProps {
 }
 
 const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false, x, y }) => {
-  console.log('StarSystem.tsx', system.name, x, y);
   const playerState = useSelector((state: RootState) => state.gameState);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
   const o = useSelector((state: RootState) => state.gameState.orbits);
   const dev = useSelector((state: RootState) => state.keyState.devDisplay.pressed);
-  const ratio = useSelector((state: RootState) => state.gameState.ratio);
+  const ratio = useSelector((state: RootState) => state.gameState.scale);
+
+  console.log('ratio', ratio);
 
   const starSysRef = React.useRef<HTMLDivElement>(null);
 
   React.useEffect(() => {
-    console.log('StarSystem.tsx', name, x, y);
+    // console.log('StarSystem.tsx', name, x, y);
   }, [x, y]);
 
   const useApproachProps = {
     ref: starSysRef,
     coords: { x, y },
-    scale: scales.starSystem,
+    scale: scales.galaxy,
     type: orbits.system,
     name: system.name,
   };
@@ -65,13 +66,14 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false, x, y }
   // if (distance > 3000) return null;
 
   return (
+    <>
     <div
       key={system.name + '-starSystem'}
       id={system.id + ''}
       ref={starSysRef}
       style={{
-        top: `calc(50% + ${x}px)`,
-        left: `calc(50% + ${y}px)`,
+        top: y,
+        left: x,
         width: 0,
         height: 0,
         position: 'absolute',
@@ -89,18 +91,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false, x, y }
         miniMap={miniMap}
         distance={distanceToPlayer()}
       />
-      {system.stars.map((star: StarType) => (
-        <StarComponent
-          key={star.name}
-          system={system}
-          star={star}
-          ratio={ratio}
-          miniMap={miniMap}
-          o={o}
-          zoom={zoom}
-          activeSystem={activeSystem}
-        />
-      ))}
+      
       {/* {system.stars.map((star: StarType) => {
         if (o.star !== '' && o.star !== system.stars[0].name) return null
         
@@ -161,6 +152,19 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false, x, y }
         </React.Fragment>
       )})} */}
     </div>
+    {system.stars.map((star: StarType) => (
+      <StarComponent
+        key={star.name}
+        system={system}
+        star={star}
+        ratio={ratio}
+        miniMap={miniMap}
+        o={o}
+        zoom={zoom}
+        activeSystem={activeSystem}
+      />
+    ))}
+    </>
   );
 };
 

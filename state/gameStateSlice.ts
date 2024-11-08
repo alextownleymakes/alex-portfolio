@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { ratios } from '../utils/functions/zoom';
 import { StellarBodyType, StarSystem as SystemType } from '../utils/types/stellarBodies';
 import { StarSystemType } from '../utils/types/stellarTypes';
 import { scale } from '../utils/functions/zoom';
@@ -36,7 +35,7 @@ export interface Orbits {
 
 export interface GameState {
     zoom: number;
-    ratio: number;
+    scale: number;
     miniMapRatio: number;
     windowSize: Coords;
     universeSize: number;
@@ -56,8 +55,8 @@ export interface GameState {
 
 const initialState: GameState = {
     zoom: 0,
-    ratio: scale[0],
-    miniMapRatio: scale[0]/10,
+    scale: Math.pow(10, -2),
+    miniMapRatio: scale(1) / 10,
     position: { x: 0, y: 0 },
     windowSize: { x: 0, y: 0 },
     universeSize: 1000000,
@@ -91,28 +90,30 @@ const gameStateSlice = createSlice({
     name: 'gameState',
     initialState,
     reducers: {
-        zoomIn: (state, action: PayloadAction<{ scale: number}>) => {
-            state.zoom = action.payload.scale;
-            state.ratio = scale[state.zoom];
-            state.miniMapRatio = state.ratio / 10;
+        zoomIn: (state) => {
+            state.zoom = state.zoom + 1;
+            state.scale = Math.pow(10, state.zoom);
+            state.miniMapRatio = state.scale / 10;
             state.zoomedPosition = {
-                x: state.position.x * state.ratio,
-                y: state.position.y * state.ratio,
+                x: state.position.x * state.scale,
+                y: state.position.y * state.scale,
             };
         },
-        zoomOut: (state, action: PayloadAction<{ scale: number}>) => {
-            state.zoom = action.payload.scale;
-            state.ratio = scale[state.zoom];
-            state.miniMapRatio = state.ratio / 10;
-            state.zoomedPosition = {
-                x: state.position.x * state.ratio,
-                y: state.position.y * state.ratio,
-            };
+        zoomOut: (state) => {
+            if (state.zoom !== 0) {
+                state.zoom = state.zoom - 1;
+                state.scale = Math.pow(10, state.zoom);
+                state.miniMapRatio = state.scale / 10;
+                state.zoomedPosition = {
+                    x: state.position.x * state.scale,
+                    y: state.position.y * state.scale,
+                };
+            }
         },
         updatePosition: (state, action: PayloadAction<{ x: number; y: number }>) => {
             const zoomedPos = {
-                x: action.payload.x * state.ratio,
-                y: action.payload.y * state.ratio,
+                x: action.payload.x * state.scale,
+                y: action.payload.y * state.scale,
             };
 
             state.position = action.payload;
@@ -150,9 +151,9 @@ const gameStateSlice = createSlice({
     },
 });
 
-export const { 
-    zoomIn, 
-    zoomOut, 
+export const {
+    zoomIn,
+    zoomOut,
     updatePosition,
     updateVelocity,
     updateSpeed,
