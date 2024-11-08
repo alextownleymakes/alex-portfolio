@@ -2,6 +2,7 @@ import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 import { ratios } from '../utils/functions/zoom';
 import { StellarBodyType, StarSystem as SystemType } from '../utils/types/stellarBodies';
 import { StarSystemType } from '../utils/types/stellarTypes';
+import { scale } from '../utils/functions/zoom';
 
 export interface Coords {
     x: number;
@@ -35,6 +36,8 @@ export interface Orbits {
 
 export interface GameState {
     zoom: number;
+    ratio: number;
+    miniMapRatio: number;
     windowSize: Coords;
     universeSize: number;
     galaxySize: number;
@@ -53,6 +56,8 @@ export interface GameState {
 
 const initialState: GameState = {
     zoom: 0,
+    ratio: scale[0],
+    miniMapRatio: scale[0]/10,
     position: { x: 0, y: 0 },
     windowSize: { x: 0, y: 0 },
     universeSize: 1000000,
@@ -88,23 +93,28 @@ const gameStateSlice = createSlice({
     reducers: {
         zoomIn: (state, action: PayloadAction<{ scale: number}>) => {
             state.zoom = action.payload.scale;
+            state.ratio = scale[state.zoom];
+            state.miniMapRatio = state.ratio / 10;
             state.zoomedPosition = {
-                x: state.position.x * ratios[state.zoom],
-                y: state.position.y * ratios[state.zoom],
+                x: state.position.x * state.ratio,
+                y: state.position.y * state.ratio,
             };
         },
         zoomOut: (state, action: PayloadAction<{ scale: number}>) => {
             state.zoom = action.payload.scale;
+            state.ratio = scale[state.zoom];
+            state.miniMapRatio = state.ratio / 10;
             state.zoomedPosition = {
-                x: state.position.x * ratios[state.zoom],
-                y: state.position.y * ratios[state.zoom],
+                x: state.position.x * state.ratio,
+                y: state.position.y * state.ratio,
             };
         },
         updatePosition: (state, action: PayloadAction<{ x: number; y: number }>) => {
             const zoomedPos = {
-                x: action.payload.x * ratios[state.zoom],
-                y: action.payload.y * ratios[state.zoom],
-            }
+                x: action.payload.x * state.ratio,
+                y: action.payload.y * state.ratio,
+            };
+
             state.position = action.payload;
             state.zoomedPosition = zoomedPos;
         },

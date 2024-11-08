@@ -7,7 +7,7 @@ export const useGalaxyGeneration = (count: number) => {
     const dispatch = useDispatch();
 
     useEffect(() => {
-        const galaxy = generateGalaxy(100);
+        const galaxy = generateGalaxy(count);
         if (galaxy.length > 0) { 
             dispatch(setGalaxy(galaxy));
         }

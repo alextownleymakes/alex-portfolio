@@ -3,50 +3,62 @@
 import React from 'react';
 import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
-import StarSystem from '../StarSystem/StarSystem';
-import { ratios } from '../../utils/functions/zoom';
+import GalaxySystem from '../GalaxySystem/GalaxySystem';
 import { useCursor } from '@/hooks/useCursor';
 import DisplayContainer from '../DisplayContainer/DisplayContainer';
-import { useVisibleSystems } from '@/hooks/useVisibleSystems';
-import { useDispatch } from 'react-redux';
 import { useGalaxyGeneration } from '@/hooks/useGalaxyGeneration';
 import { StarSystemType } from '@/utils/types/stellarTypes';
+import GalacticCenter from '../GalacticCenter/GalacticCenter';
 
-const Galaxy: React.FC = ({}) => {
+interface GalaxyProps {
+    miniMap?: boolean;
+}
+
+const Galaxy: React.FC<GalaxyProps> = ({
+    miniMap = false
+}) => {
     const playerState = useSelector((state: RootState) => state.gameState);
+    const { position, universeSize, zoomedPosition, dev } = playerState;
+
     const windowSize = useSelector((state: RootState) => state.gameState.windowSize);
-    const visibleSystems = useSelector((state: RootState) => state.gameState.visibleSystems);
     const systems = useSelector((state: RootState) => state.galaxy.systems);
+    const ratioBase = useSelector((state: RootState) => state.gameState.ratio);
+    const ratioMiniMap = useSelector((state: RootState) => state.gameState.miniMapRatio);
+    const ratio = miniMap ? ratioBase : ratioMiniMap;
 
-    useGalaxyGeneration(100);
-    useVisibleSystems(systems);
+    useGalaxyGeneration(1);
 
-    const { position, universeSize, zoomedPosition, zoom, dev } = playerState;
+    React.useEffect(() => {
+        // console.log('systems', systems);
+    }, [systems]);
 
-    const ratio = ratios[zoom];
     const galaxyRef = React.useRef<HTMLDivElement>(null);
     const cursorCoords = useCursor(galaxyRef);
 
     if (!windowSize.x || !windowSize.y) return null;
 
+    const left = -((universeSize * ratio) / 2) + (windowSize.x / 2) - (zoomedPosition.x !== 0 ? zoomedPosition.x : position.x);
+    const top = -((universeSize * ratio) / 2) + (windowSize.y / 2) - (zoomedPosition.y !== 0 ? zoomedPosition.y : position.y);
+    const width = universeSize * ratio;
+    const height = universeSize * ratio;
+
+    const galaxyProps: React.HTMLAttributes<HTMLDivElement> = {
+        id: 'galaxy',
+        style: {
+            position: 'absolute',
+            left,
+            top,
+            width,
+            height,
+        },
+    }
+
     return (
         <>
-            <div
-                ref={galaxyRef}
-                id="galaxy"
-                style={{
-                    width: universeSize * ratio,
-                    height: universeSize * ratio,
-                    position: 'absolute',
-                    left: -((universeSize * ratio) / 2) + (windowSize.x / 2) - (zoomedPosition.x !== 0 ? zoomedPosition.x : position.x),
-                    top: -((universeSize * ratio) / 2) + (windowSize.y / 2) - (zoomedPosition.y !== 0 ? zoomedPosition.y : position.y),
-                    // transition: 'all .1s ease-in-out',
-                }}>
-                {visibleSystems?.map((system: StarSystemType) => (
-                    <StarSystem
-                        key={system.name}
-                        system={system}
-                    />
+            <div ref={galaxyRef} {...galaxyProps} >
+                <GalacticCenter />
+                {systems?.map((system: StarSystemType) => (
+                    <GalaxySystem key={system.name} system={system} position={position} />
                 ))}
             </div>
             {dev && <DisplayContainer

@@ -3,7 +3,6 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import React from 'react';
 import { useSelector } from "react-redux";
-import { systems } from '../../utils/systems/systems';
 import Body from '../Body/Body';
 import { HUDPieceProps } from "../HUD/HUDPiece";
 import { findBody } from '../../utils/functions/calculations';
@@ -13,6 +12,7 @@ const DevDisplayHUD: React.FC = () => {
 
     const gameState = useSelector((state: RootState) => state.gameState);
     const playerState = useSelector((state: RootState) => state.player);
+    const systems = useSelector((state: RootState) => state.galaxy.systems);
 
     const currentMission: PlayerMission | undefined = playerState?.missions?.find((mission) => mission.id === (playerState?.currentMission || 0)+1) || undefined;
 

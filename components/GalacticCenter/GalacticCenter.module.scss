@@ -1,0 +1,36 @@
+.galactic-center {
+    position: absolute;
+    left: calc(50%);
+    top: calc(50%);
+    border-radius: 50%;
+    height: 0px;
+    width: 0px;
+    animation: orbit-planet 2s infinite ease-in-out;
+}
+
+@keyframes orbit-planet {
+    0% {
+        box-shadow:
+            0 0 3px 3px rgb(255, 255, 255),
+            0 0 3px 3px rgb(255,255,255) inset;
+            //     0 0 4px 4px rgb(11, 128, 224,0),
+            // 0 0 10px 10px rgba(255, 255, 255, 1);
+        }
+        
+        40% {
+            box-shadow:
+            0 0 4px 6px rgba(0, 0, 0, 1),
+            0 0 3px 3px rgb(0, 0, 0) inset,
+            0 0 5px 5px rgb(255,255,255) inset,
+            0 0 10px 10px rgb(255, 255, 255);
+            // 0 0 6px 6px rgba(253, 253, 253, 0);
+        }
+        
+        100% {
+            box-shadow:
+            0 0 3px 3px rgb(255, 255, 255),
+            0 0 3px 3px rgb(255,255,255) inset;
+        //     0 0 4px 4px rgba(11, 128, 224,0),
+            // 0 0 10px 10px rgba(255, 255, 255, 1);
+    }
+}

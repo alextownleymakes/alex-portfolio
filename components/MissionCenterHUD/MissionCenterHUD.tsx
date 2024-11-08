@@ -8,7 +8,6 @@ import styles from './MissionCenter.module.scss';
 import { HUDPieceProps } from '../HUD/HUDPiece';
 import Grid from '@mui/material/Grid2';
 import Body from '../Body/Body';
-import { systems } from '../../utils/systems/systems';
 import { findBody } from '../../utils/functions/calculations';
 
 const MissionCenterBody: React.FC = () => {
@@ -17,10 +16,10 @@ const MissionCenterBody: React.FC = () => {
   const missions = useSelector((state: RootState) => state.player.missions);
   const lowestOrbit = useSelector((state: RootState) => state.gameState.lowestOrbit);
   const currentMission = useSelector((state: RootState) => state.player.currentMission);
+  const systems = useSelector((state: RootState) => state.galaxy.systems);
   const [mission, setMission] = React.useState<PlayerMission | null>(null);
   const [stage, setStage] = React.useState<PlayerMissionStage | null>(null);
   const [target, setTarget] = React.useState<Target | null>(null);
-  const [originBody, setOriginBody] = React.useState<any>(null);
   const [targetBody, setTargetBody] = React.useState<any>(null);
 
   const handleMissionAppear = (msn: PlayerMission) => {

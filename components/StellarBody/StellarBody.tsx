@@ -22,15 +22,18 @@ export interface StellarBodyProps {
   scale: number;
   type: OrbitTypes;
   variant: PlanetVariants | StarVariants | 'moon';
+  x: number;
+  y: number;
 }
 
-const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, type, scale, variant, miniMap = false }) => {
+const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, type, scale, variant, miniMap = false, x, y }) => {
 
   const ref = React.useRef<HTMLDivElement>(null);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
   const dev = useSelector((state: RootState) => state.keyState.devDisplay.pressed);
   const lowestOrbit = useSelector((state: RootState) => state.gameState.lowestOrbit);
-  const ratio = !miniMap ? ratios[zoom] : ratios[zoom] / 10;
+  const ratioBase = useSelector((state: RootState) => state.gameState.ratio);
+  const ratio = !miniMap ? ratioBase : ratioBase / 10;
 
   const stellarData: StellarDataType = { system, star, planet, moon };
 
@@ -41,20 +44,12 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
     dev
   }
 
-
-
   const bv = bodyValues(bodyValueProps);
   const { width, height, backgroundColor, border, name, key } = bv;
-
-  const { x, y, aX, aY} = useAuCoordinates(stellarData, type, ratio);
-
-  if ( Number.isNaN(x) || Number.isNaN(y) || Number.isNaN(aX) || Number.isNaN(aY) ) {console.log(name, x, y, aX, aY)};
-  if ( Number.isNaN(x) || Number.isNaN(y) || Number.isNaN(aX) || Number.isNaN(aY) ) return null;
   
-
   const useApproachProps: UseApproachProps = {
     ref,
-    coords: {x: aX, y: aY},
+    coords: {x, y},
     scale,
     miniMap,
     type,

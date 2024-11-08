@@ -5,25 +5,21 @@ import { setVisibleSystems } from '../state/gameStateSlice';
 import { RootState } from '../state/store';
 import { StarSystemType } from '../utils/types/stellarTypes';
 import useAuCoordinates from './useAuCoordinates';
-import { scale } from '../utils/functions/zoom';
 
 export const useVisibleSystems = (systems: StarSystemType[]) => {
 
     const playerState = useSelector((state: RootState) => state.gameState);
-    const zoom = playerState.zoom;
+    const ratio = useSelector((state: RootState) => state.gameState.ratio);
     const position = playerState.position;
 
-    const ratio = scale[zoom];
-
     const dispatch = useDispatch();
-
 
     useEffect(() => {
         const visSystems = systems.filter(system => {
 
-            const { tX, tY } = useAuCoordinates({system}, 'system', ratio);
+            const { x, y } = useAuCoordinates({ data: { system }, type: 'system', ratio });
             
-            const distance = Math.sqrt(Math.pow(playerState.position.x - tX, 2) + Math.pow(playerState.position.y - tY, 2));
+            const distance = Math.sqrt(Math.pow(playerState.position.x - x, 2) + Math.pow(playerState.position.y - y, 2));
             return distance < 3000;
         })
         dispatch(setVisibleSystems(visSystems));

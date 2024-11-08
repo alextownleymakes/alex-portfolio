@@ -140,3 +140,30 @@ export const findBody = (
 
     return undefined; // No match found in this branch
 }
+
+// calculateCurrentAngle.ts
+const START_TIME = new Date('2000-01-01T00:00:00Z');
+
+export function calculateCurrentAngle(
+    startingAngle: number, 
+    orbitalPeriod: number, 
+    // now: Date
+): number {
+//   const elapsedTimeInDays =
+//     (now.getTime() - START_TIME.getTime()) / (1000 * 60 * 60 * 24); // Convert milliseconds to days
+
+//   // Calculate degrees per day
+//   const degreesPerDay = orbitalPeriod === 0 ? 1 : 360 / orbitalPeriod;
+
+//   // Calculate the current angle based on elapsed time
+  const angle = (
+    startingAngle 
+    // + 
+    // degreesPerDay * 
+    // elapsedTimeInDays
+) % 360;
+
+  return angle;
+}
+
+export default calculateCurrentAngle;

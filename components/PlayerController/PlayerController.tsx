@@ -10,7 +10,6 @@ import { KeyState, KeyMapType, KeyStateType, KeyofKeyStateType, keyMap } from '.
 import { updateAll, updateRotation, updatePosition, updateSpeed, updateVelocity } from '../../state/gameStateSlice';
 import { open, close } from '../../state/drawersStateSlice';
 import { useEffect } from 'react';
-import { ratios } from '../../utils/functions/zoom';
 
 interface PlayerControllerType {
     children: React.ReactNode;
@@ -22,6 +21,7 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
     const playerState = useSelector((state: RootState) => state.gameState);
     const drawerState = useSelector((state: RootState) => state.drawers);
     const dispatch = useDispatch();
+    const ratio = useSelector((state: RootState) => state.gameState.ratio);
 
     useEffect(() => {
         const handleKeyDown = (e: KeyboardEvent) => {
@@ -137,13 +137,13 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
         }
 
         const newPosition = {
-            x: state.position.x + newVelocityX / ((ratios[state.zoom]*ratios[state.zoom]) / (.5 * ratios[state.zoom])), 
-            y: state.position.y + newVelocityY / ((ratios[state.zoom]*ratios[state.zoom]) / (.5 * ratios[state.zoom])),
+            x: state.position.x + newVelocityX / ((ratio*ratio) / (.5 * ratio)), 
+            y: state.position.y + newVelocityY / ((ratio*ratio) / (.5 * ratio)),
         };
 
         const newZoomedPosition = {
-            x: newPosition.x * ratios[state.zoom],
-            y: newPosition.y * ratios[state.zoom],
+            x: newPosition.x * ratio,
+            y: newPosition.y * ratio,
         };
 
         return {

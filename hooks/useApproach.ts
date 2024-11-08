@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/store";
 import { Coords, setOrbit, zoomIn, zoomOut } from "@/state/gameStateSlice";
-import { ratios, scaleDistances } from "@/utils/functions/zoom";
+import { ratios, approachDistances, recedeDistances } from "@/utils/functions/zoom";
 import { distanceTo } from "@/utils/functions/calculations";
 import { OrbitTypes } from "@/state/gameStateSlice";
 
@@ -37,7 +37,8 @@ const useApproach = ({
     const dispatch = useDispatch();
     const playerPosition = useSelector((state: RootState) => state.gameState.zoomedPosition);
     const zoom = useSelector((state: RootState) => state.gameState.zoom);
-    const approachDistance = scaleDistances[scale];
+    const approachDistance = approachDistances[scale as keyof typeof approachDistances];
+    const recedeDistance = recedeDistances[scale as keyof typeof recedeDistances];
 
     const [distance, setDistance] = useState(0);
     const [zoomed, setZoomed] = useState(false);
@@ -54,6 +55,8 @@ const useApproach = ({
             cx: coords.x,
             cy: coords.y,
         }
+
+        console.log('distance values', values);
 
         setDistance(distanceTo(values));
     }, [playerPosition, coords]);
@@ -73,17 +76,14 @@ const useApproach = ({
         cy: coords.y,
     });
 
-    const checkForMission = () => {
-        // Check for mission
-    }
-
     useEffect(() => {
         if (!miniMap) {
             if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distance < (approachDistance * ratios[zoom]) && !zoomed && zoom === scale - 1) {
+                console.log('zoomed in', distance, approachDistance * ratios[zoom], zoomed, zoom, scale);
                 setZoomed(true);
                 type && name && dispatch(setOrbit({type, name}));
                 dispatch(zoomIn({ scale }));
-            } else if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distance > ((approachDistance * ratios[zoom]) * 3) && zoomed && zoom === scale) {
+            } else if ((systemCenter.x !== 0 && systemCenter.y !== 0) && distance > ((recedeDistance * ratios[zoom]) * 3) && zoomed && zoom === scale) {
                 setZoomed(false);
                 type && dispatch(setOrbit({type, name: ''}));
                 dispatch(zoomOut({ scale: scale - 1 }));

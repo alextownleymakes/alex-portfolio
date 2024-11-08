@@ -1,11 +1,12 @@
 // Star.tsx
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Star as StarType } from '../../utils/types/stellarBodies'; // Import the Star type and StarPhase enum
-import { StarSystem as StarSystemType } from '../../utils/types/stellarBodies';
 import { ratios, scales } from '../../utils/functions/zoom';
+import { StarType, StarSystemType } from '@/utils/types/stellarTypes';
 import { RootState } from '../../state/store';
+import { orbits } from '../../state/gameStateSlice';
 import useApproach from '@/hooks/useApproach';
+import useAuCoordinates from '@/hooks/useAuCoordinates';
 
 interface StarProps {
     star: StarType;
@@ -22,18 +23,20 @@ const Star: React.FC<StarProps> = ({ star, system, miniMap = false }) => {
 
     const starRef = React.useRef<HTMLDivElement>(null);
 
+    const { x, y } = useAuCoordinates({ data: { system, star }, type: 'star', ratio });
+
     const useApproachProps = {
+        name: star.name,
+        type: orbits.star,
         ref: starRef,
-        coords: { x: (star.position.x + system.position.x) * ratio, y: (star.position.y + system.position.y) * ratio },
+        coords: { x, y },
         scale: scales.StarSystem,
         miniMap
     };
     const { distanceToPlayer } = useApproach(useApproachProps);
 
-    const starPosX = ((star.position.x + system.position.x) * ratio);
-    const starPosY = ((star.position.y + system.position.y) * ratio);
-    const starLeft = `calc(${star.position.x * ratio}px + 50% - ${(star.radius * ratio) / 2}px)`;
-    const starTop = `calc(${star.position.y * ratio}px + 50% - ${(star.radius * ratio) / 2}px)`;
+    const starLeft = `calc(${x}px + 50% - ${(star.radius * ratio) / 2}px)`;
+    const starTop = `calc(${y}px + 50% - ${(star.radius * ratio) / 2}px)`;
     const starSize = (star.radius * ratio);
 
     return (
@@ -59,7 +62,7 @@ const Star: React.FC<StarProps> = ({ star, system, miniMap = false }) => {
             }}
         >
             {!miniMap && (
-                <div style={{ position: 'relative', left: star.radius + 5 }}>{star.name} {dev && (`- DTP: ${distanceToPlayer().toFixed(0)}; x: ${starPosX}; y: ${starPosY}`)}</div>
+                <div style={{ position: 'relative', left: star.radius + 5 }}>{star.name} {dev && (`- DTP: ${distanceToPlayer().toFixed(0)}; x: ${x}; y: ${y}`)}</div>
             )}
         </div>
     );

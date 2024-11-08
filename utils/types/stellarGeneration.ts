@@ -559,7 +559,7 @@ function calculateSystemScatteredDisk(stars: StarType[]): AU {
 
 function calculateSystemDistanceFromGalacticCenter(): AU {
     // Example: distance in AU from galactic center (customize as needed)
-    return randomInRange(25_000, 50_000); // within the galaxy's habitable zone
+    return randomInRange(0, 1000); // within the galaxy's habitable zone
 }
 
 function calculateCoordinatesRelativeToGalacticCenterBasedOnDistanceFromAndAngleToParent(): { x: number; y: number } {
