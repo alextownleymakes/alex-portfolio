@@ -24,9 +24,6 @@ const MoonComponent: React.FC<MoonComponentProps> = ({
 }) => {
   if (o.moon !== '' && o.moon !== moon.name) return null;
 
-  const { x: moonx, y: moony } = useAuCoordinates({ data: { system, star, planet, moon }, type: 'moon' });
-  if (Number.isNaN(moonx) || Number.isNaN(moony)) return null;
-
   return (
     <StellarBody
       moon={moon}
@@ -37,8 +34,8 @@ const MoonComponent: React.FC<MoonComponentProps> = ({
       type={'moon'}
       scale={scales.planet}
       variant="moon"
-      x={moonx}
-      y={moony}
+      x={moon.position.x}
+      y={moon.position.y}
     />
   );
 };

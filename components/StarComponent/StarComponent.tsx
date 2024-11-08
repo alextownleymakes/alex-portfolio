@@ -25,9 +25,6 @@ const StarComponent: React.FC<StarComponentProps> = ({
 }) => {
   if (o.star !== '' && o.star !== system.stars[0].name) return null;
 
-  const { x: starx, y: stary } = useAuCoordinates({data: { system, star }, type: 'star'});
-  if (Number.isNaN(starx) || Number.isNaN(stary)) return null;
-
   return (
     <>
       <StellarBody
@@ -37,8 +34,8 @@ const StarComponent: React.FC<StarComponentProps> = ({
         type={'star'}
         scale={scales.starSystem}
         variant={star.variant}
-        x={starx}
-        y={stary}
+        x={star.position.x}
+        y={star.position.y}
       />
       {zoom > scales.galaxy &&
         activeSystem &&

@@ -62,6 +62,10 @@ export interface StellarType {
     radius: AU;
     distanceFromParent: AU;
     angleFromParent: number;
+    position: {
+        x: number;
+        y: number;
+    };
 }
 
 export interface StellarBodyType extends StellarType {
@@ -162,150 +166,5 @@ export const stellarRanges = {
         parent: 'star',
         min: .5,
         max: 100
-    }
-}
-
-export const solariaA: StarType = {
-    id: 0,
-    name: "Solaria A",
-    variant: "mainSequence",
-    numPlanets: 0,
-    numComets: 0,
-    hasAsteroids: false,
-    mass: 1.989e30, // KG, similar to the mass of our Sun
-    density: 1.41, // g/cm^3, average density of the Sun
-    gravity: 274, // m/s^2, solar surface gravity
-    escapeVelocity: 617.5, // km/s, solar escape velocity
-    rotationPeriod: 25, // SolDays, solar rotation period at the equator
-    axialTilt: 7.25, // degrees, solar axial tilt
-    age: 4_600_000_000, // in years, typical for a main-sequence star
-
-    // Star characteristics within the star system
-    orbitalPeriod: 0, // Star is central in its own system, so no orbit period
-    orbitalSpeed: 0, // Main star has no speed relative to itself in the system
-    gravitationalInfluence: 100, // AU, gravitational influence for planetary orbits
-    scatteredDisk: 60, // AU, scattered disk distance
-    scale: 1, // Base scale for realism
-    approachDistance: 0.5, // AU, gameplay interaction distance
-    radius: 0.002325, // AU, solar diameter (~696,340 km converted to AU)
-    distanceFromParent: 0, // AU, central star in the system
-    angleFromParent: 0, // No angular offset within its own system
-    luminosity: 1, // Solar luminosity
-
-    planets: [], // No planets included in this example
-    composition: {
-        hydrogen: 73.5, // Composition percentages
-        helium: 24.85,
-        // metals: 1.65 // Remaining heavier elements
-    }
-}
-
-export const solaria: StarSystemType = {
-    id: 0,
-    name: "Solaria",
-    numStars: 1,
-    // Orbital parameters around the galactic center
-    orbitalPeriod: 200_000_000, // in SolDays, e.g., approx. 200 million years around galactic center
-    orbitalSpeed: 220 * 1_000, // in KM, typical orbital speed around galactic center for Sun-like stars ~220 km/s
-    gravitationalInfluence: 100, // AU, reasonable influence distance for this star system
-    scatteredDisk: 60, // AU, radius for scattered disk bodies
-    scale: 1, // Scale factor set to base for this example
-    approachDistance: 1, // AU, gameplay distance for "close approach"
-    radius: 0.5, // AU, approximate extent for outer boundary markers
-    distanceFromParent: 500, // AU from the galactic center
-    angleFromParent: 45, // Arbitrary angle within the galactic plane
-
-    // Main star in the system
-    stars: [solariaA],
-};
-
-export const starSystems: StarSystemType[] = [solaria];
-
-// i need a function library that is as so:
-
-export const generateStarSystem = {
-    generateSystem: (system: StarSystemType): StarSystemType => {
-        return system;
-    },
-    generateStar: (star: StarType): StarType => {
-        return star;
-    },
-    generatePlanet: (planet: PlanetType): PlanetType => {
-        return planet;
-    },
-    generateMoon: (moon: MoonType): MoonType => {
-        return moon;
-    },
-    generateDwarfPlanet: (dwarfPlanet: DwarfPlanetType): DwarfPlanetType => {
-        return dwarfPlanet;
-    },
-    generateAsteroid: (asteroid: AsteroidType): AsteroidType => {
-        return asteroid;
-    },
-    generateAsteroidBelt: (asteroidBelt: AsteroidBeltType): AsteroidBeltType => {
-        return asteroidBelt;
-    },
-    generateComet: (comet: CometType): CometType => {
-        return comet;
-    }
-}
-
-export const generationFunctions = {
-    determineMass: (min: number, max: number): number => {
-        return Math.random() * (max - min) + min;
-    },
-    determineDensity: (min: number, max: number): number => {
-        return Math.random() * (max - min) + min;
-    },
-    determineGravity: (min: number, max: number): number => {
-        return Math.random() * (max - min) + min;
-    },
-    determineEscapeVelocity: (min: number, max: number): number => {
-        return Math.random() * (max - min) + min;
-    },
-    determineRotationPeriod: (min: number, max: number): number => {
-        return Math.random() * (max - min) + min;
-    },
-    determineAxialTilt: (min: number, max: number): number => {
-        return Math.random() * (max - min) + min;
-    },
-    determineAge: (min: number, max: number): number => {
-        return Math.random() * (max - min) + min;
-    },
-    determineOrbitalPeriod: (min: number, max: number): number => {
-        return Math.random() * (max - min) + min;
-    },
-    determineOrbitalSpeed: (min: number, max: number): number => {
-        return Math.random() * (max - min) + min;
-    },
-    determineGravitationalInfluence: (min: number, max: number): number => {
-        return Math.random() * (max - min) + min;
-    },
-    determineScatteredDisk: (min: number, max: number): number => {
-        return Math.random() * (max - min) + min;
-    },
-    determineScale: (min: number, max: number): number => {
-        return Math.random() * (max - min) + min;
-    },
-    determineApproachDistance: (min: number, max: number): number => {
-        return Math.random() * (max - min) + min;
-    },
-    determineDiameter: (min: number, max: number): number => {
-        return Math.random() * (max - min) + min;
-    },
-    determineDistanceFromParent: (min: number, max: number): number => {
-        return Math.random() * (max - min) + min;
-    },
-    determineAngleFromParent: (min: number, max: number): number => {
-        return Math.random() * (max - min) + min;
-    },
-    determineComposition: (min: number, max: number): StarComposition => {
-        return {
-            hydrogen: Math.random() * (max - min) + min,
-            helium: Math.random() * (max - min) + min
-        }
-    },
-    determineVariant: <T>(variants: T[]): T => {
-        return variants[Math.floor(Math.random() * variants.length)];
     }
 }

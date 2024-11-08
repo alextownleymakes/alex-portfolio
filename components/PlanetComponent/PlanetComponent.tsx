@@ -24,10 +24,6 @@ const PlanetComponent: React.FC<PlanetComponentProps> = ({
   zoom,
 }) => {
   if (o.planet !== '' && o.planet !== planet.name) return null;
-
-  const { x: planetx, y: planety } = useAuCoordinates({ data: { system, star, planet }, type: 'planet' });
-  if (Number.isNaN(planetx) || Number.isNaN(planety)) return null;
-
   return (
     <>
       <StellarBody
@@ -38,8 +34,8 @@ const PlanetComponent: React.FC<PlanetComponentProps> = ({
         type={'planet'}
         scale={scales.star}
         variant={planet.variant}
-        x={planetx}
-        y={planety}
+        x={planet.position.x}
+        y={planet.position.y}
       />
       {zoom > scales.starSystem &&
         planet.moons?.map((moon: MoonType) => (

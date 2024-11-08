@@ -12,12 +12,13 @@ interface GalaxySystemProps {
 
 const GalaxySystem: React.FC<GalaxySystemProps> = ({ system }) => {
   const position = useSelector((state: RootState) => state.gameState.position);
+  const { x: px, y: py } = position;
   const { x, y } = useAuCoordinates({ data: { system }, type: 'system' });
 
   if (Number.isNaN(x) || Number.isNaN(y)) return null;
 
   const distance = distanceTo({ cx: x, cy: y, px: position.x, py: position.y });
-  // if (distance > 3000) return null;
+  if (distance > 3000) return null;
 
   return <StarSystem system={system} x={x} y={y} />;
 };

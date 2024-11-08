@@ -103,18 +103,19 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
         }
 
         if (isThrusting.pressed) {
-            newState.speed = Math.min(newState.speed + 1, 100); 
+            newState.speed = Math.min((newState.speed + 1 ) * 1.1, (1000/scale)); 
             const angle = (newState.rotation - 90) * (Math.PI / 180);
-            const thrustVelocityX = Math.cos(angle) * 0.1;
-            const thrustVelocityY = Math.sin(angle) * 0.1;
+            const thrustVelocityX = Math.cos(angle) * 1;
+            const thrustVelocityY = Math.sin(angle) * 1;
             newVelocityX = newVelocityX * 0.98 + thrustVelocityX; 
             newVelocityY = newVelocityY * 0.98 + thrustVelocityY;
         }
 
         if (isBraking.pressed) {
-            newState.speed = Math.max(newState.speed - 1, 0); 
-            newVelocityX = newVelocityX * 0.90;
-            newVelocityY = newVelocityY * 0.90;
+            const newSpeed = Math.max(newState.speed * .9, 0);
+            newState.speed = newSpeed > 100 ? newSpeed : 0; 
+            newVelocityX = Number((newSpeed > 100 ? newVelocityX * 0.9 : 0).toFixed(0));
+            newVelocityY = Number((newSpeed > 100 ? newVelocityY * 0.9 : 0).toFixed(0));
         }
 
         if (isRefacing.pressed) {
@@ -137,8 +138,8 @@ const PlayerController: React.FC<PlayerControllerType> = ({ children }) => {
         }
 
         const newPosition = {
-            x: state.position.x + newVelocityX / ((.5 * scale)), 
-            y: state.position.y + newVelocityY / ((.5 * scale)),
+            x: Number((state.position.x + newVelocityX).toFixed(0)), 
+            y: Number((state.position.y + newVelocityY).toFixed(0)),
         };
 
         const newZoomedPosition = {

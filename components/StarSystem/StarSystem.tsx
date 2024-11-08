@@ -69,8 +69,8 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false, x, y }
       id={system.id + ''}
       ref={starSysRef}
       style={{
-        top: y,
-        left: x,
+        top: `calc(${y}px + 50%)`,
+        left: `calc(${x}px + 50%)`,
         width: 0,
         height: 0,
         position: 'absolute',

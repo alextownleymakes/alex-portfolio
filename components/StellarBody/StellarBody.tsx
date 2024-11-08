@@ -26,10 +26,8 @@ export interface StellarBodyProps {
 const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, type, scale, variant, miniMap = false, x, y }) => {
 
   const ref = React.useRef<HTMLDivElement>(null);
-  const zoom = useSelector((state: RootState) => state.gameState.zoom);
   const dev = useSelector((state: RootState) => state.keyState.devDisplay.pressed);
   const lowestOrbit = useSelector((state: RootState) => state.gameState.lowestOrbit);
-  const ratioBase = useSelector((state: RootState) => state.gameState.scale);
 
   const stellarData: StellarDataType = { system, star, planet, moon };
 
@@ -66,8 +64,8 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
         ref={ref}
         style={{
           position: 'absolute',
-          left: (x - width/2), // Use pixel-based position for accuracy
-          top: (y - height/2),
+          left: `calc(${x - width/2}px + 50%)`, // Use pixel-based position for accuracy
+          top: `calc(${y - height/2}px + 50%)`, // Use pixel-based position for accuracy
           width,
           height,
           backgroundColor,

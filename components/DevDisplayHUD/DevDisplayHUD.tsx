@@ -16,7 +16,7 @@ const DevDisplayHUD: React.FC = () => {
 
     const currentMission: PlayerMission | undefined = playerState?.missions?.find((mission) => mission.id === (playerState?.currentMission || 0)+1) || undefined;
 
-    const { speed, rotation, lowestOrbit, zoomedPosition } = gameState;
+    const { speed, rotation, lowestOrbit, position } = gameState;
     const credits = playerState.resources[1].amount;
 
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -40,7 +40,7 @@ const DevDisplayHUD: React.FC = () => {
                 <Grid size={12}>
                     <ol>
                         <li>
-                        <strong>Position:</strong>&nbsp;{zoomedPosition.x.toFixed(0)},&nbsp;{zoomedPosition.y.toFixed(0)}
+                        <strong>Position:</strong>&nbsp;{position.x.toFixed(0)},&nbsp;{position.y.toFixed(0)}
                     </li>
                         {/* 
                     <li>

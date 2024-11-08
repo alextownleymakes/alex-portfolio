@@ -1,5 +1,6 @@
 import { AU, KM, StarSystemType, StarType, PlanetType, MoonType, AsteroidType, StarVariants, PlanetVariants, PlanetsTypes, CometType, AsteroidBeltType, SolDays } from './stellarTypes';
 import { StarComposition, PlanetComposition, MoonComposition, CometComposition, AsteroidComposition } from '../composition';
+import { getAuCoordinates } from '../functions/calculations';
 
 function generateStarSystem(id: number): StarSystemType {
     const numStars = determineNumberOfStars();
@@ -13,6 +14,13 @@ function generateStarSystem(id: number): StarSystemType {
     if (numStars > 1) {
         positionStarsInSystem(stars);
     }
+    const name = `Star System ${id}`;
+    const orbitalPeriod = calculateSystemOrbitalPeriod();
+    const orbitalSpeed = calculateSystemOrbitalSpeed();
+    const gravitationalInfluence = calculateSystemGravitationalInfluence(stars);
+    const scatteredDisk = calculateSystemScatteredDisk(stars);
+    const distanceFromParent = calculateSystemDistanceFromGalacticCenter();
+    const angleFromParent = randomInRange(0, 360);
 
     return {
         id,
@@ -29,6 +37,7 @@ function generateStarSystem(id: number): StarSystemType {
         radius: 200,           // Can be calculated if needed
         distanceFromParent: calculateSystemDistanceFromGalacticCenter(),
         angleFromParent: randomInRange(0, 360),
+        position: { x: 0, y: 0 }, // Placeholder
     };
 }
 
@@ -85,6 +94,7 @@ function generateStar(id: number): StarType {
     const rotationPeriod = determineStarRotationPeriod(variant);
     const axialTilt = determineAxialTilt();
     const asteroidBelt = hasAsteroids ? generateAsteroidBelt() : undefined;
+    const position = { x: 0, y: 0 }; // Placeholder
 
     return {
         id,
@@ -115,7 +125,8 @@ function generateStar(id: number): StarType {
         orbitalSpeed,
         scale,
         distanceFromParent,
-        angleFromParent
+        angleFromParent,
+        position,
     };
 }
 
@@ -207,7 +218,7 @@ function calculateLuminosity(mass: number): number {
 }
 
 function calculateRadius(mass: number): number {
-    // Approximate Mass-Radius relation for main sequence stars
+    // Approximate Mass-Radius relation for main sequence stars, measured in solar radii which in miles is 432,288.6 and in km is 696,340 and in AU is 0.00465
     if (mass <= 1) return mass * Math.pow(mass, 0.8);
     else return mass * Math.pow(mass, 0.5);
 }
@@ -290,7 +301,9 @@ function generatePlanet(id: number, star: StarType, previousPlanetDistance: numb
     const composition = generatePlanetComposition(variant);
 
     // Orbital and physical properties
+    const name = `Planet ${id}`;
     const radius = calculatePlanetRadius(mass, variant);
+    const distanceFromParent = distanceFromStar;
     const density = calculateDensity(mass, radius);
     const gravity = calculateSurfaceGravity(mass, radius);
     const escapeVelocity = calculateEscapeVelocity(mass, radius);
@@ -301,16 +314,20 @@ function generatePlanet(id: number, star: StarType, previousPlanetDistance: numb
     const orbitalSpeed = calculateOrbitalSpeed(distanceFromStar, star.mass);
     const gravitationalInfluence = calculateGravitationalInfluence(mass, 0);
     const angleFromParent = randomInRange(0, 360);
+    const position = { x: 0, y: 0 }; // Placeholder
+    const scatteredDisk = 0; // Typically for star-level properties, set to 0 for planets
+    const scale = 1;
+    const approachDistance = 0.1; // AU, for gameplay interaction
 
     // Generate moons based on variant
     const moons = generateMoonsForPlanet(variant, age);
 
     return {
         id,
-        name: `Planet ${id}`,
+        name,
         variant,
         mass,
-        distanceFromParent: distanceFromStar,
+        distanceFromParent,
         orbitalPeriod,
         moons,
         composition,
@@ -322,11 +339,12 @@ function generatePlanet(id: number, star: StarType, previousPlanetDistance: numb
         age,
         orbitalSpeed,
         gravitationalInfluence,
-        scatteredDisk: 0, // Typically for star-level properties, set to 0 for planets
-        scale: 1,
-        approachDistance: 0.1, // AU, for gameplay interaction
+        scatteredDisk, // Typically for star-level properties, set to 0 for planets
+        scale,
+        approachDistance, // AU, for gameplay interaction
         radius,
         angleFromParent,
+        position,
     };
 }
 
@@ -457,6 +475,7 @@ function generateMoon(id: number, planetAge: number): MoonType {
         approachDistance: 0.05,
         radius: randomInRange(0.001, 0.01), // AU
         angleFromParent: randomInRange(0, 360),
+        position: { x: 0, y: 0 }, // Placeholder
     };
 }
 
@@ -490,32 +509,36 @@ function generateAsteroidBelt(): AsteroidBeltType {
         radius: randomInRange(1, 3), // AU
         distanceFromParent: randomInRange(2, 4), // AU from the star
         angleFromParent: randomInRange(0, 360),
+        position: { x: 0, y: 0 }, // Placeholder
     };
 }
 
 
 export function generateCompleteStarSystem(id: number): StarSystemType {
-    const starSystem = generateStarSystem(id);
+    const system = generateStarSystem(id);
+    system.position = getAuCoordinates({ data: { system }, type: 'system' });
 
-    starSystem.stars.forEach(star => {
+    system.stars.forEach(star => {
         // Generate planets for each star
+        star.position = getAuCoordinates({ data: { system, star }, type: 'star' });
         const planets = generatePlanetsForStar(star);
         star.planets = planets;
         star.numPlanets = planets.length;
 
         planets.forEach(planet => {
+            planet.position = getAuCoordinates({ data: { system, star, planet }, type: 'planet' });
             // Generate moons for each planet
             const moons = generateMoonsForPlanet(planet.variant, planet.age);
             planet.moons = moons;
+            planet.moons.forEach(moon => {
+                moon.position = getAuCoordinates({ data: { system, star, planet, moon }, type: 'moon' });
+            });
         });
 
-        // Generate comets if applicable
-        // const comets = generateCometsForStar(star);
-        // star.comets = comets;
         star.numComets = 0;
     });
 
-    return starSystem;
+    return system;
 }
 
 export const generateGalaxy = (numSystems: number): StarSystemType[] => {
@@ -552,25 +575,10 @@ function calculateSystemScatteredDisk(stars: StarType[]): AU {
     return influence * 1.5; // Example for scattered disk distance
 }
 
-// function calculateSystemRadius(stars: StarType[]): AU {
-//     // Approximate radius by largest gravitational influence of individual stars
-//     return Math.max(...stars.map(star => star.gravitationalInfluence));
-// }
-
 function calculateSystemDistanceFromGalacticCenter(): AU {
     // Example: distance in AU from galactic center (customize as needed)
-    return randomInRange(0, 1000); // within the galaxy's habitable zone
+    return randomInRange(0, 100); // within the galaxy's habitable zone
 }
-
-function calculateCoordinatesRelativeToGalacticCenterBasedOnDistanceFromAndAngleToParent(): { x: number; y: number } {
-    // Example calculation based on distance and angle
-
-
-
-
-    return { x: 0, y: 0 }; // Placeholder
-}
-
 
 function calculatePlanetRadius(mass: number, variant: PlanetVariants): number {
     return variant === 'gasGiant' ? mass * 0.1 : mass * 0.05; // Simplified scaling
