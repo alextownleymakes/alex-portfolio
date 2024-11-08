@@ -8,10 +8,10 @@ import { RootState } from '@/state/store';
 
 interface GalaxySystemProps {
   system: StarSystemType;
-  position: { x: number; y: number };
 }
 
-const GalaxySystem: React.FC<GalaxySystemProps> = ({ system, position }) => {
+const GalaxySystem: React.FC<GalaxySystemProps> = ({ system }) => {
+  const position = useSelector((state: RootState) => state.gameState.position);
   const ratio = useSelector((state: RootState) => state.gameState.ratio);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
   const { x, y } = useAuCoordinates({ data: { system }, type: 'system', ratio });

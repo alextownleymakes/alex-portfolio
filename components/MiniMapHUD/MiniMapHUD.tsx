@@ -1,27 +1,24 @@
 import React from 'react';
-import { StarSystem } from "@/utils/types/stellarBodies";
 import MiniMapStarSystem from "../MiniMapStarSystem/MiniMapStarSystem";
 import Player from "../Player/Player";
 import styles from './Minimap.module.scss';
 import useAuCoordinates from '@/hooks/useAuCoordinates';
 import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
-import { ratios } from '../../utils/functions/zoom';
 import { HUDPieceProps } from '../HUD/HUDPiece';
 
 const MiniMapHUD: React.FC= () => {
 
     const playerState = useSelector((state: RootState) => state.gameState);
-    const { position, zoomedPosition, universeSize, zoom } = playerState;
+    const { position, zoomedPosition } = playerState;
     const visibleSystems = useSelector((state: RootState) => state.gameState.visibleSystems);
     const ratioBase = useSelector((state: RootState) => state.gameState.ratio);
 
     const ratio = ratioBase / 10;
     const galaxyRef = React.useRef<HTMLDivElement>(null);
 
-    const galaxyPosX = `calc(-${(universeSize * ratio) / 2}px + 50% - ${((zoomedPosition.x !== 0 ? zoomedPosition.x : position.x) / 10)}px)`;
-    const galaxyPosY = `calc(-${(universeSize * ratio) / 2}px + 50% - ${((zoomedPosition.y !== 0 ? zoomedPosition.y : position.y) / 10)}px)`;
-    const galaxySize = universeSize * ratio;
+    const left =  `calc(50% + ${((zoomedPosition.x || position.x) / 10)}px)`;
+    const top = `calc(50% + ${((zoomedPosition.y || position.y) / 10)}px)`;
 
     return (
         <div className={styles['minimap-body']}>
@@ -29,11 +26,11 @@ const MiniMapHUD: React.FC= () => {
                 ref={galaxyRef}
                 id="minimap"
                 style={{
-                    width: galaxySize,
-                    height: galaxySize,
+                    width: 0,
+                    height: 0,
                     position: 'absolute',
-                    left: galaxyPosX,
-                    top: galaxyPosY,
+                    left,
+                    top
                 }}>
                 {visibleSystems?.map((system) => {
                     const { x, y } = useAuCoordinates({ data: { system }, type: 'system', ratio });

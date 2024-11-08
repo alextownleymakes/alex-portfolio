@@ -18,7 +18,7 @@ const Galaxy: React.FC<GalaxyProps> = ({
     miniMap = false
 }) => {
     const playerState = useSelector((state: RootState) => state.gameState);
-    const { position, universeSize, zoomedPosition, dev } = playerState;
+    const { position, zoomedPosition, dev } = playerState;
 
     const windowSize = useSelector((state: RootState) => state.gameState.windowSize);
     const systems = useSelector((state: RootState) => state.galaxy.systems);
@@ -37,10 +37,10 @@ const Galaxy: React.FC<GalaxyProps> = ({
 
     if (!windowSize.x || !windowSize.y) return null;
 
-    const left = -((universeSize * ratio) / 2) + (windowSize.x / 2) - (zoomedPosition.x !== 0 ? zoomedPosition.x : position.x);
-    const top = -((universeSize * ratio) / 2) + (windowSize.y / 2) - (zoomedPosition.y !== 0 ? zoomedPosition.y : position.y);
-    const width = universeSize * ratio;
-    const height = universeSize * ratio;
+    // const left = -((universeSize * ratio) / 2) + (windowSize.x / 2) - (zoomedPosition.x !== 0 ? zoomedPosition.x : position.x);
+    // const top = -((universeSize * ratio) / 2) + (windowSize.y / 2) - (zoomedPosition.y !== 0 ? zoomedPosition.y : position.y);
+    const left = (windowSize.x / 2) - (zoomedPosition.x !== 0 ? zoomedPosition.x : position.x);
+    const top = (windowSize.y / 2) - (zoomedPosition.y !== 0 ? zoomedPosition.y : position.y);
 
     const galaxyProps: React.HTMLAttributes<HTMLDivElement> = {
         id: 'galaxy',
@@ -48,8 +48,8 @@ const Galaxy: React.FC<GalaxyProps> = ({
             position: 'absolute',
             left,
             top,
-            width,
-            height,
+            width: 0,
+            height: 0,
         },
     }
 
@@ -58,7 +58,7 @@ const Galaxy: React.FC<GalaxyProps> = ({
             <div ref={galaxyRef} {...galaxyProps} >
                 <GalacticCenter />
                 {systems?.map((system: StarSystemType) => (
-                    <GalaxySystem key={system.name} system={system} position={position} />
+                    <GalaxySystem key={system.name} system={system} />
                 ))}
             </div>
             {dev && <DisplayContainer

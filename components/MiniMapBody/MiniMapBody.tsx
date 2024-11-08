@@ -8,16 +8,15 @@ import styles from './Minimap.module.scss';
 
 const MiniMapBody: React.FC = () => {
   const playerState = useSelector((state: RootState) => state.gameState);
-  const { position, zoomedPosition, universeSize, zoom } = playerState;
+  const { position, zoomedPosition } = playerState;
   const visibleSystems = useSelector((state: RootState) => state.gameState.visibleSystems);
   const ratioBase = useSelector((state: RootState) => state.gameState.ratio);
 
   const ratio = ratioBase/ 10;
   const galaxyRef = React.useRef<HTMLDivElement>(null);
 
-  const galaxyPosX = `calc(-${(universeSize * ratio) / 2}px + 50% - ${(zoomedPosition.x || position.x) / 10}px)`;
-  const galaxyPosY = `calc(-${(universeSize * ratio) / 2}px + 50% - ${(zoomedPosition.y || position.y) / 10}px)`;
-  const galaxySize = universeSize * ratio;
+  const left =  `calc(50% + ${((zoomedPosition.x || position.x) / 10)}px)`;
+  const top = `calc(50% + ${((zoomedPosition.y || position.y) / 10)}px)`;
 
   return (
     <div className={styles['minimap-body']}>
@@ -25,11 +24,11 @@ const MiniMapBody: React.FC = () => {
         ref={galaxyRef}
         id="minimap"
         style={{
-          width: galaxySize,
-          height: galaxySize,
+          width: 0,
+          height: 0,
           position: 'absolute',
-          left: galaxyPosX,
-          top: galaxyPosY,
+          left,
+          top
         }}
       >
         {visibleSystems?.map((system) => (
