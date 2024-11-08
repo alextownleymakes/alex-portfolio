@@ -12,8 +12,7 @@ interface GalaxySystemProps {
 
 const GalaxySystem: React.FC<GalaxySystemProps> = ({ system }) => {
   const position = useSelector((state: RootState) => state.gameState.position);
-  const ratio = useSelector((state: RootState) => state.gameState.scale);
-  const { x, y } = useAuCoordinates({ data: { system }, type: 'system', ratio });
+  const { x, y } = useAuCoordinates({ data: { system }, type: 'system' });
 
   if (Number.isNaN(x) || Number.isNaN(y)) return null;
 

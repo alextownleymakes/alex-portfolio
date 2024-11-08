@@ -33,10 +33,9 @@ type StellarObjectValues = {
 interface UseAuCoordinatesProps {
     data: StellarDataType;
     type: keyof StellarDataType;
-    ratio: number;
 }
 
-const useAuCoordinates: (props: UseAuCoordinatesProps) => AuCoordinates = ({ data, type, ratio }) => {
+const useAuCoordinates: (props: UseAuCoordinatesProps) => AuCoordinates = ({ data, type }) => {
     
     return useMemo(() => {
         // const now = new Date(); // Update every second
@@ -81,8 +80,8 @@ const useAuCoordinates: (props: UseAuCoordinatesProps) => AuCoordinates = ({ dat
 
         const getCoords = (distance: number, angle: number) => {
             const angleInRadians = (angle * Math.PI) / 180;
-            const x = (distance * Math.cos(angleInRadians) * ratio).toFixed(0);
-            const y = (distance * Math.sin(angleInRadians) * ratio).toFixed(0);
+            const x = (distance * Math.cos(angleInRadians)).toFixed(0);
+            const y = (distance * Math.sin(angleInRadians)).toFixed(0);
             const c = { x: Number(x), y: Number(y) };
             return c;
         };
@@ -135,7 +134,7 @@ const useAuCoordinates: (props: UseAuCoordinatesProps) => AuCoordinates = ({ dat
         setValues(data);
 
         return values[type]?.coordinates ?? { x: 0, y: 0 };
-    }, [data, ratio]); // Include 'now' in dependencies
+    }, [data]); // Include 'now' in dependencies
 };
 
 export default useAuCoordinates;

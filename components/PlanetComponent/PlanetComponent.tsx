@@ -10,7 +10,6 @@ interface PlanetComponentProps {
   system: StarSystemType;
   star: StarType;
   planet: PlanetType;
-  ratio: number;
   miniMap: boolean;
   o: any;
   zoom: number;
@@ -20,14 +19,13 @@ const PlanetComponent: React.FC<PlanetComponentProps> = ({
   system,
   star,
   planet,
-  ratio,
   miniMap,
   o,
   zoom,
 }) => {
   if (o.planet !== '' && o.planet !== planet.name) return null;
 
-  const { x: planetx, y: planety } = useAuCoordinates({ data: { system, star, planet }, type: 'planet', ratio });
+  const { x: planetx, y: planety } = useAuCoordinates({ data: { system, star, planet }, type: 'planet' });
   if (Number.isNaN(planetx) || Number.isNaN(planety)) return null;
 
   return (
@@ -51,7 +49,6 @@ const PlanetComponent: React.FC<PlanetComponentProps> = ({
             star={star}
             planet={planet}
             moon={moon}
-            ratio={ratio}
             miniMap={miniMap}
             o={o}
           />

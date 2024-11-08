@@ -10,7 +10,6 @@ interface MoonComponentProps {
   star: StarType;
   planet: PlanetType;
   moon: MoonType;
-  ratio: number;
   miniMap: boolean;
   o: any;
 }
@@ -20,13 +19,12 @@ const MoonComponent: React.FC<MoonComponentProps> = ({
   star,
   planet,
   moon,
-  ratio,
   miniMap,
   o,
 }) => {
   if (o.moon !== '' && o.moon !== moon.name) return null;
 
-  const { x: moonx, y: moony } = useAuCoordinates({ data: { system, star, planet, moon }, type: 'moon', ratio });
+  const { x: moonx, y: moony } = useAuCoordinates({ data: { system, star, planet, moon }, type: 'moon' });
   if (Number.isNaN(moonx) || Number.isNaN(moony)) return null;
 
   return (

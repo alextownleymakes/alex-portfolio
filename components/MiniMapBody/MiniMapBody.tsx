@@ -9,9 +9,6 @@ const MiniMapBody: React.FC = () => {
   const playerState = useSelector((state: RootState) => state.gameState);
   const { position, zoomedPosition } = playerState;
   const visibleSystems = useSelector((state: RootState) => state.gameState.visibleSystems);
-  const ratioBase = useSelector((state: RootState) => state.gameState.scale);
-
-  const ratio = ratioBase/ 10;
   const galaxyRef = React.useRef<HTMLDivElement>(null);
 
   const left =  `calc(50% + ${((zoomedPosition.x || position.x) / 10)}px)`;
@@ -31,7 +28,7 @@ const MiniMapBody: React.FC = () => {
         }}
       >
         {visibleSystems?.map((system) => (
-          <MiniMapSystem key={system.name} system={system} ratio={ratio} />
+          <MiniMapSystem key={system.name} system={system} />
         ))}
       </div>
       <Player miniMap={true} />

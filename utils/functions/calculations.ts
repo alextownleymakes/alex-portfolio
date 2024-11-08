@@ -34,7 +34,6 @@ export interface BodyValuesType {
 
 export interface BodyValuesProps {
     stellarData: StellarDataType;
-    ratio: number;
     dev?: boolean;
     miniMap?: boolean;
 }
@@ -43,7 +42,7 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
 
     const zoom = useSelector((state: RootState) => state.gameState.zoom);
 
-    const { stellarData, ratio, miniMap, dev } = data;
+    const { stellarData, miniMap, dev } = data;
 
     const calc = (f: number): string => `calc(50% + ${f}px)`;
 
@@ -54,8 +53,6 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
         const { star, planet, moon } = stellarData;
         return (
             (moon ? moon.radius : planet ? planet.radius : star ? star.radius : 0)
-            *
-            ratio
         );
     }
 

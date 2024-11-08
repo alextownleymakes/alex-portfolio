@@ -28,9 +28,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false, x, y }
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
   const o = useSelector((state: RootState) => state.gameState.orbits);
   const dev = useSelector((state: RootState) => state.keyState.devDisplay.pressed);
-  const ratio = useSelector((state: RootState) => state.gameState.scale);
 
-  console.log('ratio', ratio);
 
   const starSysRef = React.useRef<HTMLDivElement>(null);
 
@@ -50,7 +48,6 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false, x, y }
 
   const bv = bodyValues({
     stellarData: { system },
-    ratio,
     miniMap,
     dev
   });
@@ -92,72 +89,12 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false, x, y }
         distance={distanceToPlayer()}
       />
       
-      {/* {system.stars.map((star: StarType) => {
-        if (o.star !== '' && o.star !== system.stars[0].name) return null
-        
-        const { x: starx, y: stary } = useAuCoordinates({data: { system, star }, type: 'star', ratio});
-        if (Number.isNaN(starx) || Number.isNaN(stary)) return null;
-        return (
-        <React.Fragment key={`${star.name}-star`}> 
-          <StellarBody
-            key={`${star.name}-star`}
-            star={star}
-            system={system}
-            miniMap={miniMap}
-            type={'star'}
-            scale={scales.star}
-            variant={star.variant}
-            x={starx}
-            y={stary}
-          />
-          {zoom > scales.galaxy && activeSystem && star.planets?.map((planet: PlanetType) => {
-            if (o.planet !== '' && o.planet !== planet.name) return null;
-            const { x: planetx, y: planety } = useAuCoordinates({data: { system, star, planet }, type: 'planet', ratio});
-            if (Number.isNaN(planetx) || Number.isNaN(planety)) return null;
-            return (
-            <React.Fragment key={`${planet.name}-planet`}>
-              <StellarBody
-                key={`${planet.name}-planet`}
-                system={system}
-                star={star}
-                planet={planet}
-                miniMap={miniMap}
-                type={'planet'}
-                scale={scales.planet}
-                variant={planet.variant}
-                x={planetx}
-                y={planety}
-              />
-              {zoom > scales.starSystem && planet.moons?.map((moon: MoonType) => {
-                if (o.moon !== '' && o.moon !== moon.name) return null;
-                const { x: moonx, y: moony } = useAuCoordinates({ data: { system, star, planet, moon }, type: 'moon', ratio });
-                if (Number.isNaN(moonx) || Number.isNaN(moony)) return null;
-                return (
-                <StellarBody
-                  key={`${moon.name}-moon`} // Ensure each moon has a unique key
-                  system={system}
-                  star={star}
-                  planet={planet}
-                  moon={moon}
-                  miniMap={miniMap}
-                  type={'moon'}
-                  scale={scales.moon}
-                  variant='moon'
-                  x={moonx}
-                  y={moony}
-                />
-              )})}
-            </React.Fragment>
-          )})}
-        </React.Fragment>
-      )})} */}
     </div>
     {system.stars.map((star: StarType) => (
       <StarComponent
         key={star.name}
         system={system}
         star={star}
-        ratio={ratio}
         miniMap={miniMap}
         o={o}
         zoom={zoom}

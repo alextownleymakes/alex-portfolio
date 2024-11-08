@@ -22,9 +22,8 @@ const Galaxy: React.FC<GalaxyProps> = ({
 
     const windowSize = useSelector((state: RootState) => state.gameState.windowSize);
     const systems = useSelector((state: RootState) => state.galaxy.systems);
-    const ratioBase = useSelector((state: RootState) => state.gameState.scale);
-    const ratioMiniMap = useSelector((state: RootState) => state.gameState.miniMapRatio);
-    const ratio = miniMap ? ratioBase : ratioMiniMap;
+    const ratio = useSelector((state: RootState) => state.gameState.scale);
+    const ratioMini = useSelector((state: RootState) => state.gameState.miniMapRatio);
 
     useGalaxyGeneration(1);
 
@@ -37,8 +36,6 @@ const Galaxy: React.FC<GalaxyProps> = ({
 
     if (!windowSize.x || !windowSize.y) return null;
 
-    // const left = -((universeSize * ratio) / 2) + (windowSize.x / 2) - (zoomedPosition.x !== 0 ? zoomedPosition.x : position.x);
-    // const top = -((universeSize * ratio) / 2) + (windowSize.y / 2) - (zoomedPosition.y !== 0 ? zoomedPosition.y : position.y);
     const left = (windowSize.x / 2) - (zoomedPosition.x !== 0 ? zoomedPosition.x : position.x);
     const top = (windowSize.y / 2) - (zoomedPosition.y !== 0 ? zoomedPosition.y : position.y);
 
@@ -50,6 +47,8 @@ const Galaxy: React.FC<GalaxyProps> = ({
             top,
             width: 0,
             height: 0,
+            transform: `scale(${ratio})`,
+            transition: `transform 1s ease` /* 1s transition for scaling */
         },
     }
 

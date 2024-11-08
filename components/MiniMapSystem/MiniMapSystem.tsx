@@ -5,11 +5,10 @@ import { StarSystemType } from '@/utils/types/stellarTypes';
 
 interface MiniMapSystemProps {
   system: StarSystemType;
-  ratio: number;
 }
 
-const MiniMapSystem: React.FC<MiniMapSystemProps> = ({ system, ratio }) => {
-  const { x, y } = useAuCoordinates({ data: { system }, type: 'system', ratio });
+const MiniMapSystem: React.FC<MiniMapSystemProps> = ({ system }) => {
+  const { x, y } = useAuCoordinates({ data: { system }, type: 'system' });
   if (Number.isNaN(x) || Number.isNaN(y)) return null;
 
   return (

@@ -23,7 +23,6 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system, x, y }) =
   const systemSize = useSelector((state: RootState) => state.gameState.galaxySize);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
   const ratioBase = useSelector((state: RootState) => state.gameState.scale);
-  const ratio = ratioBase / 10;
 
   const starSysRef = React.useRef<HTMLDivElement>(null);
 
@@ -31,7 +30,6 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system, x, y }) =
 
   const starSysLeft = `calc(${x}px + 50%)`;
   const starSysTop = `calc(${y}px + 50%)`;
-  const starSysSize = systemSize * ratio;
 
   return (
     <div
@@ -41,13 +39,13 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system, x, y }) =
       style={{
         top: starSysTop,
         left: starSysLeft,
-        width: `${starSysSize}px`,
-        height: `${starSysSize}px`,
+        width: 0,
+        height: 0,
         position: 'absolute',
       }}
     >
       {system.stars.map((star: StarType) => {
-        const { x: starx, y: stary } = useAuCoordinates({ data: { system, star }, type: 'star', ratio });
+        const { x: starx, y: stary } = useAuCoordinates({ data: { system, star }, type: 'star' });
         if (Number.isNaN(starx) || Number.isNaN(stary)) return null;
         return (
           <React.Fragment key={`${star.name}-star-mm`}> {/* Ensure each star has a unique key */}
@@ -63,7 +61,7 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system, x, y }) =
               y={stary}
             />
             {zoom > scales.starSystem && star.planets?.map((planet: PlanetType) => {
-              const { x: planetx, y: planety } = useAuCoordinates({ data: { system, star, planet }, type: 'planet', ratio });
+              const { x: planetx, y: planety } = useAuCoordinates({ data: { system, star, planet }, type: 'planet' });
               if (Number.isNaN(planetx) || Number.isNaN(planety)) return null;
               return (
                 <React.Fragment key={`${planet.name}-planet-mm`}> {/* Ensure each planet has a unique key */}
@@ -80,7 +78,7 @@ const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system, x, y }) =
                     y={planety}
                   />
                   {zoom > scales.star && planet.moons?.map((moon: MoonType) => {
-                    const { x: moonx, y: moony } = useAuCoordinates({ data: { system, star, planet, moon }, type: 'moon', ratio });
+                    const { x: moonx, y: moony } = useAuCoordinates({ data: { system, star, planet, moon }, type: 'moon' });
                     if (Number.isNaN(moonx) || Number.isNaN(moony)) return null;
                     return (
                       <StellarBody

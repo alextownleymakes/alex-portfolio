@@ -3,14 +3,11 @@ import useApproach, { UseApproachProps } from '@/hooks/useApproach';
 import { useSelector } from 'react-redux';
 import { StarVariants, PlanetVariants } from '../../utils/types/stellarTypes';
 import { StarSystemType, StarType, PlanetType, MoonType } from '../../utils/types/stellarTypes';
-
-import { ratios } from '../../utils/functions/zoom';
 import { RootState } from '../../state/store';
 import { StellarDataType, BodyValuesProps, bodyValues } from '@/utils/functions/calculations';
 import BodyData from '../BodyData/BodyData';
 import styles from './StellarBody.module.scss';  // Importing the CSS Module
 import Body from '../Body/Body';
-import useAuCoordinates from '@/hooks/useAuCoordinates';
 import { OrbitTypes } from '@/state/gameStateSlice';
 
 export interface StellarBodyProps {
@@ -33,14 +30,12 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
   const dev = useSelector((state: RootState) => state.keyState.devDisplay.pressed);
   const lowestOrbit = useSelector((state: RootState) => state.gameState.lowestOrbit);
   const ratioBase = useSelector((state: RootState) => state.gameState.scale);
-  const ratio = !miniMap ? ratioBase : ratioBase / 10;
 
   const stellarData: StellarDataType = { system, star, planet, moon };
 
   const bodyValueProps: BodyValuesProps = {
     stellarData,
     miniMap,
-    ratio,
     dev
   }
 

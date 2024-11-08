@@ -9,7 +9,6 @@ import { scales } from '@/utils/functions/zoom';
 interface StarComponentProps {
   system: StarSystemType;
   star: StarType;
-  ratio: number;
   miniMap: boolean;
   o: any;
   zoom: number;
@@ -19,7 +18,6 @@ interface StarComponentProps {
 const StarComponent: React.FC<StarComponentProps> = ({
   system,
   star,
-  ratio,
   miniMap,
   o,
   zoom,
@@ -27,7 +25,7 @@ const StarComponent: React.FC<StarComponentProps> = ({
 }) => {
   if (o.star !== '' && o.star !== system.stars[0].name) return null;
 
-  const { x: starx, y: stary } = useAuCoordinates({data: { system, star }, type: 'star', ratio});
+  const { x: starx, y: stary } = useAuCoordinates({data: { system, star }, type: 'star'});
   if (Number.isNaN(starx) || Number.isNaN(stary)) return null;
 
   return (
@@ -50,7 +48,6 @@ const StarComponent: React.FC<StarComponentProps> = ({
             system={system}
             star={star}
             planet={planet}
-            ratio={ratio}
             miniMap={miniMap}
             o={o}
             zoom={zoom}

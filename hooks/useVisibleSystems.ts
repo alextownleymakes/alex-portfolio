@@ -9,7 +9,6 @@ import useAuCoordinates from './useAuCoordinates';
 export const useVisibleSystems = (systems: StarSystemType[]) => {
 
     const playerState = useSelector((state: RootState) => state.gameState);
-    const ratio = useSelector((state: RootState) => state.gameState.scale);
     const position = playerState.position;
 
     const dispatch = useDispatch();
@@ -17,7 +16,7 @@ export const useVisibleSystems = (systems: StarSystemType[]) => {
     useEffect(() => {
         const visSystems = systems.filter(system => {
 
-            const { x, y } = useAuCoordinates({ data: { system }, type: 'system', ratio });
+            const { x, y } = useAuCoordinates({ data: { system }, type: 'system'});
             
             const distance = Math.sqrt(Math.pow(playerState.position.x - x, 2) + Math.pow(playerState.position.y - y, 2));
             return distance < 3000;
