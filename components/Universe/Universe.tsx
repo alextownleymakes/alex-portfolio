@@ -5,6 +5,7 @@ import { useSelector, useDispatch } from 'react-redux';
 import { RootState } from '@/state/store';
 import { useEffect } from 'react';
 import { useLowestOrbit } from '@/hooks/useLowestOrbit';
+import { useGalaxyGeneration } from '@/hooks/useGalaxyGeneration';
 
 interface UniverseProps {
     children: React.ReactNode,
@@ -16,7 +17,12 @@ const Universe: React.FC<UniverseProps> = ({
     const windowSize = useSelector((state: RootState) => state.gameState.windowSize);
     const universeRef = React.useRef<HTMLDivElement>(null);
     const orbits = useSelector((state: RootState) => state.gameState.orbits);
+    const systems = useSelector((state: RootState) => state.galaxy.systems);
     const dispatch = useDispatch();
+
+    useGalaxyGeneration(5);
+
+    if (!systems) return null;
 
     useLowestOrbit(orbits);
 
@@ -40,7 +46,7 @@ const Universe: React.FC<UniverseProps> = ({
                 height: "100vh",
             }}
         >
-            {(windowSize.x > 0 && windowSize.y > 0) && children}
+            {(windowSize.x > 0 && windowSize.y > 0 && universeRef.current) && children}
         </div>
     );
 }

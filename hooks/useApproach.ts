@@ -35,7 +35,7 @@ const useApproach = ({
     UseApproachReturn => {
 
     const dispatch = useDispatch();
-    const playerPosition = useSelector((state: RootState) => state.gameState.zoomedPosition);
+    const playerPosition = useSelector((state: RootState) => state.gameState.position);
     const zoom = useSelector((state: RootState) => state.gameState.zoom);
     const approachDistance = approachDistances[scale as keyof typeof approachDistances];
     const recedeDistance = recedeDistances[scale as keyof typeof recedeDistances];
@@ -76,20 +76,16 @@ const useApproach = ({
     });
 
     useEffect(() => {
-        // console.log('distance to ', name, ' - ', distance);
-    }, [distance]);
-
-    useEffect(() => {
         if (!miniMap && distance !== 0) {
-            if (distance < 10 && zoomed < 2 
+            if (distance < (100 / (zoomed+1)) && zoomed < 2 
             ) {
                 setZoomed(zoomed+1);
                 zoom === 0 && type && name && dispatch(setOrbit({type, name}));
                 dispatch(zoomIn());
             } else if (distance > 300 && zoomed > 0) {
-                // setZoomed(zoomed-1);
-                // zoom === 1 && type && dispatch(setOrbit({type, name: ''}));
-                // dispatch(zoomOut());
+                setZoomed(zoomed-1);
+                zoom === 1 && type && dispatch(setOrbit({type, name: ''}));
+                dispatch(zoomOut());
             }
         }
     }, [distance]);

@@ -24,17 +24,12 @@ interface StarSystemProps {
 }
 
 const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false, x, y }) => {
-  const playerState = useSelector((state: RootState) => state.gameState);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
   const o = useSelector((state: RootState) => state.gameState.orbits);
-  const dev = useSelector((state: RootState) => state.keyState.devDisplay.pressed);
-
 
   const starSysRef = React.useRef<HTMLDivElement>(null);
 
-  React.useEffect(() => {
-    // console.log('StarSystem.tsx', name, x, y);
-  }, [x, y]);
+  const { name } = system;
 
   const useApproachProps = {
     ref: starSysRef,
@@ -46,21 +41,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false, x, y }
 
   const { distanceToPlayer, activeSystem } = useApproach(useApproachProps);
 
-  const bv = bodyValues({
-    stellarData: { system },
-    miniMap,
-    dev
-  });
-
-  const { name, type } = bv;
-
-
   if (o.system !== '' && o.system !== system.name) return null;
-
-
-  const distance = Math.sqrt(Math.pow(playerState.position.x - x, 2) + Math.pow(playerState.position.y - y, 2));
-
-  // if (distance > 3000) return null;
 
   return (
     <>
@@ -80,7 +61,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false, x, y }
       <GalacticCenter />
       <BodyData
         name={name}
-        type={type}
+        type={'system'}
         x={x}
         y={y}
         left={50}

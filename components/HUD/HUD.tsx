@@ -8,7 +8,7 @@ import HUDPiece, { HUDPieceProps } from "../HUD/HUDPiece";
 const HUD: React.FC = () => {
 
     const hudPieces: HUDPieceProps[] = [
-        // miniMapProps,
+        miniMapProps,
         keyboardProps,
         missionCenterProps,
         devDisplayProps,

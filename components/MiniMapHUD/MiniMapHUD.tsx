@@ -6,6 +6,7 @@ import useAuCoordinates from '@/hooks/useAuCoordinates';
 import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
 import { HUDPieceProps } from '../HUD/HUDPiece';
+import Galaxy from '../Galaxy/Galaxy';
 
 const MiniMapHUD: React.FC= () => {
 
@@ -20,7 +21,7 @@ const MiniMapHUD: React.FC= () => {
 
     return (
         <div className={styles['minimap-body']}>
-            <div
+            {/* <div
                 ref={galaxyRef}
                 id="minimap"
                 style={{
@@ -40,7 +41,8 @@ const MiniMapHUD: React.FC= () => {
                         y={y}
                     />)
                 })}
-            </div>
+            </div> */}
+            <Galaxy mm={true} />
             <Player miniMap={true} />
         </div>
     );

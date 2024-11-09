@@ -21,23 +21,24 @@ function generateStarSystem(id: number): StarSystemType {
     const scatteredDisk = calculateSystemScatteredDisk(stars);
     const distanceFromParent = calculateSystemDistanceFromGalacticCenter();
     const angleFromParent = randomInRange(0, 360);
+    const position = { x: 0, y: 0 }; // Placeholder
 
     return {
         id,
-        name: `Star System ${id}`,
+        name,
         numStars,
         stars,
         // Orbital parameters around the galactic center
-        orbitalPeriod: calculateSystemOrbitalPeriod(),
-        orbitalSpeed: calculateSystemOrbitalSpeed(),
-        gravitationalInfluence: calculateSystemGravitationalInfluence(stars),
-        scatteredDisk: calculateSystemScatteredDisk(stars),
+        orbitalPeriod,
+        orbitalSpeed,
+        gravitationalInfluence,
+        scatteredDisk,
         scale: 1,
         approachDistance: 0, // Not applicable for the system as a whole
         radius: 200,           // Can be calculated if needed
-        distanceFromParent: calculateSystemDistanceFromGalacticCenter(),
-        angleFromParent: randomInRange(0, 360),
-        position: { x: 0, y: 0 }, // Placeholder
+        distanceFromParent,
+        angleFromParent,
+        position, // Placeholder
     };
 }
 
@@ -51,14 +52,10 @@ function determineNumberOfStars(): number {
 
 function positionStarsInSystem(stars: StarType[]) {
     for (let i = 0; i < stars.length; i++) {
-
         stars[i].distanceFromParent = randomInRange(10, 100); // AU
-
         stars[i].angleFromParent = randomInRange(((360/stars.length) * i), ((360 / stars.length) * (i+1))); // Degrees
     }
-    // Add more configurations for systems with 3+ stars if needed
 }
-// Add more configurations for systems with 3+ stars if needed
 
 
 function generateStar(id: number): StarType {
@@ -577,7 +574,7 @@ function calculateSystemScatteredDisk(stars: StarType[]): AU {
 
 function calculateSystemDistanceFromGalacticCenter(): AU {
     // Example: distance in AU from galactic center (customize as needed)
-    return randomInRange(0, 100); // within the galaxy's habitable zone
+    return randomInRange(0, 10); // within the galaxy's habitable zone
 }
 
 function calculatePlanetRadius(mass: number, variant: PlanetVariants): number {
