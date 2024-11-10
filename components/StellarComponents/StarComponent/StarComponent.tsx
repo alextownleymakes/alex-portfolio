@@ -9,7 +9,7 @@ import { scales } from '@/utils/functions/zoom';
 interface StarComponentProps {
   system: StarSystemType;
   star: StarType;
-  miniMap: boolean;
+  mm: boolean;
   o: any;
   zoom: number;
   activeSystem: boolean;
@@ -18,7 +18,7 @@ interface StarComponentProps {
 const StarComponent: React.FC<StarComponentProps> = ({
   system,
   star,
-  miniMap,
+  mm,
   o,
   zoom,
   activeSystem,
@@ -30,14 +30,13 @@ const StarComponent: React.FC<StarComponentProps> = ({
       <StellarBody
         star={star}
         system={system}
-        miniMap={miniMap}
+        mm={mm}
         type={'star'}
-        scale={scales.starSystem}
         variant={star.variant}
         x={star.position.x}
         y={star.position.y}
       />
-      {zoom > scales.galaxy &&
+      {zoom > 0 &&
         activeSystem &&
         star.planets?.map((planet: PlanetType) => (
           <PlanetComponent
@@ -45,7 +44,7 @@ const StarComponent: React.FC<StarComponentProps> = ({
             system={system}
             star={star}
             planet={planet}
-            miniMap={miniMap}
+            mm={mm}
             o={o}
             zoom={zoom}
           />

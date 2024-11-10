@@ -12,7 +12,7 @@ export interface UseApproachProps {
     ref: React.RefObject<HTMLElement>;
     coords: Coords;
     scale: number;
-    miniMap?: boolean;
+    mm?: boolean;
     name: string;
     type: OrbitTypes;
 }
@@ -28,7 +28,7 @@ const useApproach = ({
     ref,
     coords,
     scale,
-    miniMap = false,
+    mm = false,
     name,
     type
 }: UseApproachProps):
@@ -76,7 +76,7 @@ const useApproach = ({
     });
 
     useEffect(() => {
-        if (!miniMap && distance !== 0) {
+        if (!mm && distance !== 0) {
             if (distance < (100 / (zoomed+1)) && zoomed < 2 
             ) {
                 setZoomed(zoomed+1);

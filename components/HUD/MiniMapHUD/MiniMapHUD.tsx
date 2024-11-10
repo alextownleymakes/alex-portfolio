@@ -1,12 +1,10 @@
 import React from 'react';
-import MiniMapStarSystem from "../MiniMapStarSystem/MiniMapStarSystem";
-import Player from "../Player/Player";
+import Player from "../../Player/Player";
 import styles from './Minimap.module.scss';
-import useAuCoordinates from '@/hooks/useAuCoordinates';
 import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
-import { HUDPieceProps } from '../HUD/HUDPiece';
-import Galaxy from '../Galaxy/Galaxy';
+import { HUDPieceProps } from '../HUDPiece';
+import Galaxy from '../../Galaxy/Galaxy';
 
 const MiniMapHUD: React.FC= () => {
 
@@ -53,9 +51,12 @@ export const miniMapProps: HUDPieceProps = {
     position: 'right',
     styles: {
         bottom: '1%',
-        margin: '0 auto',
+        margin: '0 auto 0 -15px',
         height: '280px',
-        width: '18%',
+        minWidth: '19%',
+        paddingTop: '15px',
+        paddingRight: '15px',
+        paddingLeft: '30px',
     },
     className: 'hud',
     children: <MiniMapHUD/>

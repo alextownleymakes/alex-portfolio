@@ -1,16 +1,14 @@
 // PlanetComponent.tsx
 import React from 'react';
-import useAuCoordinates from '@/hooks/useAuCoordinates';
 import StellarBody from '../StellarBody/StellarBody';
 import MoonComponent from '../MoonComponent/MoonComponent';
 import { StarSystemType, StarType, PlanetType, MoonType } from '@/utils/types/stellarTypes';
-import { scales } from '@/utils/functions/zoom';
 
 interface PlanetComponentProps {
   system: StarSystemType;
   star: StarType;
   planet: PlanetType;
-  miniMap: boolean;
+  mm: boolean;
   o: any;
   zoom: number;
 }
@@ -19,7 +17,7 @@ const PlanetComponent: React.FC<PlanetComponentProps> = ({
   system,
   star,
   planet,
-  miniMap,
+  mm,
   o,
   zoom,
 }) => {
@@ -30,14 +28,13 @@ const PlanetComponent: React.FC<PlanetComponentProps> = ({
         planet={planet}
         star={star}
         system={system}
-        miniMap={miniMap}
+        mm={mm}
         type={'planet'}
-        scale={scales.star}
         variant={planet.variant}
         x={planet.position.x}
         y={planet.position.y}
       />
-      {zoom > scales.starSystem &&
+      {zoom > 2 &&
         planet.moons?.map((moon: MoonType) => (
           <MoonComponent
             key={moon.name}
@@ -45,7 +42,7 @@ const PlanetComponent: React.FC<PlanetComponentProps> = ({
             star={star}
             planet={planet}
             moon={moon}
-            miniMap={miniMap}
+            mm={mm}
             o={o}
           />
         ))}

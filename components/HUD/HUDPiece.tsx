@@ -1,5 +1,5 @@
 import React from 'react';
-import Drawer, { DrawerProps } from '../Drawer/Drawer';
+import Drawer, { DrawerProps } from '../common/Drawer/Drawer';
 
 export interface HUDPieceProps extends DrawerProps {
     className?: 'hud';

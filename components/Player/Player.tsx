@@ -13,10 +13,11 @@ const Player: FC<PlayerProps> = ({ miniMap = false }) => {
 
   const innerStyle = `${miniMap ? 'mm-' : ''}inner-triangle`;
   const outerStyle = `${miniMap ? 'mm-' : ''}outer-triangle`;
+  const shipStyle = `${miniMap ? 'mm-' : ''}ship`;
 
   return (
     <div
-      className={styles.ship}
+      className={styles[shipStyle]}
       style={{ position: 'absolute', transform: `translate(-50%, -50%) rotate(${(rotation - 90)}deg)` }}
     >
           <div className={styles[outerStyle]}>

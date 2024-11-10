@@ -1,7 +1,7 @@
-import { devDisplayProps } from "../DevDisplayHUD/DevDisplayHUD";
-import { keyboardProps } from "../KeyboardHUD/KeyboardHUD";
-import { miniMapProps } from "../MiniMapHUD/MiniMapHUD";
-import { missionCenterProps } from "../MissionCenterHUD/MissionCenterHUD";
+import { devDisplayProps } from "./DevDisplayHUD/DevDisplayHUD";
+import { keyboardProps } from "./KeyboardHUD/KeyboardHUD";
+import { miniMapProps } from "./MiniMapHUD/MiniMapHUD";
+import { missionCenterProps } from "./MissionCenterHUD/MissionCenterHUD";
 import HUDPiece, { HUDPieceProps } from "../HUD/HUDPiece";
 
 

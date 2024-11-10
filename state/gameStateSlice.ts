@@ -56,7 +56,7 @@ export interface GameState {
 const initialState: GameState = {
     zoom: 0,
     scale: Math.pow(10, -2),
-    miniMapRatio: scale(1) / 10,
+    miniMapRatio: Math.pow(10, -3),
     position: { x: 0, y: 0 },
     windowSize: { x: 0, y: 0 },
     universeSize: 1000000,
@@ -93,7 +93,6 @@ const gameStateSlice = createSlice({
         zoomIn: (state) => {
             state.zoom = state.zoom + 1;
             state.scale = Math.pow(10, state.zoom);
-            state.miniMapRatio = state.scale / 10;
             state.zoomedPosition = {
                 x: state.position.x * state.scale,
                 y: state.position.y * state.scale,
@@ -103,7 +102,6 @@ const gameStateSlice = createSlice({
             if (state.zoom !== 0) {
                 state.zoom = state.zoom - 1;
                 state.scale = Math.pow(10, state.zoom);
-                state.miniMapRatio = state.scale / 10;
                 state.zoomedPosition = {
                     x: state.position.x * state.scale,
                     y: state.position.y * state.scale,

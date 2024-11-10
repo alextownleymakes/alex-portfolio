@@ -1,13 +1,13 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../state/store';
+import { RootState } from '../../../state/store';
 
 interface BodyDataProps {
     name: string;
     type: string;
     x: number;
     y: number;
-    miniMap: boolean;
+    mm: boolean;
     distance: number;
     left: number | string;
     top: number | string;
@@ -20,13 +20,13 @@ const BodyData: React.FC<BodyDataProps> = ({
     y,
     left = 'calc(100% + 5px)',
     top = 'calc(50% - 1.5rem)',
-    miniMap = false,
+    mm = false,
     distance
 }) => {
 
     const dev = useSelector((state: RootState) => state.keyState.devDisplay.pressed);
 
-    return !miniMap && (
+    return !mm && (
         <div
             style={{
                 position: 'absolute',

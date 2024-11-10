@@ -1,29 +1,26 @@
 // StarSystem.tsx
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { scales } from '../../utils/functions/zoom';
-import { RootState } from '../../state/store';
-import useApproach from '@/hooks/useApproach';
-import StellarBody from '../StellarBody/StellarBody';
-import { bodyValues } from '@/utils/functions/calculations';
-import BodyData from '../BodyData/BodyData';
+import { RootState } from '@/state/store';
 import { orbits } from '@/state/gameStateSlice';
-import useAuCoordinates from '@/hooks/useAuCoordinates';
-import { StarSystemType, StarType, PlanetType, MoonType } from '@/utils/types/stellarTypes';
-import GalacticCenter from '../GalacticCenter/GalacticCenter';
-import StarComponent from '../StarComponent/StarComponent';
+import useApproach from '@/hooks/useApproach';
+import { scales } from '@/utils/functions/zoom';
+import { StarSystemType, StarType} from '@/utils/types/stellarTypes';
+import BodyData from '@/components/StellarComponents/BodyData/BodyData';
+import GalacticCenter from '@/components/GalacticCenter/GalacticCenter';
+import StarComponent from '@/components/StellarComponents/StarComponent/StarComponent';
 
 
-interface StarSystemProps {
+interface SystemProps {
   system: StarSystemType;
   // key: string;
   onFlyNearStar?: (starId: number) => void; // Callback when flying near a star
-  miniMap?: boolean; // Whether the star system is in the mini map
+  mm?: boolean; // Whether the star system is in the mini map
   x: number;
   y: number;
 }
 
-const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false, x, y }) => {
+const System: React.FC<SystemProps> = ({ system, mm = false, x, y }) => {
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
   const o = useSelector((state: RootState) => state.gameState.orbits);
 
@@ -66,7 +63,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false, x, y }
         y={y}
         left={50}
         top={0}
-        miniMap={miniMap}
+        mm={mm}
         distance={distanceToPlayer()}
       />
       
@@ -76,7 +73,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false, x, y }
         key={star.name}
         system={system}
         star={star}
-        miniMap={miniMap}
+        mm={mm}
         o={o}
         zoom={zoom}
         activeSystem={activeSystem}
@@ -86,4 +83,4 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false, x, y }
   );
 };
 
-export default StarSystem;
+export default System;

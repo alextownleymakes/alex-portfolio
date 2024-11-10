@@ -9,10 +9,8 @@
     border-radius: 50%;
     background-color: #101d02;
     // border: 1px solid #44ab10;
-    overflow: hidden;
+    overflow: visible;
     height: 250px;
     width: 250px;
-    margin: 15px auto 15px -15px;
-    contain: content;
-    content: '';
+    margin: 0;
 }

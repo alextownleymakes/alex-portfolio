@@ -1,9 +1,9 @@
 import React from 'react';
 import useApproach, { UseApproachProps } from '@/hooks/useApproach';
 import { useSelector } from 'react-redux';
-import { StarVariants, PlanetVariants } from '../../utils/types/stellarTypes';
-import { StarSystemType, StarType, PlanetType, MoonType } from '../../utils/types/stellarTypes';
-import { RootState } from '../../state/store';
+import { StarVariants, PlanetVariants } from '../../../utils/types/stellarTypes';
+import { StarSystemType, StarType, PlanetType, MoonType } from '../../../utils/types/stellarTypes';
+import { RootState } from '../../../state/store';
 import { StellarDataType, BodyValuesProps, bodyValues } from '@/utils/functions/calculations';
 import BodyData from '../BodyData/BodyData';
 import styles from './StellarBody.module.scss';  // Importing the CSS Module
@@ -15,26 +15,27 @@ export interface StellarBodyProps {
   planet?: PlanetType;
   star?: StarType;
   moon?: MoonType;
-  miniMap?: boolean; // Whether the star is in the mini map
-  scale: number;
+  mm?: boolean; // Whether the star is in the mini map
   type: OrbitTypes;
   variant: PlanetVariants | StarVariants | 'moon';
   x: number;
   y: number;
 }
 
-const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, type, scale, variant, miniMap = false, x, y }) => {
+const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, type, variant, mm = false, x, y }) => {
 
   const ref = React.useRef<HTMLDivElement>(null);
   const dev = useSelector((state: RootState) => state.keyState.devDisplay.pressed);
   const lowestOrbit = useSelector((state: RootState) => state.gameState.lowestOrbit);
+  const scale = useSelector((state: RootState) => state.gameState.zoom);
 
   const stellarData: StellarDataType = { system, star, planet, moon };
 
   const bodyValueProps: BodyValuesProps = {
     stellarData,
-    miniMap,
-    dev
+    mm,
+    dev,
+    scale
   }
 
   const bv = bodyValues(bodyValueProps);
@@ -44,7 +45,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
     ref,
     coords: {x, y},
     scale,
-    miniMap,
+    mm,
     type,
     name
   }
@@ -81,7 +82,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
           // transition: 'all .1s ease-in-out',
         }}
         className={`${variantClass} ${bodyClass} ${waterClass} ${lowestOrbit.name === name && orbitedClass}`}
-      >{!miniMap &&
+      >{!mm &&
       <Body type={type}
         style={{
           height: '100%',
@@ -98,7 +99,7 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
         y={y}
         left={`calc(${width} + 10px)`}
         top={`calc(${height} / 2)`}
-        miniMap={miniMap}
+        mm={mm}
         distance={distanceToPlayer()}
       />
     </div>

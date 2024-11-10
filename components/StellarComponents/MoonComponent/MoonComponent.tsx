@@ -1,6 +1,5 @@
 // MoonComponent.tsx
 import React from 'react';
-import useAuCoordinates from '@/hooks/useAuCoordinates';
 import StellarBody from '../StellarBody/StellarBody';
 import { StarSystemType, StarType, PlanetType, MoonType } from '@/utils/types/stellarTypes';
 import { scales } from '@/utils/functions/zoom';
@@ -10,7 +9,7 @@ interface MoonComponentProps {
   star: StarType;
   planet: PlanetType;
   moon: MoonType;
-  miniMap: boolean;
+  mm: boolean;
   o: any;
 }
 
@@ -19,7 +18,7 @@ const MoonComponent: React.FC<MoonComponentProps> = ({
   star,
   planet,
   moon,
-  miniMap,
+  mm,
   o,
 }) => {
   if (o.moon !== '' && o.moon !== moon.name) return null;
@@ -30,9 +29,8 @@ const MoonComponent: React.FC<MoonComponentProps> = ({
       planet={planet}
       star={star}
       system={system}
-      miniMap={miniMap}
+      mm={mm}
       type={'moon'}
-      scale={scales.planet}
       variant="moon"
       x={moon.position.x}
       y={moon.position.y}

@@ -1,7 +1,7 @@
 import React from 'react';
 import Drawer from '../Drawer/Drawer';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../state/store';
+import { RootState } from '../../../state/store';
 
 const FlightDataHUD: React.FC = () => {
 

@@ -1,6 +1,6 @@
 import React from 'react';
 import styles from './Body.module.scss';
-import { StarVariants, PlanetVariants } from '../../utils/types/stellarTypes';
+import { StarVariants, PlanetVariants } from '../../../utils/types/stellarTypes';
 import { OrbitTypes } from '@/state/gameStateSlice';
 
 interface BodyProps {

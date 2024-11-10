@@ -33,7 +33,8 @@ export interface BodyValuesType {
 export interface BodyValuesProps {
     stellarData: StellarDataType;
     dev?: boolean;
-    miniMap?: boolean;
+    mm?: boolean;
+    scale: number;
 }
 
 
@@ -64,12 +65,12 @@ interface UseAuCoordinatesProps {
 
 export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
 
-    const { stellarData, miniMap } = data;
+    const { stellarData, mm, scale } = data;
 
-    const formulateSize = (stellarData: StellarDataType): number => {
+    const formulateSize = (stellarData: StellarDataType, ratio: number): number => {
         const solarRadiiInAu = 0.00465047;
         const { star, planet, moon } = stellarData;
-        const width = (moon ? moon.radius : planet ? planet.radius : star ? star.radius : 0) * (solarRadiiInAu * 20000);
+        const width = (moon ? moon.radius : planet ? planet.radius : star ? star.radius : 0) * (solarRadiiInAu * 200000);
         return width;
     }
 
@@ -81,12 +82,12 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
 
     const formulateBackgroundColor = (stellarData: StellarDataType): string => {
         const color = formulateColor(stellarData);
-        return miniMap ? 'transparent' : color;
+        return mm ? 'transparent' : color;
     }
 
     const formulateBorder = (stellarData: StellarDataType): string => {
         const color = formulateColor(stellarData);
-        return miniMap ? `2px solid ${color}` : 'none';
+        return mm ? `2px solid ${color}` : 'none';
     }
 
     const formulateName = (stellarData: StellarDataType): string => {
@@ -102,16 +103,16 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
     const formulateKey = (stellarData: StellarDataType): string => {
         const name = formulateName(stellarData);
         const type = formulateType(stellarData);
-        const mm = miniMap ? '-mm' : '';
-        const key = `${name}-${type}${mm}`;
+        const mM = mm ? '-mm' : '';
+        const key = `${name}-${type}${mM}`;
         return key;
     }
 
     const bodyValues: BodyValuesType = {
         name: formulateName(stellarData),
         key: formulateKey(stellarData),
-        width: formulateSize(stellarData),
-        height: formulateSize(stellarData),
+        width: formulateSize(stellarData, scale),
+        height: formulateSize(stellarData, scale),
         backgroundColor: formulateBackgroundColor(stellarData),
         border: formulateBorder(stellarData),
         type: formulateType(stellarData),
