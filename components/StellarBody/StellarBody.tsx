@@ -1,7 +1,7 @@
 import React from 'react';
 import useApproach, { UseApproachProps } from '@/hooks/useApproach';
 import { useSelector } from 'react-redux';
-import { StarSystem as StarSystemType, Star as StarType, Planet as PlanetType, Moon as MoonType, StellarBodyType, StarVariantType, PlanetVariantType } from '../../utils/types/stellarBodies';
+import { StarSystem as StarSystemType, Star as StarType, Planet as PlanetType, Moon as MoonType, StarVariantType, PlanetVariantType } from '../../utils/types/stellarBodies';
 import { ratios } from '../../utils/functions/zoom';
 import { RootState } from '../../state/store';
 import { StellarDataType, BodyValuesProps, bodyValues } from '@/utils/functions/calculations';

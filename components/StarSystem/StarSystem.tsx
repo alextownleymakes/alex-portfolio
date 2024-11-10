@@ -47,7 +47,7 @@ const StarSystem: React.FC<StarSystemProps> = ({ system, miniMap = false }) => {
 
   const { name, type } = bv;
 
-  const { x, y, aX, aY} = useAuCoordinates({system, star: undefined, planet: undefined, moon: undefined}, orbits.system, ratio);
+  const { x, y } = useAuCoordinates({system, star: undefined, planet: undefined, moon: undefined}, orbits.system, ratio);
 
   if (o.system !== '' && o.system !== system.name) return null;
 

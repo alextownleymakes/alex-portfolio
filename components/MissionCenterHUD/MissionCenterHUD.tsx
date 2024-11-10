@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../state/store';
-import { PlayerMission, missionStart, PlayerMissionStage, Target } from '@/state/playerSlice';
+import { PlayerMission, missionStart, PlayerMissionStage } from '@/state/playerSlice';
 import { useDispatch } from 'react-redux';
 import { open, close } from '@/state/drawersStateSlice';
 import styles from './MissionCenter.module.scss';
@@ -19,8 +19,8 @@ const MissionCenterBody: React.FC = () => {
   const currentMission = useSelector((state: RootState) => state.player.currentMission);
   const [mission, setMission] = React.useState<PlayerMission | null>(null);
   const [stage, setStage] = React.useState<PlayerMissionStage | null>(null);
-  const [target, setTarget] = React.useState<Target | null>(null);
-  const [originBody, setOriginBody] = React.useState<any>(null);
+  // const [ setTarget] = React.useState<Target | null>(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [targetBody, setTargetBody] = React.useState<any>(null);
 
   const handleMissionAppear = (msn: PlayerMission) => {
@@ -30,7 +30,7 @@ const MissionCenterBody: React.FC = () => {
     if (name && type) {
       setMission(msn)
       setStage(msn.stage[0]);
-      setTarget(msn.stage[0].target);
+      // setTarget(msn.stage[0].target);
       setTargetBody(findBody(systems, name, type));
     }
   }
@@ -100,7 +100,7 @@ const MissionCenterBody: React.FC = () => {
               <Grid size={12}>
                 <Grid container>
                   <strong>REWARD:</strong>
-                  {mission?.reward.map(r => <Grid size={12}>{r.amount} {r.type} {r.description}</Grid>)}
+                  {mission?.reward.map(r => <Grid key={r.description} size={12}>{r.amount} {r.type} {r.description}</Grid>)}
                 </Grid>
               </Grid>
             </Grid>

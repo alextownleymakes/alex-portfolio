@@ -4,13 +4,8 @@ import { useSelector } from 'react-redux';
 import { StarSystem as StarSystemType } from '../../utils/types/stellarBodies';
 import { ratios, scales } from '../../utils/functions/zoom';
 import { RootState } from '../../state/store';
-import useApproach from '@/hooks/useApproach';
 import StellarBody from '../StellarBody/StellarBody';
-import { bodyValues } from '@/utils/functions/calculations';
-import BodyData from '../BodyData/BodyData';
-import { Star, Planet, Moon, StarVariantType, } from '@/utils/types/stellarBodies';
-import { orbits } from '@/state/gameStateSlice';
-import useAuCoordinates from '@/hooks/useAuCoordinates';
+import { Star, Planet, Moon } from '@/utils/types/stellarBodies';
 
 
 
@@ -22,7 +17,6 @@ interface MiniMapStarSystemProps {
 
 const MiniMapStarSystem: React.FC<MiniMapStarSystemProps> = ({ system }) => {
   const systemSize = useSelector((state: RootState) => state.gameState.galaxySize);
-  const o = useSelector((state: RootState) => state.gameState.orbits);
   const zoom = useSelector((state: RootState) => state.gameState.zoom);
   const ratio = ratios[zoom] / 10;
 
