@@ -1,9 +1,9 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { StellarBodyType, StarSystem as SystemType } from '../utils/types/stellarBodies';
+import { BodyTypesType } from '@/components/StellarComponents/BodyComponent/BodyComponent';
 
 export interface Target {
     name: string | undefined;
-    type: StellarBodyType | undefined;
+    type: BodyTypesType | undefined;
 }
 
 export interface PlayerMissionReward {

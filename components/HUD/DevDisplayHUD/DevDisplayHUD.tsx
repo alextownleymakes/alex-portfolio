@@ -3,9 +3,9 @@ import Box from '@mui/material/Box';
 import Grid from '@mui/material/Grid2';
 import React from 'react';
 import { useSelector } from "react-redux";
-import Body from '../Body/Body';
-import { HUDPieceProps } from "../HUD/HUDPiece";
-import { findBody } from '../../utils/functions/calculations';
+import Body from '../../StellarComponents/Body/Body';
+import { HUDPieceProps } from "../HUDPiece";
+import { findBody } from '@/utils/functions/calculations';
 import { PlayerMission } from "@/state/playerSlice";
 
 const DevDisplayHUD: React.FC = () => {

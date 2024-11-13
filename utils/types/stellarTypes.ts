@@ -53,6 +53,8 @@ export type SolDays = number;
 export interface StellarType {
     id: number;
     name: string;
+    type: 'system' | 'star' | 'planet' | 'moon' | 'asteroid' | 'comet';
+
     orbitalPeriod: SolDays;
     orbitalSpeed: KM;
     gravitationalInfluence: AU;
@@ -66,6 +68,8 @@ export interface StellarType {
         x: number;
         y: number;
     };
+    children: StarType[] | PlanetType[] | MoonType[] | AsteroidType[] | CometType[];
+    numChildren: number;
 }
 
 export interface StellarBodyType extends StellarType {
@@ -77,6 +81,8 @@ export interface StellarBodyType extends StellarType {
     axialTilt: number;
     age: number;
     color?: string;
+    variant: MoonVariants | PlanetVariants | StarVariants | 'asteroid' | 'comet';
+    composition: MoonComposition | PlanetComposition | StarComposition;
 }
 
 export interface MoonType extends StellarBodyType {
@@ -124,11 +130,6 @@ export interface StarType extends StellarBodyType {
     composition: StarComposition;
     luminosity: number;
     temperature?: number;
-}
-
-export interface StarSystemType extends StellarType {
-    stars: StarType[];
-    numStars: number;
 }
 
 export const stellarRanges = {

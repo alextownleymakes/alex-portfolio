@@ -15,10 +15,11 @@ export interface UseApproachProps {
     mm?: boolean;
     name: string;
     type: OrbitTypes;
+    approach: number;
+    recede: number;
 }
 
 export interface UseApproachReturn {
-    approachDistance: number;
     distanceToPlayer: () => number;
     systemCenter: Coords;
     activeSystem: boolean;
@@ -30,18 +31,18 @@ const useApproach = ({
     scale,
     mm = false,
     name,
-    type
+    type,
+    approach,
+    recede,
 }: UseApproachProps):
     UseApproachReturn => {
 
     const dispatch = useDispatch();
     const playerPosition = useSelector((state: RootState) => state.gameState.position);
     const zoom = useSelector((state: RootState) => state.gameState.zoom);
-    const approachDistance = approachDistances[scale as keyof typeof approachDistances];
-    const recedeDistance = recedeDistances[scale as keyof typeof recedeDistances];
 
     const [distance, setDistance] = useState(0);
-    const [zoomed, setZoomed] = useState(0);
+    const [zoomed, setZoomed] = useState(true);
     const [systemCenter, setSystemCenter] = useState({
         x: ref.current ? coords.x : 0,
         y: ref.current ? coords.y : 0,
@@ -75,21 +76,37 @@ const useApproach = ({
         cy: coords.y,
     });
 
+    const evalZoomed = () => {
+        if (zoom > scale + 1) setZoomed(true);
+        if (zoom > scale - 1) setZoomed(false);
+    }
+
     useEffect(() => {
-        if (!mm && distance !== 0) {
-            if (distance < (100 / (zoomed+1)) && zoomed < 2 
+        if (!mm) {
+            console.log('distance', distance);
+            if (
+                   (systemCenter.x !== 0 && systemCenter.y !== 0) 
+                && (distance < approach) 
+                && !zoomed 
+                && (zoom >= scale - 1 && zoom <= scale + 1)
             ) {
-                setZoomed(zoomed+1);
-                zoom === 0 && type && name && dispatch(setOrbit({type, name}));
+                evalZoomed();
+                const payload = setOrbit({type, name});
+                dispatch(payload);
                 dispatch(zoomIn());
-            } else if (distance > 300 && zoomed > 0) {
-                setZoomed(zoomed-1);
-                zoom === 1 && type && dispatch(setOrbit({type, name: ''}));
+            } else if (
+                   (systemCenter.x !== 0 && systemCenter.y !== 0) 
+                && (distance > recede)
+                && (zoomed && zoom === scale)
+            ) {
+                evalZoomed();
+                const payload = setOrbit({type, name: ''});
+                dispatch(payload);
                 dispatch(zoomOut());
             }
         }
     }, [distance]);
-    return { approachDistance, distanceToPlayer, systemCenter, activeSystem: zoomed > 0};
+    return {distanceToPlayer, systemCenter, activeSystem: (zoom >= scale - 1 && zoom <= scale + 1)};
 
 };
 

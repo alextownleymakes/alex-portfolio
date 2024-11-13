@@ -1,12 +1,12 @@
 import React from 'react';
 import styles from './Body.module.scss';
-import { StarVariants, PlanetVariants } from '../../../utils/types/stellarTypes';
+import { StarVariants, PlanetVariants, MoonVariants } from '../../../utils/types/stellarTypes';
 import { OrbitTypes } from '@/state/gameStateSlice';
 
 interface BodyProps {
     type: OrbitTypes;
     style?: React.CSSProperties;
-    variant: StarVariants | PlanetVariants | 'moon';
+    variant: StarVariants | PlanetVariants | MoonVariants | 'moon' | 'comet' | 'asteroid' | 'asteroidBelt';
 }
 
 const Body: React.FC<BodyProps> = ({ type, style, variant }) => {

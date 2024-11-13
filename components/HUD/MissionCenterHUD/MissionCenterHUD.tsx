@@ -1,14 +1,14 @@
 import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../state/store';
+import { RootState } from '@/state/store';
 import { PlayerMission, missionStart, PlayerMissionStage, Target } from '@/state/playerSlice';
 import { useDispatch } from 'react-redux';
 import { open, close } from '@/state/drawersStateSlice';
 import styles from './MissionCenter.module.scss';
-import { HUDPieceProps } from '../HUD/HUDPiece';
+import { HUDPieceProps } from '../HUDPiece';
 import Grid from '@mui/material/Grid2';
-import Body from '../Body/Body';
-import { findBody } from '../../utils/functions/calculations';
+import Body from '../../StellarComponents/Body/Body';
+import { findBody } from '@/utils/functions/calculations';
 
 const MissionCenterBody: React.FC = () => {
 

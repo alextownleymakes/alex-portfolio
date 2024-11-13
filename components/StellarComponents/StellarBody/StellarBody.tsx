@@ -1,45 +1,44 @@
 import React from 'react';
 import useApproach, { UseApproachProps } from '@/hooks/useApproach';
 import { useSelector } from 'react-redux';
-import { StarVariants, PlanetVariants } from '../../../utils/types/stellarTypes';
-import { StarSystemType, StarType, PlanetType, MoonType } from '../../../utils/types/stellarTypes';
+import { StarVariants, PlanetVariants, MoonVariants } from '../../../utils/types/stellarTypes';
 import { RootState } from '../../../state/store';
-import { StellarDataType, BodyValuesProps, bodyValues } from '@/utils/functions/calculations';
 import BodyData from '../BodyData/BodyData';
 import styles from './StellarBody.module.scss';  // Importing the CSS Module
 import Body from '../Body/Body';
 import { OrbitTypes } from '@/state/gameStateSlice';
+import { StellarType, StellarBodyType } from '@/utils/types/stellarTypes';
 
 export interface StellarBodyProps {
-  system?: StarSystemType;
-  planet?: PlanetType;
-  star?: StarType;
-  moon?: MoonType;
+  system: StellarType;
+  body: StellarBodyType;
   mm?: boolean; // Whether the star is in the mini map
   type: OrbitTypes;
-  variant: PlanetVariants | StarVariants | 'moon';
+  variant: PlanetVariants | StarVariants | MoonVariants | 'moon' | 'comet' | 'asteroid' | 'asteroidBelt';
   x: number;
   y: number;
 }
 
-const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, type, variant, mm = false, x, y }) => {
+const systemChildren = {
+  system: 'star',
+  star: 'planet',
+  planet: 'moon',
+}
+
+const StellarBody: React.FC<StellarBodyProps> = ({ system, body, type, variant, mm = false, x, y }) => {
 
   const ref = React.useRef<HTMLDivElement>(null);
   const dev = useSelector((state: RootState) => state.keyState.devDisplay.pressed);
   const lowestOrbit = useSelector((state: RootState) => state.gameState.lowestOrbit);
   const scale = useSelector((state: RootState) => state.gameState.zoom);
 
-  const stellarData: StellarDataType = { system, star, planet, moon };
-
-  const bodyValueProps: BodyValuesProps = {
-    stellarData,
-    mm,
-    dev,
-    scale
-  }
-
-  const bv = bodyValues(bodyValueProps);
-  const { width, height, backgroundColor, border, name, key } = bv;
+  const width = body?.radius * 2;
+  const height = body?.radius * 2;
+  const backgroundColor = 'color' in body ? body.color : 'transparent';
+  const name = body?.name;
+  const border = mm ? `2px solid ${backgroundColor}` : 'none'
+  const key = name + '-' + type;
+  
   
   const useApproachProps: UseApproachProps = {
     ref,
@@ -47,7 +46,9 @@ const StellarBody: React.FC<StellarBodyProps> = ({ system, star, planet, moon, t
     scale,
     mm,
     type,
-    name
+    name,
+    approach: width + 100,
+    recede: width * 100,
   }
 
   const { distanceToPlayer } = useApproach(useApproachProps);

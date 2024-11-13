@@ -1,5 +1,5 @@
 import React from 'react';
-import DisplayContainer from '../common/DisplayContainer/DisplayContainer';
+import DisplayContainer from '../DisplayContainer/DisplayContainer';
 import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
 import { DrawerList } from '@/state/drawersStateSlice';

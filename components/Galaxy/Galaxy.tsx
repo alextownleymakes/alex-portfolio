@@ -3,11 +3,11 @@
 import React from 'react';
 import { RootState } from '@/state/store';
 import { useSelector } from 'react-redux';
-import SystemComponent from '../SystemComponent/SystemComponent';
+import SystemComponent from '../StellarComponents/SystemComponent/SystemComponent';
 import { useCursor } from '@/hooks/useCursor';
 import DisplayContainer from '../common/DisplayContainer/DisplayContainer';
-import { StarSystemType } from '@/utils/types/stellarTypes';
 import GalacticCenter from '../GalacticCenter/GalacticCenter';
+import { StellarBodyType } from '@/utils/types/stellarTypes';
 
 interface GalaxyProps {
     mm?: boolean;
@@ -41,8 +41,8 @@ const Galaxy: React.FC<GalaxyProps> = ({
         id: 'galaxy',
         style: {
             position: 'absolute',
-            left: ((-(universeSize / 2)) + (!mm && windowSize.x/2 || 125) - (position.x * (mm ? scaleMini : 1))),
-            top: ((-(universeSize / 2)) + (!mm && windowSize.y/2 || 125) - (position.y * (mm ? scaleMini : 1))),
+            left: ((-((universeSize * scale) / 2)) + (!mm && windowSize.x/2 || 125) - (position.x * (mm ? scaleMini : 1))),
+            top: ((-((universeSize * scale) / 2)) + (!mm && windowSize.y/2 || 125) - (position.y * (mm ? scaleMini : 1))),
             width: universeSize * scale,
             height: universeSize * scale,
             border: '1px solid red',
@@ -54,7 +54,7 @@ const Galaxy: React.FC<GalaxyProps> = ({
         <>
             <div ref={galaxyRef} {...galaxyProps} >
                 <GalacticCenter />
-                {systems?.map((system: StarSystemType) => (
+                {systems?.map((system: StellarBodyType) => (
                     <SystemComponent key={system.name} system={system} mm={mm} />
                 ))}
             </div>

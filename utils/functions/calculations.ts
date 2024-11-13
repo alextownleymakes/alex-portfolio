@@ -1,9 +1,9 @@
-import { StarSystemType, StarType, PlanetType, MoonType } from '../types/stellarTypes';
-
-export type BodyTypes = 'starSystem' | 'star' | 'planetSystem' | 'planet' | 'moonSystem' | 'moon' | 'asteroidSytem' | 'asteroid';
+import { StarType, PlanetType, MoonType } from '../types/stellarTypes';
+import { StellarBodyType } from '../types/stellarTypes';
+export type BodyTypes = 'system' | 'star' | 'planetSystem' | 'planet' | 'moonSystem' | 'moon' | 'asteroidSytem' | 'asteroid' | 'comet' | 'asteroidBelt';
 
 export const bodies: { [key in BodyTypes]: string } = {
-    starSystem: 'starSystem',
+    system: 'system',
     star: 'star',
     planetSystem: 'planetSystem',
     planet: 'planet',
@@ -11,13 +11,15 @@ export const bodies: { [key in BodyTypes]: string } = {
     moon: 'moon',
     asteroidSytem: 'asteroidSytem',
     asteroid: 'asteroid',
+    comet: 'comet',
+    asteroidBelt: 'asteroidBelt',
 };
 
 export interface StellarDataType {
-    system?: StarSystemType;
-    star?: StarType;
-    planet?: PlanetType;
-    moon?: MoonType;
+    system?: StellarBodyType;
+    star?: StellarBodyType;
+    planet?: StellarBodyType;
+    moon?: StellarBodyType;
 }
 
 export interface BodyValuesType {
@@ -97,7 +99,7 @@ export const bodyValues = (data: BodyValuesProps): BodyValuesType => {
 
     const formulateType = (stellarData: StellarDataType): string => {
         const { system, star, planet, moon } = stellarData;
-        return moon ? bodies.moon : planet ? bodies.planet : star ? bodies.star : system ? bodies.starSystem : '';
+        return moon ? bodies.moon : planet ? bodies.planet : star ? bodies.star : system ? bodies.system : '';
     }
 
     const formulateKey = (stellarData: StellarDataType): string => {
@@ -134,7 +136,7 @@ export const findBody = (
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     obj: { [key: string]: any },
     name: string,
-    type: string
+    type: BodyTypes
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
 ): any | undefined => {
     // Base case: if the current object matches, return it

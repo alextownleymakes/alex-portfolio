@@ -12,12 +12,14 @@ export const bodyRatios: { [key: string]: number } = {
 }
 
 export const scales: { [key: string]: number } = {
-    galaxy: 0,
-    starSystem: 1,
-    star: 2,
-    planet: 3,
-    moon: 4,
-    asteroid: 5,
+    galaxy: 1,
+    starSystem: 4,
+    star: 7,
+    planet: 10,
+    moon: 13,
+    asteroidBelt: 10,
+    asteroid: 13,
+    comet: 10,
 }
 
 

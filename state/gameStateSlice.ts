@@ -1,24 +1,25 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-import { StellarBodyType, StarSystem as SystemType } from '../utils/types/stellarBodies';
-import { StarSystemType } from '../utils/types/stellarTypes';
-import { scale } from '../utils/functions/zoom';
+import { StellarBodyType } from '../utils/types/stellarTypes';
 
 export interface Coords {
     x: number;
     y: number;
 }
 
+export type OrbitTypes = 'system' | 'star' | 'planet' | 'moon' | 'comet' | 'asteroidBelt' | 'asteroid';
 export interface Target {
     name: string | undefined;
-    type: StellarBodyType | undefined;
+    type: OrbitTypes | undefined;
 }
-export type OrbitTypes = 'system' | 'star' | 'planet' | 'moon';
 
 export const orbits: { [key in OrbitTypes]: OrbitTypes } = {
     system: 'system',
     star: 'star',
     planet: 'planet',
     moon: 'moon',
+    comet: 'comet',
+    asteroidBelt: 'asteroidBelt',
+    asteroid: 'asteroid',
 };
 
 export interface Orbit {
@@ -31,6 +32,9 @@ export interface Orbits {
     star: string;
     planet: string;
     moon: string;
+    comet: string;
+    asteroidBelt: string;
+    asteroid: string;
 }
 
 export interface GameState {
@@ -50,7 +54,7 @@ export interface GameState {
     target: Orbits;
     orbits: Orbits;
     lowestOrbit: Target;
-    visibleSystems: StarSystemType[] | undefined;
+    visibleSystems: StellarBodyType[] | undefined;
 }
 
 const initialState: GameState = {
@@ -72,12 +76,18 @@ const initialState: GameState = {
         star: '',
         planet: '',
         moon: '',
+        comet: '',
+        asteroidBelt: '',
+        asteroid: '',
     },
     orbits: {
         system: '',
         star: '',
         planet: '',
         moon: '',
+        comet: '',
+        asteroidBelt: '',
+        asteroid: '',
     },
     lowestOrbit: {
         name: undefined,
@@ -139,7 +149,7 @@ const gameStateSlice = createSlice({
         setTarget: (state, action: PayloadAction<Orbits>) => {
             state.target = action.payload;
         },
-        setVisibleSystems: (state, action: PayloadAction<StarSystemType[] | undefined>) => {
+        setVisibleSystems: (state, action: PayloadAction<StellarBodyType[] | undefined>) => {
             state.visibleSystems = action.payload;
         },
         setWindowSize: (state, action: PayloadAction<Coords>) => {
